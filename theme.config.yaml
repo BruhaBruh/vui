@@ -1,0 +1,5 @@
+# yaml-language-server: $schema=https://cdn.jsdelivr.net/gh/BruhaBruh/theme/schema/config.schema.json
+
+prefix: ''
+content: ./themes/**/*.theme.yaml
+output: ./src/assets/theme.generated.css

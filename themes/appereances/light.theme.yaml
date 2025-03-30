@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://cdn.jsdelivr.net/gh/bruhabruh/theme/schema/theme-config.schema.json
+
+dependencies:
+  - core
+selectors:
+  - :root
+  - '.light'
+  - '[data-theme="light"]'
+
+color:
+  base:
+    - primary: '{color.primary.40}'
+    - on-primary: '{color.primary.100}'
+    - primary-container: '{color.primary.90}'
+    - on-primary-container: '{color.primary.10}'
+    - secondary: '{color.secondary.40}'
+    - on-secondary: '{color.secondary.100}'
+    - secondary-container: '{color.secondary.90}'
+    - on-secondary-container: '{color.secondary.10}'
+    - info: '{color.blue.40}'
+    - on-info: '{color.blue.100}'
+    - info-container: '{color.blue.90}'
+    - on-info-container: '{color.blue.10}'
+    - success: '{color.green.40}'
+    - on-success: '{color.green.100}'
+    - success-container: '{color.green.90}'
+    - on-success-container: '{color.green.10}'
+    - caution: '{color.yellow.40}'
+    - on-caution: '{color.yellow.100}'
+    - caution-container: '{color.yellow.90}'
+    - on-caution-container: '{color.yellow.10}'
+    - critical: '{color.red.40}'
+    - on-critical: '{color.red.100}'
+    - critical-container: '{color.red.90}'
+    - on-critical-container: '{color.red.10}'
+    - surface-dim: '{color.neutral.87}'
+    - surface: '{color.neutral.98}'
+    - surface-bright: '{color.neutral.98}'
+    - surface-container-lowest: '{color.neutral.100}'
+    - surface-container-low: '{color.neutral.96}'
+    - surface-container: '{color.neutral.94}'
+    - surface-container-high: '{color.neutral.92}'
+    - surface-container-highest: '{color.neutral.90}'
+    - on-surface: '{color.neutral.10}'
+    - on-surface-variant: '{color.neutral-variant.30}'
+    - outline: '{color.neutral-variant.50}'
+    - outline-variant: '{color.neutral-variant.80}'
+    - inverse-surface: '{color.neutral.20}'
+    - inverse-on-surface: '{color.neutral.95}'
+    - inverse-primary: '{color.primary.20}'
+    - inverse-on-primary: '{color.primary.95}'
+    - scrim: '{color.primary.0}'

@@ -1,0 +1,22 @@
+@theme {
+  --duration-short-1: 50ms;
+  --duration-short-2: 100ms;
+  --duration-short-3: 150ms;
+  --duration-short-4: 200ms;
+  --duration-medium-1: 250ms;
+  --duration-medium-2: 300ms;
+  --duration-medium-3: 350ms;
+  --duration-medium-4: 400ms;
+  --duration-long-1: 450ms;
+  --duration-long-2: 500ms;
+  --duration-long-3: 550ms;
+  --duration-long-4: 600ms;
+  --duration-extra-long-1: 700ms;
+  --duration-extra-long-2: 800ms;
+  --duration-extra-long-3: 900ms;
+  --duration-extra-long-4: 1000ms;
+}
+
+@utility duration-* {
+  transition-duration: --value(--duration- *);
+}

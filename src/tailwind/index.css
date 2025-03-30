@@ -1,0 +1,11 @@
+@import './duration.css';
+@import './easing.css';
+@import './elevation.css';
+@import './ripple.css';
+@import './interactions.css';
+@import './state.css';
+@import './scrollbar.css';
+
+@theme {
+  --color-transparent: transparent;
+}

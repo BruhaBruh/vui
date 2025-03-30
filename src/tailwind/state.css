@@ -1,0 +1,60 @@
+@theme {
+  --state-hover: 8;
+  --state-focus: 10;
+  --state-press: 10;
+  --state-drag: 16;
+}
+
+@property --ui-background-color {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: transparent;
+}
+
+@property --ui-state-color {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: transparent;
+}
+
+@property --ui-state-opacity {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+@layer base {
+  *,
+  *::after,
+  *::before {
+    background-color: color-mix(
+      in oklab,
+      var(--ui-background-color) calc(100% - var(--ui-state-opacity)),
+      var(--ui-state-color)
+    ) !important;
+  }
+}
+
+@utility bg-* {
+  --ui-background-color: --value(--color- *, [color]);
+  --ui-background-color: color-mix(
+    in oklab,
+    --value(--color- *, [color]) calc(--modifier(integer) * 1%),
+    transparent
+  );
+}
+
+@utility state-* {
+  --ui-state-opacity: calc(--value(--state- *, integer) * 1%);
+  --ui-state-color: --value(--color- *, [color]);
+  --ui-state-color: color-mix(
+    in oklab,
+    --value(--color- *, [color]) calc(--modifier(integer) * 1%),
+    transparent
+  );
+}
+
+@utility state-transparent {
+  --ui-state-opacity: 0%;
+  --ui-state-color: transparent;
+}

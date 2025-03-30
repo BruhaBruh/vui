@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://cdn.jsdelivr.net/gh/bruhabruh/theme/schema/theme-config.schema.json
+
+dependencies: []
+selectors: []
+
+color:
+  material:
+    source: '#6475AC'
+    disable:
+      tertiary: true
+    overrides:
+      error: red
+    customColors:
+      - name: blue
+        value: '#6475AC'
+      - name: yellow
+        value: '#867728'
+      - name: green
+        value: '#4E8356'
+
+spacing:
+  - base: 0.25rem
+  - 0: 0px
+  - _generator:
+      start: 0.125
+      end: 0.875
+      step: 0.125
+      valuePattern: '{spacing.base} * {i}'
+  - _generator:
+      start: 1
+      end: 16
+      step: 0.5
+      valuePattern: '{spacing.base} * {i}'
+  - _generator:
+      start: 20
+      end: 64
+      step: 4
+      valuePattern: '{spacing.base} * {i}'
+  - 72: '{spacing.base} * 72'
+  - 80: '{spacing.base} * 80'
+  - 96: '{spacing.base} * 96'
+
+font:
+  - sans: 'Inter, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
+  - serif: 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif'
+  - mono: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'

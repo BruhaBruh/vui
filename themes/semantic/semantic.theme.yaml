@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://cdn.jsdelivr.net/gh/bruhabruh/theme/schema/theme-config.schema.json
+
+dependencies:
+  - light
+  - dark
+selectors: []
+
+radius:
+  - base: 1rem
+  - 3xs: '{radius.base} - 12px'
+  - 2xs: '{radius.base} - 8px'
+  - xs: '{radius.base} - 4px'
+  - sm: '{radius.base} - 2px'
+  - md: '{radius.base} + 2px'
+  - lg: '{radius.base} + 4px'
+  - xl: '{radius.base} + 8px'
+  - 2xl: '{radius.base} + 12px'
+  - 3xl: '{radius.base} + 20px'
+
+spacing:
+  - 3xs: '{spacing.0.5}'
+  - 2xs: '{spacing.1}'
+  - xs: '{spacing.2}'
+  - sm: '{spacing.3}'
+  - md: '{spacing.4}'
+  - lg: '{spacing.6}'
+  - xl: '{spacing.8}'
+  - 2xl: '{spacing.10}'
+  - 3xl: '{spacing.12}'
+  - 4xl: '{spacing.16}'
+  - 5xl: '{spacing.20}'
+  - 6xl: '{spacing.24}'
+
+text:
+  - base: 1rem
+  - xs: '{text.base} - 4px'
+  - sm: '{text.base} - 2px'
+  - md: '{text.base}'
+  - lg: '{text.base} + 2px'
+  - xl: '{text.base} + 4px'
+  - 2xl: '{text.base} + 8px'
+  - 3xl: '{text.base} + 14px'
+  - 4xl: '{text.base} + 20px'
+  - 5xl: '{text.base} + 32px'
+  - 6xl: '{text.base} + 44px'
+  - 7xl: '{text.base} + 56px'
+  - 8xl: '{text.base} + 80px'
+  - 9xl: '{text.base} + 112px'
