@@ -1,8 +1,15 @@
 {
   "name": "@bruhabruh/vui",
   "version": "0.0.0",
-  "private": true,
   "type": "module",
+  "description": "BruhaBruh UI Library",
+  "author": "BruhaBruh",
+  "license": "MIT",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bruhabruh/vui"
+  },
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
@@ -15,6 +22,7 @@
   },
   "dependencies": {
     "@tabler/icons-vue": "^3.31.0",
+    "@vueuse/core": "^13.0.0",
     "motion-v": "^0.13.1",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
@@ -22,6 +30,7 @@
   "devDependencies": {
     "@bruhabruh/eslint-config": "^1.3.3",
     "@bruhabruh/prettier-config": "^1.1.4",
+    "@bruhabruh/type-safe": "^1.2.3",
     "@tailwindcss/vite": "^4.0.17",
     "@tsconfig/node22": "^22.0.0",
     "@types/node": "^22.13.9",

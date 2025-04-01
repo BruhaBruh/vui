@@ -1,7 +1,10 @@
-import eslint from '@bruhabruh/eslint-config'
-import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
-import pluginVue from 'eslint-plugin-vue'
+import eslint from '@bruhabruh/eslint-config';
+import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
+import {
+    defineConfigWithVueTs,
+    vueTsConfigs,
+} from '@vue/eslint-config-typescript';
+import pluginVue from 'eslint-plugin-vue';
 
 // To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
 // import { configureVueProject } from '@vue/eslint-config-typescript'
@@ -26,4 +29,11 @@ export default defineConfigWithVueTs(
   pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
   skipFormatting,
-)
+
+  {
+    name: 'app/no-param-reassign',
+    rules: {
+      'no-param-reassign': 'off',
+    },
+  },
+);

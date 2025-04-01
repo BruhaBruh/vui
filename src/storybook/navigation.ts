@@ -14,6 +14,7 @@ import {
 } from '@tabler/icons-vue';
 import type { Component } from 'vue';
 import {
+  ButtonPage,
   DurationPage,
   EasingPage,
   ElevationPage,
@@ -97,7 +98,14 @@ const baseNavigation: NavigationNode[] = [
         name: 'Actions',
         path: '/actions',
         icon: IconHandFinger,
-        children: [],
+        children: [
+          {
+            type: 'link',
+            name: 'Button',
+            path: '/button',
+            page: ButtonPage,
+          },
+        ],
       },
       {
         type: 'folder',

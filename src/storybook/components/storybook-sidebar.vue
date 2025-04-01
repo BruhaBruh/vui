@@ -2,11 +2,14 @@
 import { RouterLink } from 'vue-router';
 import SidebarNavigation from './storybook-sidebar-navigation.vue';
 import { navigation } from '../navigation';
+import { motion } from 'motion-v';
 </script>
 
 <template>
-  <header
-    class="w-64 fixed left-md inset-y-md flex flex-col bg-surface-container text-on-surface border border-outline-variant rounded-sm"
+  <motion.header
+    :initial="{ height: 'max-content' }"
+    :animate="{ height: 'max-content' }"
+    class="w-64 max-h-[calc(100vh-(var(--spacing-md)*2))] fixed left-md my-md flex flex-col bg-surface-container text-on-surface border border-outline-variant rounded-sm"
   >
     <section class="p-md border-b border-outline-variant">
       <RouterLink to="/" class="inline-flex flex-col w-full">
@@ -17,5 +20,5 @@ import { navigation } from '../navigation';
     <nav class="p-md flex-1 overflow-y-auto">
       <SidebarNavigation :navigation="navigation" />
     </nav>
-  </header>
+  </motion.header>
 </template>
