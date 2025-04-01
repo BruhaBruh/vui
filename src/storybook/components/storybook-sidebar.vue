@@ -13,7 +13,7 @@ import { motion } from 'motion-v';
   >
     <section class="p-md border-b border-outline-variant">
       <RouterLink to="/" class="inline-flex flex-col w-full">
-        <span class="typography-title-medium">@bruhabruh/ui</span>
+        <span class="typography-title-medium">@bruhabruh/vui</span>
         <span class="typography-label-small text-secondary">v1.0.0</span>
       </RouterLink>
     </section>
