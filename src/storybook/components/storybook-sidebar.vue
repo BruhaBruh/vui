@@ -3,6 +3,24 @@ import { RouterLink } from 'vue-router';
 import SidebarNavigation from './storybook-sidebar-navigation.vue';
 import { navigation } from '../navigation';
 import { motion } from 'motion-v';
+import { useColorMode, useCycleList } from '@vueuse/core';
+import { watchEffect } from 'vue';
+import { IconButton } from '@/components';
+import { IconMoon, IconSun } from '@tabler/icons-vue';
+
+const mode = useColorMode({
+  emitAuto: true,
+  selector: 'body',
+  modes: { dark: 'dark', light: 'light' },
+});
+
+const { state, next } = useCycleList(['dark', 'light'] as const, {
+  initialValue: mode,
+});
+
+watchEffect(() => {
+  mode.value = state.value;
+});
 </script>
 
 <template>
@@ -11,11 +29,17 @@ import { motion } from 'motion-v';
     :animate="{ height: 'max-content' }"
     class="w-64 max-h-[calc(100vh-(var(--spacing-md)*2))] fixed left-md my-md flex flex-col bg-surface-container text-on-surface border border-outline-variant rounded-sm"
   >
-    <section class="p-md border-b border-outline-variant">
-      <RouterLink to="/" class="inline-flex flex-col w-full">
+    <section
+      class="p-md border-b border-outline-variant flex items-center gap-ssm"
+    >
+      <RouterLink to="/" class="inline-flex flex-col flex-1">
         <span class="typography-title-medium">@bruhabruh/vui</span>
         <span class="typography-label-small text-secondary">v1.0.0</span>
       </RouterLink>
+      <IconButton @click="next()" color="secondary" :icon-key="mode">
+        <IconMoon v-if="mode === 'dark'" />
+        <IconSun v-else-if="mode === 'light'" />
+      </IconButton>
     </section>
     <nav class="p-md flex-1 overflow-y-auto">
       <SidebarNavigation :navigation="navigation" />
