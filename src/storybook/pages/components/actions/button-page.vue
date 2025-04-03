@@ -74,12 +74,12 @@ const icons = ['none', 'circle', 'square'];
         :left-key="left as string"
         :right-key="right as string"
       >
-        <template #left>
+        <template #left v-if="left !== 'none'">
           <IconSquare v-if="left === 'square'" />
           <IconCircle v-else-if="left === 'circle'" />
         </template>
         {{ label }}
-        <template #right>
+        <template #right v-if="right !== 'none'">
           <IconSquare v-if="right === 'square'" />
           <IconCircle v-else-if="right === 'circle'" />
         </template>

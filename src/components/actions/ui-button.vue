@@ -234,6 +234,7 @@ useRipple(ref);
     <AnimatePresence mode="wait">
       <motion.span
         :key="leftKey"
+        v-if="$slots.left"
         :initial="{ width: 0, height: 0, opacity: 0 }"
         :exit="{ width: 0, height: 0, opacity: 0 }"
         :animate="{
@@ -274,6 +275,7 @@ useRipple(ref);
     <AnimatePresence mode="wait">
       <motion.span
         :key="rightKey"
+        v-if="$slots.right"
         :initial="{ width: 0, height: 0, opacity: 0 }"
         :exit="{ width: 0, height: 0, opacity: 0 }"
         :animate="{

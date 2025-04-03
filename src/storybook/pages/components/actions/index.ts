@@ -1,2 +1,4 @@
 export { default as ButtonPage } from './button-page.vue';
+export { default as ExtendedFabPage } from './extended-fab-page.vue';
 export { default as FabPage } from './fab-page.vue';
+
