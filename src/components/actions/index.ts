@@ -4,3 +4,7 @@ export {
   type ExtendedFabProps,
 } from './ui-extended-fab.vue';
 export { default as Fab, type FabProps } from './ui-fab.vue';
+export {
+  default as IconButton,
+  type IconButtonProps,
+} from './ui-icon-button.vue';

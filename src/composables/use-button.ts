@@ -10,17 +10,17 @@ export type UseButtonOptions = {
 };
 
 export function useButton(
-  ref: Readonly<ShallowRef<HTMLElement | null>>,
+  elementRef: Readonly<ShallowRef<HTMLElement | null>>,
   { elementType = 'button', interaction }: UseButtonOptions = {},
 ) {
   const element = computed<HTMLElement | null>(() => {
-    if (ref.value && '$el' in ref.value) {
-      return ref.value.$el as HTMLElement | null;
+    if (elementRef.value && '$el' in elementRef.value) {
+      return elementRef.value.$el as HTMLElement | null;
     }
-    return ref.value;
+    return elementRef.value;
   });
 
-  useInteractions(ref, interaction);
+  useInteractions(elementRef, interaction);
 
   watchEffect(() => {
     if (!element.value) return;
@@ -28,6 +28,7 @@ export function useButton(
       element.value.setAttribute('role', 'button');
       return;
     }
+    element.value.removeAttribute('role');
     if (element.value.getAttribute('type')) return;
     element.value.setAttribute('type', 'button');
   });

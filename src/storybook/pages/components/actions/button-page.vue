@@ -126,4 +126,18 @@ const icons = ['none', 'circle', 'square'];
       </Button>
     </section>
   </StorybookStory>
+  <StorybookStory name="All">
+    <section class="grid grid-cols-6 gap-md">
+      <template v-for="variant in variants" :key="variant">
+        <Button
+          v-for="color in colors"
+          :key="color"
+          :color="color"
+          :variant="variant"
+        >
+          Button
+        </Button>
+      </template>
+    </section>
+  </StorybookStory>
 </template>

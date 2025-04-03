@@ -4,59 +4,29 @@ import { materialDuration, materialEasing } from '@/config';
 import type { PropsPolymorphic } from '@/types';
 import { AnimatePresence, motion } from 'motion-v';
 import { useTemplateRef } from 'vue';
+import { type VariantProps, cva } from 'class-variance-authority';
 
-export type FabProps = PropsPolymorphic & {
-  color?:
-    | 'surface'
-    | 'primary'
-    | 'secondary'
-    | 'info'
-    | 'success'
-    | 'caution'
-    | 'critical';
-  size?: 'sm' | 'md' | 'lg';
-  lowered?: boolean;
-  iconKey?: string;
-};
-
-const {
-  color = 'surface',
-  size = 'md',
-  lowered = false,
-  iconKey,
-  as = 'button',
-} = defineProps<FabProps>();
-
-const ref = useTemplateRef<HTMLElement>('fab');
-
-useButton(ref, {
-  elementType: as === 'button' ? 'button' : '',
-  interaction: { disabled: false },
-});
-useRipple(ref);
-</script>
-
-<template>
-  <component
-    :is="as"
-    ref="fab"
-    :class="[
-      'fab group/fab',
-      'cursor-pointer',
-      'relative',
-      'outline-none border-transparent',
-      'inline-flex items-center justify-center',
-      'transition easing-standard duration-medium-1',
-      'overflow-hidden whitespace-nowrap',
-      [
-        'is-disabled:state-transparent',
-        'is-disabled:pointer-events-none',
-        'is-hovered:state-hover',
-        'in-focus-visible:state-focus',
-        'is-pressed:state-press',
-      ],
-      ['ripple-wrapper:inset-0'],
-      {
+const fabVariants = cva(
+  [
+    'fab group/fab',
+    'cursor-pointer',
+    'relative',
+    'outline-none border-transparent',
+    'inline-flex items-center justify-center',
+    'transition easing-standard duration-medium-1',
+    'overflow-hidden whitespace-nowrap',
+    [
+      'is-disabled:state-transparent',
+      'is-disabled:pointer-events-none',
+      'is-hovered:state-hover',
+      'in-focus-visible:state-focus',
+      'is-pressed:state-press',
+    ],
+    ['ripple-wrapper:inset-0'],
+  ],
+  {
+    variants: {
+      color: {
         surface: ['text-primary', 'ripple:bg-primary', 'state-primary'],
         primary: [
           'bg-primary-container',
@@ -94,13 +64,13 @@ useRipple(ref);
           'ripple:bg-on-critical-container',
           'state-on-critical-container',
         ],
-      }[color],
-      {
+      },
+      size: {
         sm: ['size-10 rounded-xs'],
         md: ['size-14 rounded-md p-md'],
         lg: ['size-24 rounded-2xl p-md'],
-      }[size],
-      {
+      },
+      lowered: {
         true: [
           'elevation-1',
           'is-hovered:elevation-2',
@@ -113,12 +83,84 @@ useRipple(ref);
           'in-focus-visible:elevation-3',
           'is-pressed:elevation-3',
         ],
-      }[`${lowered}`],
-      {
-        'bg-surface-container-low': color === 'surface' && lowered,
-        'bg-surface-container-high': color === 'surface' && !lowered,
       },
-    ]"
+    },
+    defaultVariants: {
+      color: 'surface',
+      size: 'md',
+      lowered: false,
+    },
+    compoundVariants: [
+      {
+        color: 'surface',
+        lowered: true,
+        class: 'bg-surface-container-low',
+      },
+      {
+        color: 'surface',
+        lowered: false,
+        class: 'bg-surface-container-high',
+      },
+    ],
+  },
+);
+
+const iconVariants = cva(
+  [
+    [
+      'fab--icon',
+      'relative',
+      'inline-flex items-center justify-center',
+      'overflow-hidden empty:hidden',
+      '[&>*]:absolute [&>*]:inset-0 [&>*]:size-full',
+    ],
+  ],
+  {
+    variants: {
+      size: {
+        sm: ['size-6'],
+        md: ['size-6'],
+        lg: ['size-9'],
+      },
+    },
+    defaultVariants: {
+      size: 'md',
+    },
+  },
+);
+
+type Variants = VariantProps<typeof fabVariants>;
+
+export type FabProps = PropsPolymorphic & {
+  color?: Variants['color'];
+  size?: Variants['size'];
+  lowered?: Variants['lowered'];
+  iconKey?: string;
+};
+
+const {
+  color,
+  size,
+  lowered,
+  iconKey,
+  as = 'button',
+} = defineProps<FabProps>();
+
+const ref = useTemplateRef<HTMLElement>('fab');
+
+useButton(ref, {
+  elementType: as === 'button' ? 'button' : '',
+  interaction: { disabled: false },
+});
+useRipple(ref);
+</script>
+
+<template>
+  <component
+    :is="as"
+    ref="fab"
+    :class="fabVariants({ color, size, lowered })"
+    v-tw-merge
   >
     <AnimatePresence mode="wait">
       <motion.span
@@ -130,30 +172,20 @@ useRipple(ref);
             sm: 'var(--spacing-6)',
             md: 'var(--spacing-6)',
             lg: 'var(--spacing-9)',
-          }[size],
+          }[size ?? 'md'],
           height: {
             sm: 'var(--spacing-6)',
             md: 'var(--spacing-6)',
             lg: 'var(--spacing-9)',
-          }[size],
+          }[size ?? 'md'],
           opacity: 1,
         }"
         :transition="{
           duration: materialDuration.asMotion('medium-1'),
           ease: materialEasing.standard,
         }"
-        :class="[
-          'fab--icon',
-          'relative',
-          'inline-flex items-center justify-center',
-          'overflow-hidden empty:hidden',
-          '[&>*]:absolute [&>*]:inset-0 [&>*]:size-full',
-          {
-            sm: ['size-6'],
-            md: ['size-6'],
-            lg: ['size-9'],
-          }[size],
-        ]"
+        :class="iconVariants({ size })"
+        v-tw-merge
       >
         <slot />
       </motion.span>
