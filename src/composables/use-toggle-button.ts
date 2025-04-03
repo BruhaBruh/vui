@@ -1,5 +1,5 @@
 import { useEventListener } from '@vueuse/core';
-import { type Ref, type ShallowRef, computed, toRef, watchEffect } from 'vue';
+import { type MaybeRef, type Ref, type ShallowRef, computed, toRef, watchEffect } from 'vue';
 import { useButton } from './use-button';
 import { type UseInteractionsOptions } from './use-interactions';
 
@@ -11,7 +11,7 @@ export type UseToggleButtonOptions = {
 
 export function useToggleButton(
   elementRef: Readonly<ShallowRef<HTMLElement | null>>,
-  isEnabled: Ref<boolean>,
+  isToggleable: MaybeRef<boolean>,
   { isSelected, ...options }: UseToggleButtonOptions = {},
 ) {
   const element = computed<HTMLElement | null>(() => {
@@ -22,6 +22,7 @@ export function useToggleButton(
   });
 
   const selected = toRef(isSelected ?? false);
+  const isEnabled = toRef(isToggleable)
 
   useButton(elementRef, options);
 
