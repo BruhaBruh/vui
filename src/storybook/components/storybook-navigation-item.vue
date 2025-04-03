@@ -43,8 +43,8 @@ const isOpen = ref(true);
     </component>
     <AnimatePresence v-if="node.type === 'folder'">
       <StorybookNavigation
-        class="pl-xs"
         v-if="isOpen"
+        class="pl-xs"
         :navigation="node.children"
       />
     </AnimatePresence>

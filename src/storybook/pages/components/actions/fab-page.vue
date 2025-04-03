@@ -50,8 +50,8 @@ const icons = ['circle', 'square'];
       },
     }"
   >
-    <template v-slot:default="{ values: { icon, ...values } }">
-      <Fab v-bind="values" :iconKey="icon as string">
+    <template #default="{ values: { icon, ...values } }">
+      <Fab v-bind="values" :icon-key="icon as string">
         <IconSquare v-if="icon === 'square'" />
         <IconCircle v-else-if="icon === 'circle'" />
       </Fab>

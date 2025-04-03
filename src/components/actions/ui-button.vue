@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useInteractions, useRipple } from '@/composables';
+import { useButton, useRipple } from '@/composables';
 import { materialDuration, materialEasing } from '@/config';
 import type { PropsPolymorphic } from '@/types';
 import { AnimatePresence, motion } from 'motion-v';
@@ -22,14 +22,14 @@ const {
 
 const ref = useTemplateRef<HTMLElement>('button');
 
-useInteractions(ref);
+useButton(ref, { elementType: as === 'button' ? 'button' : '' });
 useRipple(ref);
 </script>
 
 <template>
   <component
-    ref="button"
     :is="as"
+    ref="button"
     :class="[
       'button group/button',
       'cursor-pointer',

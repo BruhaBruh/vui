@@ -90,28 +90,28 @@ const values = reactive(createValuesWithDefaults());
     <section class="grid gap-md grid-cols-4">
       <template v-for="(argument, name) in arguments" :key="name">
         <section class="flex flex-col items-start gap-2xs">
-          <p class="typography-label-large" :id="`pl-label-${name}`">
+          <p :id="`pl-label-${name}`" class="typography-label-large">
             {{ argument.label ?? name }}
           </p>
           <input
-            class="h-10 bg-surface-container px-sm rounded-sm w-max max-w-full"
             v-if="argument.type === 'number'"
             v-model.number="values[name]"
+            class="h-10 bg-surface-container px-sm rounded-sm w-max max-w-full"
             :aria-labelledby="`pl-label-${name}`"
             type="number"
             inputmode="numeric"
           />
           <input
-            class="h-10 bg-surface-container px-sm rounded-sm w-max max-w-full"
             v-if="argument.type === 'text'"
             v-model="values[name]"
+            class="h-10 bg-surface-container px-sm rounded-sm w-max max-w-full"
             :aria-labelledby="`pl-label-${name}`"
             type="text"
           />
           <select
-            class="h-10 bg-surface-container px-sm rounded-sm w-max max-w-full"
             v-if="argument.type === 'select'"
             v-model="values[name]"
+            class="h-10 bg-surface-container px-sm rounded-sm w-max max-w-full"
             :aria-labelledby="`pl-label-${name}`"
           >
             <option v-for="value in argument.options" :key="value">
@@ -119,21 +119,21 @@ const values = reactive(createValuesWithDefaults());
             </option>
           </select>
           <input
-            class="size-4.5"
             v-if="argument.type === 'switch'"
             v-model="values[name]"
+            class="size-4.5"
             :aria-labelledby="`pl-label-${name}`"
             type="checkbox"
           />
           <template v-if="argument.type === 'radio'">
             <section
-              class="flex items-center gap-xs"
               v-for="value in argument.options"
               :key="value"
+              class="flex items-center gap-xs"
             >
               <input
-                class="size-4.5"
                 v-model="values[name]"
+                class="size-4.5"
                 :aria-labelledby="`pl-label-${name}`"
                 :value="value"
                 type="radio"
@@ -143,13 +143,13 @@ const values = reactive(createValuesWithDefaults());
           </template>
           <template v-if="argument.type === 'checkbox'">
             <section
-              class="flex items-center gap-xs"
               v-for="value in argument.options"
               :key="value"
+              class="flex items-center gap-xs"
             >
               <input
-                class="size-4.5"
                 v-model="values[name]"
+                class="size-4.5"
                 :aria-labelledby="`pl-label-${name}`"
                 :value="value"
                 type="checkbox"

@@ -68,11 +68,11 @@ const icons = ['none', 'circle', 'square'];
       },
     }"
   >
-    <template v-slot:default="{ values: { label, left, right, ...values } }">
+    <template #default="{ values: { label, left, right, ...values } }">
       <Button
         v-bind="values"
-        :leftKey="left as string"
-        :rightKey="right as string"
+        :left-key="left as string"
+        :right-key="right as string"
       >
         <template #left>
           <IconSquare v-if="left === 'square'" />
