@@ -1,5 +1,5 @@
-import type { Component } from 'vue';
+import type { Component, IntrinsicElementAttributes } from 'vue';
 
 export type PropsPolymorphic = {
-  as?: keyof HTMLElementTagNameMap | (string & {}) | Component;
+  as?: keyof IntrinsicElementAttributes | (string & {}) | Component;
 };

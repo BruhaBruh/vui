@@ -102,7 +102,7 @@ const iconVariants = cva([
   'extended-fab--icon',
   'relative size-6',
   'inline-flex items-center justify-center',
-  'overflow-hidden empty:hidden',
+  'empty:hidden',
   '[&>*]:absolute [&>*]:inset-0 [&>*]:size-full',
 ]);
 

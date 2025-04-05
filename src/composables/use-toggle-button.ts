@@ -1,11 +1,11 @@
 import { useEventListener } from '@vueuse/core';
 import {
-    type MaybeRef,
-    type Ref,
-    type ShallowRef,
-    computed,
-    toRef,
-    watchEffect,
+  type MaybeRef,
+  type Ref,
+  type ShallowRef,
+  computed,
+  toRef,
+  watchEffect,
 } from 'vue';
 import { type UseButtonOptions, useButton } from './use-button';
 
@@ -44,5 +44,7 @@ export function useToggleButton(
     element.value.setAttribute('aria-pressed', `${isSelected.value}`);
   });
 
-  useEventListener(elementRef, 'click', onClick);
+  useEventListener(elementRef, 'click', () => {
+    onClick();
+  });
 }

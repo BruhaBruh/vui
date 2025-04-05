@@ -8,7 +8,7 @@ const variants = cva(
     'outline-none border-transparent',
     'inline-flex items-center justify-center',
     'transition easing-standard duration-medium-1',
-    'overflow-hidden whitespace-nowrap',
+    'whitespace-nowrap',
     [
       'is-disabled:state-transparent',
       'is-disabled:pointer-events-none',
@@ -105,7 +105,7 @@ const iconVariants = cva(
       'fab--icon',
       'relative',
       'inline-flex items-center justify-center',
-      'overflow-hidden empty:hidden',
+      'empty:hidden',
       '[&>*]:absolute [&>*]:inset-0 [&>*]:size-full',
     ],
   ],
