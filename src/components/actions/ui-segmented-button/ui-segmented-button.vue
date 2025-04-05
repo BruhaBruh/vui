@@ -107,11 +107,13 @@ useRipple(element);
       <motion.span
         :key="iconKey"
         v-if="!isSelected"
-        :initial="{ width: 0, height: 0, opacity: 0 }"
-        :exit="{ width: 0, height: 0, opacity: 0 }"
+        :initial="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
+        :exit="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
         :animate="{
           width: 'var(--spacing-4h)',
-          height: 'var(--spacing-2h)',
+          height: 'var(--spacing-4h)',
+          marginLeft: 'var(--spacing-2xs)',
+          opacity: 1,
         }"
         :transition="{
           duration: materialDuration.asMotion('medium-1'),
