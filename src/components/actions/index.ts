@@ -1,10 +1,6 @@
-export { default as Button, type ButtonProps } from './ui-button.vue';
-export {
-  default as ExtendedFab,
-  type ExtendedFabProps,
-} from './ui-extended-fab.vue';
-export { default as Fab, type FabProps } from './ui-fab.vue';
-export {
-  default as IconButton,
-  type IconButtonProps,
-} from './ui-icon-button.vue';
+export * from './ui-button';
+export * from './ui-extended-fab';
+export * from './ui-fab';
+export * from './ui-icon-button';
+export * from './ui-segmented-button';
+

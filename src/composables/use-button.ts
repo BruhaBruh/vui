@@ -28,7 +28,6 @@ export function useButton(
       element.value.setAttribute('role', 'button');
       return;
     }
-    element.value.removeAttribute('role');
     if (element.value.getAttribute('type')) return;
     element.value.setAttribute('type', 'button');
   });

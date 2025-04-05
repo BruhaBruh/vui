@@ -1,18 +1,28 @@
 import { useEventListener } from '@vueuse/core';
-import { type MaybeRef, type Ref, type ShallowRef, computed, toRef, watchEffect } from 'vue';
-import { useButton } from './use-button';
-import { type UseInteractionsOptions } from './use-interactions';
+import {
+    type MaybeRef,
+    type Ref,
+    type ShallowRef,
+    computed,
+    toRef,
+    watchEffect,
+} from 'vue';
+import { type UseButtonOptions, useButton } from './use-button';
 
 export type UseToggleButtonOptions = {
-  isSelected?: Ref<boolean>;
-  elementType?: 'button' | (string & {});
-  interaction?: UseInteractionsOptions;
-};
+  isToggleable: Readonly<MaybeRef<boolean>>;
+  isSelected: Readonly<Ref<boolean>>;
+  onClick?: () => void;
+} & UseButtonOptions;
 
 export function useToggleButton(
   elementRef: Readonly<ShallowRef<HTMLElement | null>>,
-  isToggleable: MaybeRef<boolean>,
-  { isSelected, ...options }: UseToggleButtonOptions = {},
+  {
+    isToggleable: isToggleableRef,
+    isSelected,
+    onClick = () => {},
+    ...options
+  }: UseToggleButtonOptions,
 ) {
   const element = computed<HTMLElement | null>(() => {
     if (elementRef.value && '$el' in elementRef.value) {
@@ -21,21 +31,18 @@ export function useToggleButton(
     return elementRef.value;
   });
 
-  const selected = toRef(isSelected ?? false);
-  const isEnabled = toRef(isToggleable)
+  const isToggleable = toRef(isToggleableRef);
 
   useButton(elementRef, options);
 
   watchEffect(() => {
     if (!element.value) return;
-    if (!isEnabled.value) {
+    if (!isToggleable.value) {
       element.value.removeAttribute('aria-pressed');
       return;
     }
-    element.value.setAttribute('aria-pressed', `${selected.value}`);
+    element.value.setAttribute('aria-pressed', `${isSelected.value}`);
   });
 
-  useEventListener(elementRef, 'click', () => {
-    selected.value = !selected.value;
-  });
+  useEventListener(elementRef, 'click', onClick);
 }

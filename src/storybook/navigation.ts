@@ -23,6 +23,7 @@ import {
   IconButtonPage,
   PalettePage,
   RadiusPage,
+  SegmentedButtonPage,
   TypographyPage,
 } from './pages';
 
@@ -125,6 +126,12 @@ const baseNavigation: NavigationNode[] = [
             name: 'IconButton',
             path: '/icon-button',
             page: IconButtonPage,
+          },
+          {
+            type: 'link',
+            name: 'SegmentedButton',
+            path: '/segmented-button',
+            page: SegmentedButtonPage,
           },
         ],
       },
