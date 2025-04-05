@@ -14,6 +14,7 @@ import {
 } from '@tabler/icons-vue';
 import type { Component } from 'vue';
 import {
+  BadgePage,
   ButtonPage,
   DurationPage,
   EasingPage,
@@ -140,7 +141,14 @@ const baseNavigation: NavigationNode[] = [
         name: 'Communications',
         path: '/communications',
         icon: IconBroadcast,
-        children: [],
+        children: [
+          {
+            type: 'link',
+            name: 'Badge',
+            path: '/badge',
+            page: BadgePage,
+          },
+        ],
       },
       {
         type: 'folder',

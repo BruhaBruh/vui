@@ -60,9 +60,9 @@ const variants = cva(
         ],
       },
       size: {
-        sm: ['size-10 rounded-xs'],
-        md: ['size-14 rounded-md p-md'],
-        lg: ['size-24 rounded-2xl p-md'],
+        sm: ['size-10 rounded-xs', 'ripple-wrapper:rounded-xs'],
+        md: ['size-14 rounded-md p-md', 'ripple-wrapper:rounded-md'],
+        lg: ['size-24 rounded-2xl p-md', 'ripple-wrapper:rounded-2xl'],
       },
       lowered: {
         true: [
