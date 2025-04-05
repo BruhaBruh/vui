@@ -150,4 +150,16 @@ const values = [0, 1, 500, 1000];
       Extended Fab
     </ExtendedFab>
   </StorybookStory>
+  <StorybookStory name="All">
+    <section class="grid grid-cols-4 gap-md">
+      <template v-for="color in colors" :key="color">
+        <Badge
+          v-for="value in values"
+          :key="value"
+          :color="color"
+          :value="value"
+        />
+      </template>
+    </section>
+  </StorybookStory>
 </template>
