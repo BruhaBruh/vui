@@ -7,6 +7,7 @@ import {
   type TooltipContentProps,
   TooltipTrigger,
 } from '@/components';
+import { materialDuration } from '@/config';
 import { StorybookPlayground, StorybookStory } from '@/storybook/components';
 import {
   IconChevronDown,
@@ -51,6 +52,18 @@ const richPlacements = [
         defaultValue: 'top',
         options: [...plainPlacements, ...richPlacements],
       },
+      showDelay: {
+        type: 'number',
+        label: 'Show delay',
+        description: 'Show delay of Tooltip',
+        defaultValue: materialDuration['short-2'],
+      },
+      hideDelay: {
+        type: 'number',
+        label: 'Hide delay',
+        description: 'Hide delay of Tooltip',
+        defaultValue: materialDuration['long-2'],
+      },
       subhead: {
         type: 'text',
         label: 'Subbead',
@@ -71,8 +84,16 @@ const richPlacements = [
       },
     }"
   >
-    <template #default="{ values: { subhead, text, showActions, ...values } }">
-      <Tooltip>
+    <template
+      #default="{
+        values: { showDelay, hideDelay, subhead, text, showActions, ...values },
+      }"
+    >
+      <Tooltip
+        :key="`${showDelay}-${hideDelay}`"
+        :showDelay="showDelay as number"
+        :hideDelay="hideDelay as number"
+      >
         <TooltipTrigger>
           <Button> Hover me </Button>
         </TooltipTrigger>
@@ -89,12 +110,12 @@ const richPlacements = [
     </template>
   </StorybookPlayground>
   <StorybookStory name="Plain">
-    <Tooltip open>
+    <Tooltip open always-open>
       <TooltipContent class="!relative">Plain tooltip</TooltipContent>
     </Tooltip>
   </StorybookStory>
   <StorybookStory name="Rich">
-    <Tooltip open>
+    <Tooltip open always-open>
       <TooltipContent variant="rich" class="!relative">
         <template #subhead> Rich tooltip </template>
         Supporting line text lorem ipsum dolor sit amet, consectetur
