@@ -21,6 +21,7 @@
     "generate:theme": "pnpm dlx @bruhabruh/theme@latest generate"
   },
   "dependencies": {
+    "@floating-ui/vue": "^1.1.6",
     "@tabler/icons-vue": "^3.31.0",
     "@vueuse/core": "^13.0.0",
     "class-variance-authority": "^0.7.1",

@@ -25,6 +25,7 @@ import {
   PalettePage,
   RadiusPage,
   SegmentedButtonPage,
+  TooltipPage,
   TypographyPage,
 } from './pages';
 
@@ -147,6 +148,12 @@ const baseNavigation: NavigationNode[] = [
             name: 'Badge',
             path: '/badge',
             page: BadgePage,
+          },
+          {
+            type: 'link',
+            name: 'Tooltip',
+            path: '/tooltip',
+            page: TooltipPage,
           },
         ],
       },

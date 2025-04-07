@@ -16,8 +16,8 @@ const segmentedButtonStateKey =
 
 export function provideSegmentedButtonState(
   mode: SegmentedButtonGroupState['mode'],
-  selected: Ref<SegmentedButtonSelectedValue[]>,
-  disabled = ref(false),
+  selected: SegmentedButtonGroupState['selected'],
+  disabled: SegmentedButtonGroupState['disabled'] = ref(false),
 ) {
   function select(value: SegmentedButtonSelectedValue) {
     if (selected.value.includes(value)) {
