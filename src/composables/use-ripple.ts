@@ -82,7 +82,7 @@ export function useRipple(
     );
   }
 
-  useEventListener(element, ['mousedown', 'touchstart'], (e) => {
+  useEventListener(element, 'mousedown', (e) => {
     if (!element.value) return;
     const coordinates = {
       x: bounding.width.value / 2,
@@ -92,13 +92,6 @@ export function useRipple(
       if (typeof MouseEvent !== 'undefined' && e instanceof MouseEvent) {
         coordinates.x = e.clientX - bounding.x.value;
         coordinates.y = e.clientY - bounding.y.value;
-      }
-      if (typeof TouchEvent !== 'undefined' && e instanceof TouchEvent) {
-        const touch = e.touches.item(0);
-        if (touch) {
-          coordinates.x = touch.clientX - bounding.x.value;
-          coordinates.y = touch.clientY - bounding.y.value;
-        }
       }
     }
 
@@ -120,7 +113,7 @@ export function useRipple(
     });
   });
 
-  useEventListener(element, ['mouseup', 'touchend'], () => {
+  useEventListener(element, 'mouseup', () => {
     if (!element.value) return;
     const ripples =
       element.value.querySelectorAll<HTMLSpanElement>('span.ripple');
