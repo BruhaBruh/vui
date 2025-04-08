@@ -10,7 +10,9 @@ import {
   StorybookPlayground,
   StorybookStory,
 } from '@/storybook/components';
+import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { IconCoins, IconSquare } from '@tabler/icons-vue';
+import { ref } from 'vue';
 
 const selectionModes = [
   'single',
@@ -25,21 +27,26 @@ const colors = [
   'critical',
 ] satisfies SegmentedButtonProps['color'][];
 
-const code = `
+const code = ref('');
+
+const onChange = ({ color, selectionMode, disabled }: UnknownRecord) => {
+  code.value = `
 <SegmentedButtonGroup
-  selectionMode="single"
-  :selected="['a']"
-  disabled
+  selection-mode="${selectionMode}"
+  :disabled="${disabled}"
+  v-model:selected="selected"
 >
-  <SegmentedButton color="primary" value="a">A</SegmentedButton>
-  <SegmentedButton color="primary" value="b">B</SegmentedButton>
-  <SegmentedButton color="primary" value="c" disabled>C</SegmentedButton>
+  <SegmentedButton color="${color}" value="a">A</SegmentedButton>
+  <SegmentedButton color="${color}" value="b">B</SegmentedButton>
+  <SegmentedButton color="${color}" value="c" disabled>C</SegmentedButton>
 </SegmentedButtonGroup>
 `;
+};
 </script>
 
 <template>
   <StorybookPlayground
+    @change="onChange"
     :arguments="{
       color: {
         type: 'select',

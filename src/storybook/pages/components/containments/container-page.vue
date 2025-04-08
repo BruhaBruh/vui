@@ -10,6 +10,8 @@ import {
   StorybookPlayground,
   StorybookStory,
 } from '@/storybook/components';
+import type { UnknownRecord } from '@bruhabruh/type-safe';
+import { ref } from 'vue';
 
 const paddings = [
   'none',
@@ -41,17 +43,22 @@ const colors = [
   'critical-container',
 ] satisfies ContainerProps['color'][];
 
-const code = `
-<Container color="primary-container">
-  <ContainerContent padding="both" variant="grid">
+const code = ref('');
+
+const onChange = ({ color, variant, padding }: UnknownRecord) => {
+  code.value = `
+<Container color="${color}">
+  <ContainerContent variant="${variant}" padding="${padding}">
     <section>Container</section>
   </ContainerContent>
 </Container>
 `;
+};
 </script>
 
 <template>
   <StorybookPlayground
+    @change="onChange"
     :arguments="{
       color: {
         type: 'select',

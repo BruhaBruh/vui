@@ -20,7 +20,7 @@ const {
 const isCopyButtonVisible = ref(false);
 
 const formattedCode = computed(() => {
-  const trimmedCode = code.trim();
+  const trimmedCode = code.trim().replace(/^\s*\n/gm, '');
   if (lang === 'vue' && !disableVueTemplate) {
     return `<template>\r\n${trimmedCode.replace(/^/gm, '  ')}\r\n</template>`;
   }
@@ -51,6 +51,7 @@ const highlightedCode = computedAsync(async () => {
 
 <template>
   <section
+    v-if="code.trim()"
     class="flex flex-col gap-sm mb-md last:mb-0 overflow-hidden relative"
   >
     <h2 class="typography-title-large">{{ name }} Code Example</h2>
@@ -74,13 +75,14 @@ const highlightedCode = computedAsync(async () => {
   </section>
 </template>
 
-<style scoped>
-.code-block :global(code) {
+<style>
+.code-block code {
   counter-reset: step;
   counter-increment: step 0;
+  font-weight: 600;
 }
 
-.code-block :global(.line:before) {
+.code-block .line:before {
   content: counter(step);
   counter-increment: step;
   display: inline-block;

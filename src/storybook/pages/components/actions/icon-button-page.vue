@@ -6,7 +6,9 @@ import {
   StorybookPlayground,
   StorybookStory,
 } from '@/storybook/components';
+import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { IconCircle, IconSquare } from '@tabler/icons-vue';
+import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
 const colors = [
@@ -29,20 +31,39 @@ const isToggleable = true;
 const isSelected = true;
 const isNotSelected = !isSelected;
 
-const code = `
+const code = ref('');
+
+const onChange = ({
+  color,
+  variant,
+  toggleable,
+  selected,
+  disabled,
+  icon,
+}: UnknownRecord) => {
+  let displayIcon = '';
+  if (icon === 'square') {
+    displayIcon = '<IconSquare />';
+  } else if (icon === 'circle') {
+    displayIcon = '<IconCircle />';
+  }
+  code.value = `
 <IconButton
-  color="primary"
-  variant="standard"
-  :toggleable="true"
-  v-model:selected
+  color="${color}"
+  variant="${variant}"
+  :toggleable="${toggleable}"
+  :selected="${selected}"
+  :disabled="${disabled}"
 >
-  <IconSquare />
+  ${displayIcon}
 </IconButton>
 `;
+};
 </script>
 
 <template>
   <StorybookPlayground
+    @change="onChange"
     :arguments="{
       color: {
         type: 'select',

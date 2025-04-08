@@ -5,7 +5,9 @@ import {
   StorybookPlayground,
   StorybookStory,
 } from '@/storybook/components';
+import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { IconCircle, IconSquare } from '@tabler/icons-vue';
+import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
 const colors = [
@@ -20,22 +22,37 @@ const colors = [
 const loweredStates = [false, true] satisfies ExtendedFabProps['lowered'][];
 const icons = ['none', 'circle', 'square'];
 
-const code = `
+const code = ref('');
+
+const onChange = ({ label, color, lowered, icon }: UnknownRecord) => {
+  let displayIcon = '';
+  if (icon === 'square') {
+    displayIcon = '<IconSquare />';
+  } else if (icon === 'circle') {
+    displayIcon = '<IconCircle />';
+  }
+  code.value = `
 <ExtendedFab
-  color="primary"
-  lowered
-  icon-key="square"
+  color="${color}"
+  :lowered="${lowered}"
 >
+  ${
+    displayIcon
+      ? `
   <template #icon>
-    <IconSquare />
-  </template>
-  ExtendedFab
+    ${displayIcon}
+  </template>`
+      : ''
+  }
+  ${label}
 </ExtendedFab>
 `;
+};
 </script>
 
 <template>
   <StorybookPlayground
+    @change="onChange"
     :arguments="{
       label: {
         type: 'text',

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { EmptyObject, UnknownRecord } from '@bruhabruh/type-safe';
-import { reactive } from 'vue';
+import { reactive, watchEffect } from 'vue';
 
 type BaseArgument<
   T extends string,
@@ -45,8 +45,12 @@ const { arguments: args = {} } = defineProps<{
   arguments?: Arguments;
 }>();
 
+const emit = defineEmits<{
+  (e: 'change', value: UnknownRecord): void;
+}>();
+
 function createValuesWithDefaults() {
-  const obj: Record<string, unknown> = {};
+  const obj: UnknownRecord = {};
 
   Object.entries(args).forEach(([name, argument]) => {
     if (argument.defaultValue !== undefined) {
@@ -77,6 +81,8 @@ function createValuesWithDefaults() {
 }
 
 const values = reactive(createValuesWithDefaults());
+
+watchEffect(() => emit('change', values));
 </script>
 
 <template>

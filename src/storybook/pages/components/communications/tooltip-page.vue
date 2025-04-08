@@ -14,6 +14,7 @@ import {
   StorybookPlayground,
   StorybookStory,
 } from '@/storybook/components';
+import type { UnknownRecord } from '@bruhabruh/type-safe';
 import {
   IconChevronDown,
   IconChevronDownLeft,
@@ -24,6 +25,7 @@ import {
   IconChevronUpLeft,
   IconChevronUpRight,
 } from '@tabler/icons-vue';
+import { ref } from 'vue';
 
 const triggers = ['both', 'hover', 'focus'] satisfies TooltipProps['trigger'][];
 const variants = ['plain', 'rich'] satisfies TooltipContentProps['variant'][];
@@ -40,49 +42,54 @@ const richPlacements = [
   'bottom-right',
 ] satisfies TooltipContentProps['placement'][];
 
-const plainCode = `
-<Tooltip
-  open
-  trigger="focus"
-  :show-delay="100"
-  :hide-delay="200"
->
-  <TooltipTrigger>
-    <Button> Focus on me </Button>
-  </TooltipTrigger>
-  <TooltipContent placement="top">
-    Plain tooltip
-  </TooltipContent>
-</Tooltip>
-`;
+const code = ref('');
 
-const richCode = `
+const onChange = ({
+  variant,
+  placement,
+  showDelay,
+  hideDelay,
+  trigger,
+  subhead,
+  text,
+  showActions,
+}: UnknownRecord) => {
+  code.value = `
 <Tooltip
-  open
-  trigger="focus"
-  :show-delay="100"
-  :hide-delay="200"
+  trigger="${trigger}"
+  :show-delay="${showDelay}"
+  :hide-delay="${hideDelay}"
 >
   <TooltipTrigger>
-    <Button> Focus on me </Button>
+    <Button> Hover me </Button>
   </TooltipTrigger>
-  <TooltipContent placement="top-right">
+  <TooltipContent placement="${placement}">
+  ${
+    subhead && variant === 'rich'
+      ? `
     <template #subhead>
-    Rich tooltip
-    </template>
-
-    Supporting line text lorem ipsum dolor sit amet, consectetur
-
+      ${subhead}
+    </template>`
+      : ''
+  }
+    ${text}
+    ${
+      showActions && variant === 'rich'
+        ? `
     <template #actions>
       <Button variant="text">Action</Button>
-    </template>
+    </template>`
+        : ''
+    }
   </TooltipContent>
 </Tooltip>
 `;
+};
 </script>
 
 <template>
   <StorybookPlayground
+    @change="onChange"
     :arguments="{
       variant: {
         type: 'select',
@@ -171,8 +178,7 @@ const richCode = `
       </Tooltip>
     </template>
   </StorybookPlayground>
-  <StorybookCode name="Plain Tooltip" :code="plainCode" />
-  <StorybookCode name="Rich Tooltip" :code="richCode" />
+  <StorybookCode name="Tooltip" :code />
   <StorybookStory name="Plain">
     <Tooltip open always-open>
       <TooltipContent class="!relative">Plain tooltip</TooltipContent>

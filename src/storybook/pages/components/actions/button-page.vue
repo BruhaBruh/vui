@@ -6,7 +6,9 @@ import {
   StorybookPlayground,
   StorybookStory,
 } from '@/storybook/components';
+import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { IconCircle, IconSquare } from '@tabler/icons-vue';
+import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
 const colors = [
@@ -26,27 +28,59 @@ const variants = [
 ] satisfies ButtonProps['variant'][];
 const icons = ['none', 'circle', 'square'];
 
-const code = `
+const code = ref('');
+
+const onChange = ({
+  label,
+  color,
+  variant,
+  disabled,
+  left,
+  right,
+}: UnknownRecord) => {
+  let leftIcon = '';
+  if (left === 'square') {
+    leftIcon = '<IconSquare />';
+  } else if (left === 'circle') {
+    leftIcon = '<IconCircle />';
+  }
+  let rightIcon = '';
+  if (right === 'square') {
+    rightIcon = '<IconSquare />';
+  } else if (right === 'circle') {
+    rightIcon = '<IconCircle />';
+  }
+  code.value = `
 <Button
-  color="primary"
-  variant="elevated"
-  disabled
-  left-key="square"
-  right-key="circle"
+  color="${color}"
+  variant="${variant}"
+  :disabled="${disabled}"
 >
+  ${
+    leftIcon
+      ? `
   <template #left>
-    <IconSquare />
-  </template>
-  Button
+    ${leftIcon}
+  </template>`
+      : ''
+  }
+  ${label}
+  ${
+    rightIcon
+      ? `
   <template #right>
-    <IconSquare />
-  </template>
+    ${rightIcon}
+  </template>`
+      : ''
+  }
 </Button>
 `;
+};
 </script>
 
 <template>
   <StorybookPlayground
+    @change="(e) => onChange(e)"
     :arguments="{
       label: {
         type: 'text',

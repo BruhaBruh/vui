@@ -5,27 +5,36 @@ import {
   StorybookPlayground,
   StorybookStory,
 } from '@/storybook/components';
+import type { UnknownRecord } from '@bruhabruh/type-safe';
+import { ref } from 'vue';
 
 const orientations = [
   'horizontal',
   'vertical',
 ] satisfies DividerProps['orientation'][];
 
-const code = `
-<section class="inline-flex flex-col w-24 items-center justify-center gap-md">
+const code = ref('');
+
+const onChange = ({ orientation, inset }: UnknownRecord) => {
+  code.value = `
+<section
+  class="inline-flex ${orientation === 'vertical' ? 'h-12' : 'flex-col w-24'} items-center justify-center gap-md"
+>
   <span>One</span>
-  <Divider inset />
+  <Divider orientation="${orientation}" :inset="${inset}" />
   <span>Two</span>
-  <Divider />
+  <Divider orientation="${orientation}" :inset="${inset}" />
   <span>Three</span>
-  <Divider inset />
+  <Divider orientation="${orientation}" :inset="${inset}" />
   <span>Four</span>
 </section>
 `;
+};
 </script>
 
 <template>
   <StorybookPlayground
+    @change="onChange"
     :arguments="{
       orientation: {
         type: 'select',

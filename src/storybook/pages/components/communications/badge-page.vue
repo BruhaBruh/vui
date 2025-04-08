@@ -11,7 +11,9 @@ import {
   StorybookPlayground,
   StorybookStory,
 } from '@/storybook/components';
+import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { IconMail, IconMessage, IconUsers, IconVideo } from '@tabler/icons-vue';
+import { ref } from 'vue';
 
 const colors = [
   'primary',
@@ -23,15 +25,25 @@ const colors = [
 ] satisfies BadgeProps['color'][];
 const values = [0, 1, 500, 1000];
 
-const code = `
-<Badge color="primary" :value="40" placement="icon">
+const code = ref('');
+
+const onChange = ({ color, value, maxValue }: UnknownRecord) => {
+  code.value = `
+<Badge
+  color="${color}"
+  :value="${value}"
+  :max-value="${maxValue}"
+  placement="icon"
+>
   <IconMail />
 </Badge>
 `;
+};
 </script>
 
 <template>
   <StorybookPlayground
+    @change="onChange"
     :arguments="{
       color: {
         type: 'select',

@@ -35,6 +35,7 @@ export type NavigationNode = {
   name: string;
   path: string;
   icon?: Component;
+  order?: number;
 } & (
   | {
       type: 'link';
@@ -222,7 +223,12 @@ function computeNavigationPaths(
 
       return result;
     })
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .sort((a, b) => {
+      const aOrder = a.order ?? 1_000_000_000;
+      const bOrder = b.order ?? 1_000_000_000;
+      if (aOrder !== bOrder) return aOrder - bOrder;
+      return a.name.localeCompare(b.name);
+    });
 }
 
 function computeNavigationByPath(

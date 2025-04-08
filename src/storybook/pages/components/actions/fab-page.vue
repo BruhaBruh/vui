@@ -5,7 +5,9 @@ import {
   StorybookPlayground,
   StorybookStory,
 } from '@/storybook/components';
+import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { IconCircle, IconSquare } from '@tabler/icons-vue';
+import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
 const colors = [
@@ -21,19 +23,30 @@ const sizes = ['sm', 'md', 'lg'] satisfies FabProps['size'][];
 const loweredStates = [false, true] satisfies FabProps['lowered'][];
 const icons = ['circle', 'square'];
 
-const code = `
+const code = ref('');
+
+const onChange = ({ color, size, lowered, icon }: UnknownRecord) => {
+  let displayIcon = '';
+  if (icon === 'square') {
+    displayIcon = '<IconSquare />';
+  } else if (icon === 'circle') {
+    displayIcon = '<IconCircle />';
+  }
+  code.value = `
 <Fab
-  color="primary"
-  size="md"
-  lowered
+  color="${color}"
+  size="${size}"
+  :lowered="${lowered}"
 >
-  <IconSquare />
+  ${displayIcon}
 </Fab>
 `;
+};
 </script>
 
 <template>
   <StorybookPlayground
+    @change="onChange"
     :arguments="{
       size: {
         type: 'select',
