@@ -5,6 +5,7 @@ import {
   Tooltip,
   TooltipContent,
   type TooltipContentProps,
+  type TooltipProps,
   TooltipTrigger,
 } from '@/components';
 import { materialDuration } from '@/config';
@@ -20,6 +21,7 @@ import {
   IconChevronUpRight,
 } from '@tabler/icons-vue';
 
+const triggers = ['both', 'hover', 'focus'] satisfies TooltipProps['trigger'][];
 const variants = ['plain', 'rich'] satisfies TooltipContentProps['variant'][];
 const plainPlacements = [
   'left',
@@ -64,6 +66,13 @@ const richPlacements = [
         description: 'Hide delay of Tooltip',
         defaultValue: materialDuration['long-2'],
       },
+      trigger: {
+        type: 'select',
+        label: 'Trigger',
+        description: 'Trigger of Tooltip',
+        defaultValue: 'both',
+        options: triggers,
+      },
       subhead: {
         type: 'text',
         label: 'Subbead',
@@ -86,11 +95,20 @@ const richPlacements = [
   >
     <template
       #default="{
-        values: { showDelay, hideDelay, subhead, text, showActions, ...values },
+        values: {
+          trigger,
+          showDelay,
+          hideDelay,
+          subhead,
+          text,
+          showActions,
+          ...values
+        },
       }"
     >
       <Tooltip
-        :key="`${showDelay}-${hideDelay}`"
+        :key="`${showDelay}-${hideDelay}-${trigger}`"
+        :trigger="trigger as TooltipProps['trigger']"
         :showDelay="showDelay as number"
         :hideDelay="hideDelay as number"
       >

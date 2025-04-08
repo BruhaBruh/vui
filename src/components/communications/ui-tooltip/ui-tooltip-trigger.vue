@@ -2,11 +2,11 @@
 import { Slot } from '@/components/utility';
 import { useTooltipState } from './ui-tooltip.context';
 
-const { trigger } = useTooltipState();
+const { trigger, open, id } = useTooltipState();
 </script>
 
 <template>
-  <Slot ref="trigger">
+  <Slot ref="trigger" :aria-describedby="open ? id : undefined">
     <slot />
   </Slot>
 </template>

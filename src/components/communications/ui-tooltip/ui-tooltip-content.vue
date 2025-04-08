@@ -29,7 +29,7 @@ const {
   as = motion.section,
 } = defineProps<TooltipContentProps>();
 
-const { trigger, tooltip, open } = useTooltipState();
+const { id, trigger, tooltip, open } = useTooltipState();
 
 const placementForFloating = computed<Placement>(() => {
   if (placement === 'top') return placement;
@@ -80,6 +80,8 @@ const finalPlacement = computed<Variants['placement']>(() => {
         duration: materialDuration.asMotion('medium-1'),
         ease: materialEasing.standard,
       }"
+      :id
+      role="tooltip"
       :style="floatingStyles"
       :class="tooltipVariants({ variant, placement: finalPlacement })"
       v-tw-merge

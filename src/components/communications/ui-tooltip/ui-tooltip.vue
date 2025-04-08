@@ -2,7 +2,9 @@
 import type { TooltipStateOptions } from './ui-tooltip.context';
 import { provideTooltipState } from './ui-tooltip.context';
 
-const options = defineProps<TooltipStateOptions>();
+export type TooltipProps = TooltipStateOptions;
+
+const options = defineProps<TooltipProps>();
 
 const open = defineModel<boolean>('open', { default: false });
 
