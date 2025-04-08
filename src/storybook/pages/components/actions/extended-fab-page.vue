@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ExtendedFab, type ExtendedFabProps } from '@/components';
-import { StorybookPlayground, StorybookStory } from '@/storybook/components';
+import {
+  StorybookCode,
+  StorybookPlayground,
+  StorybookStory,
+} from '@/storybook/components';
 import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { RouterLink } from 'vue-router';
 
@@ -15,6 +19,19 @@ const colors = [
 ] satisfies ExtendedFabProps['color'][];
 const loweredStates = [false, true] satisfies ExtendedFabProps['lowered'][];
 const icons = ['none', 'circle', 'square'];
+
+const code = `
+<ExtendedFab
+  color="primary"
+  lowered
+  icon-key="square"
+>
+  <template #icon>
+    <IconSquare />
+  </template>
+  ExtendedFab
+</ExtendedFab>
+`;
 </script>
 
 <template>
@@ -64,6 +81,7 @@ const icons = ['none', 'circle', 'square'];
       </ExtendedFab>
     </template>
   </StorybookPlayground>
+  <StorybookCode name="ExtendedFab" :code />
   <StorybookStory name="As Link">
     <ExtendedFab :as="RouterLink" to="#">
       <template #icon>

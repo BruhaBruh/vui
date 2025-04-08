@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { Fab, type FabProps } from '@/components';
-import { StorybookPlayground, StorybookStory } from '@/storybook/components';
+import {
+  StorybookCode,
+  StorybookPlayground,
+  StorybookStory,
+} from '@/storybook/components';
 import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { RouterLink } from 'vue-router';
 
@@ -16,6 +20,16 @@ const colors = [
 const sizes = ['sm', 'md', 'lg'] satisfies FabProps['size'][];
 const loweredStates = [false, true] satisfies FabProps['lowered'][];
 const icons = ['circle', 'square'];
+
+const code = `
+<Fab
+  color="primary"
+  size="md"
+  lowered
+>
+  <IconSquare />
+</Fab>
+`;
 </script>
 
 <template>
@@ -57,6 +71,7 @@ const icons = ['circle', 'square'];
       </Fab>
     </template>
   </StorybookPlayground>
+  <StorybookCode name="Fab" :code />
   <StorybookStory name="As Link">
     <Fab :as="RouterLink" to="#">
       <IconSquare />

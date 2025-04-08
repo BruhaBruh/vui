@@ -1,11 +1,27 @@
 <script setup lang="ts">
 import { Divider, type DividerProps } from '@/components';
-import { StorybookPlayground, StorybookStory } from '@/storybook/components';
+import {
+  StorybookCode,
+  StorybookPlayground,
+  StorybookStory,
+} from '@/storybook/components';
 
 const orientations = [
   'horizontal',
   'vertical',
 ] satisfies DividerProps['orientation'][];
+
+const code = `
+<section class="inline-flex flex-col w-24 items-center justify-center gap-md">
+  <span>One</span>
+  <Divider inset />
+  <span>Two</span>
+  <Divider />
+  <span>Three</span>
+  <Divider inset />
+  <span>Four</span>
+</section>
+`;
 </script>
 
 <template>
@@ -53,6 +69,7 @@ const orientations = [
       </section>
     </template>
   </StorybookPlayground>
+  <StorybookCode name="Divider" :code />
   <StorybookStory
     v-for="orientation in orientations"
     :key="orientation"

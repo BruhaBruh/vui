@@ -5,7 +5,11 @@ import {
   type ContainerContentProps,
   type ContainerProps,
 } from '@/components';
-import { StorybookPlayground, StorybookStory } from '@/storybook/components';
+import {
+  StorybookCode,
+  StorybookPlayground,
+  StorybookStory,
+} from '@/storybook/components';
 
 const paddings = [
   'none',
@@ -36,6 +40,14 @@ const colors = [
   'critical',
   'critical-container',
 ] satisfies ContainerProps['color'][];
+
+const code = `
+<Container color="primary-container">
+  <ContainerContent padding="both" variant="grid">
+    <section>Container</section>
+  </ContainerContent>
+</Container>
+`;
 </script>
 
 <template>
@@ -74,6 +86,7 @@ const colors = [
       </section>
     </template>
   </StorybookPlayground>
+  <StorybookCode name="Container" :code />
   <StorybookStory name="Paddings">
     <section class="grid gap-md w-full">
       <Container

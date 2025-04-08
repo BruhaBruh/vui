@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { IconButton } from '@/components';
 import type { IconButtonProps } from '@/components';
-import { StorybookPlayground, StorybookStory } from '@/storybook/components';
+import {
+  StorybookCode,
+  StorybookPlayground,
+  StorybookStory,
+} from '@/storybook/components';
 import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { RouterLink } from 'vue-router';
 
@@ -24,6 +28,17 @@ const icons = ['circle', 'square'];
 const isToggleable = true;
 const isSelected = true;
 const isNotSelected = !isSelected;
+
+const code = `
+<IconButton
+  color="primary"
+  variant="standard"
+  :toggleable="true"
+  v-model:selected
+>
+  <IconSquare />
+</IconButton>
+`;
 </script>
 
 <template>
@@ -81,6 +96,7 @@ const isNotSelected = !isSelected;
       </IconButton>
     </template>
   </StorybookPlayground>
+  <StorybookCode name="IconButton" :code />
   <StorybookStory name="As Link">
     <IconButton :as="RouterLink" to="#">
       <IconSquare />

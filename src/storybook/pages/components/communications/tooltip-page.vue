@@ -9,7 +9,11 @@ import {
   TooltipTrigger,
 } from '@/components';
 import { materialDuration } from '@/config';
-import { StorybookPlayground, StorybookStory } from '@/storybook/components';
+import {
+  StorybookCode,
+  StorybookPlayground,
+  StorybookStory,
+} from '@/storybook/components';
 import {
   IconChevronDown,
   IconChevronDownLeft,
@@ -35,6 +39,46 @@ const richPlacements = [
   'bottom-left',
   'bottom-right',
 ] satisfies TooltipContentProps['placement'][];
+
+const plainCode = `
+<Tooltip
+  open
+  trigger="focus"
+  :show-delay="100"
+  :hide-delay="200"
+>
+  <TooltipTrigger>
+    <Button> Focus on me </Button>
+  </TooltipTrigger>
+  <TooltipContent placement="top">
+    Plain tooltip
+  </TooltipContent>
+</Tooltip>
+`;
+
+const richCode = `
+<Tooltip
+  open
+  trigger="focus"
+  :show-delay="100"
+  :hide-delay="200"
+>
+  <TooltipTrigger>
+    <Button> Focus on me </Button>
+  </TooltipTrigger>
+  <TooltipContent placement="top-right">
+    <template #subhead>
+    Rich tooltip
+    </template>
+
+    Supporting line text lorem ipsum dolor sit amet, consectetur
+
+    <template #actions>
+      <Button variant="text">Action</Button>
+    </template>
+  </TooltipContent>
+</Tooltip>
+`;
 </script>
 
 <template>
@@ -127,6 +171,8 @@ const richPlacements = [
       </Tooltip>
     </template>
   </StorybookPlayground>
+  <StorybookCode name="Plain Tooltip" :code="plainCode" />
+  <StorybookCode name="Rich Tooltip" :code="richCode" />
   <StorybookStory name="Plain">
     <Tooltip open always-open>
       <TooltipContent class="!relative">Plain tooltip</TooltipContent>

@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { Button } from '@/components';
 import type { ButtonProps } from '@/components';
-import { StorybookPlayground, StorybookStory } from '@/storybook/components';
+import {
+  StorybookCode,
+  StorybookPlayground,
+  StorybookStory,
+} from '@/storybook/components';
 import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { RouterLink } from 'vue-router';
 
@@ -21,6 +25,24 @@ const variants = [
   'text',
 ] satisfies ButtonProps['variant'][];
 const icons = ['none', 'circle', 'square'];
+
+const code = `
+<Button
+  color="primary"
+  variant="elevated"
+  disabled
+  left-key="square"
+  right-key="circle"
+>
+  <template #left>
+    <IconSquare />
+  </template>
+  Button
+  <template #right>
+    <IconSquare />
+  </template>
+</Button>
+`;
 </script>
 
 <template>
@@ -86,6 +108,7 @@ const icons = ['none', 'circle', 'square'];
       </Button>
     </template>
   </StorybookPlayground>
+  <StorybookCode name="Button" :code />
   <StorybookStory name="As Link">
     <Button :as="RouterLink" to="#">Button</Button>
   </StorybookStory>

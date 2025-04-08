@@ -5,7 +5,11 @@ import {
   type SegmentedButtonGroupProps,
   type SegmentedButtonProps,
 } from '@/components';
-import { StorybookPlayground, StorybookStory } from '@/storybook/components';
+import {
+  StorybookCode,
+  StorybookPlayground,
+  StorybookStory,
+} from '@/storybook/components';
 import { IconCoins, IconSquare } from '@tabler/icons-vue';
 
 const selectionModes = [
@@ -20,6 +24,18 @@ const colors = [
   'caution',
   'critical',
 ] satisfies SegmentedButtonProps['color'][];
+
+const code = `
+<SegmentedButtonGroup
+  selectionMode="single"
+  :selected="['a']"
+  disabled
+>
+  <SegmentedButton color="primary" value="a">A</SegmentedButton>
+  <SegmentedButton color="primary" value="b">B</SegmentedButton>
+  <SegmentedButton color="primary" value="c" disabled>C</SegmentedButton>
+</SegmentedButtonGroup>
+`;
 </script>
 
 <template>
@@ -60,6 +76,7 @@ const colors = [
       </SegmentedButtonGroup>
     </template>
   </StorybookPlayground>
+  <StorybookCode name="SegmentedButton" :code />
   <StorybookStory name="Selection Modes">
     <SegmentedButtonGroup
       v-for="selectionMode in selectionModes"

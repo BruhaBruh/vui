@@ -6,7 +6,11 @@ import {
   Fab,
   IconButton,
 } from '@/components';
-import { StorybookPlayground, StorybookStory } from '@/storybook/components';
+import {
+  StorybookCode,
+  StorybookPlayground,
+  StorybookStory,
+} from '@/storybook/components';
 import { IconMail, IconMessage, IconUsers, IconVideo } from '@tabler/icons-vue';
 
 const colors = [
@@ -18,6 +22,12 @@ const colors = [
   'critical',
 ] satisfies BadgeProps['color'][];
 const values = [0, 1, 500, 1000];
+
+const code = `
+<Badge color="primary" :value="40" placement="icon">
+  <IconMail />
+</Badge>
+`;
 </script>
 
 <template>
@@ -48,6 +58,7 @@ const values = [0, 1, 500, 1000];
       <Badge v-bind="values" />
     </template>
   </StorybookPlayground>
+  <StorybookCode name="Badge" :code />
   <StorybookStory name="Colors">
     <Badge v-for="color in colors" :key="color" :color="color" />
   </StorybookStory>
