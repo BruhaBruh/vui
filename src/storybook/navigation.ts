@@ -16,6 +16,7 @@ import type { Component } from 'vue';
 import {
   BadgePage,
   ButtonPage,
+  DividerPage,
   DurationPage,
   EasingPage,
   ElevationPage,
@@ -162,7 +163,14 @@ const baseNavigation: NavigationNode[] = [
         name: 'Containments',
         path: '/containments',
         icon: IconSquare,
-        children: [],
+        children: [
+          {
+            type: 'link',
+            name: 'Divider',
+            path: '/divider',
+            page: DividerPage,
+          },
+        ],
       },
       {
         type: 'folder',
