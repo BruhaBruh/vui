@@ -1,4 +1,12 @@
-import { type InjectionKey, type Ref, inject, provide, ref } from 'vue';
+import {
+  type InjectionKey,
+  type MaybeRefOrGetter,
+  type Ref,
+  inject,
+  provide,
+  ref,
+  toRef,
+} from 'vue';
 
 export type SegmentedButtonSelectedValue = string | number;
 
@@ -15,16 +23,18 @@ const segmentedButtonStateKey =
   Symbol() as InjectionKey<SegmentedButtonGroupState>;
 
 export function provideSegmentedButtonState(
-  mode: SegmentedButtonGroupState['mode'],
   selected: SegmentedButtonGroupState['selected'],
-  disabled: SegmentedButtonGroupState['disabled'] = ref(false),
+  mode: MaybeRefOrGetter<SegmentedButtonGroupMode>,
+  disabled: MaybeRefOrGetter<boolean> = ref(false),
 ) {
+  const modeRef = toRef(mode);
+  const disabledRef = toRef(disabled);
   function select(value: SegmentedButtonSelectedValue) {
     if (selected.value.includes(value)) {
       selected.value = selected.value.filter((v) => v !== value);
       return;
     }
-    if (mode.value === 'single') {
+    if (modeRef.value === 'single') {
       selected.value = [value];
     } else {
       selected.value = [...selected.value, value];
@@ -32,10 +42,10 @@ export function provideSegmentedButtonState(
   }
 
   const state: SegmentedButtonGroupState = {
-    mode,
+    mode: modeRef,
     selected,
     select,
-    disabled,
+    disabled: disabledRef,
   };
 
   provide(segmentedButtonStateKey, state);

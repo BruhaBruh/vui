@@ -15,6 +15,7 @@ import {
 import type { Component } from 'vue';
 import {
   BadgePage,
+  BreadcrumbsPage,
   ButtonPage,
   CardPage,
   ContainerPage,
@@ -199,7 +200,14 @@ const baseNavigation: NavigationNode[] = [
         name: 'Navigations',
         path: '/navigations',
         icon: IconNavigation,
-        children: [],
+        children: [
+          {
+            type: 'link',
+            name: 'Breadcrumbs',
+            path: '/breadcrumbs',
+            page: BreadcrumbsPage,
+          },
+        ],
       },
       {
         type: 'folder',

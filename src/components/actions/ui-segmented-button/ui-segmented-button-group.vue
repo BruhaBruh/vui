@@ -28,14 +28,10 @@ const selected = defineModel<SegmentedButtonSelectedValue[]>('selected', {
   default: [],
 });
 
-const selectionModeRef = computed(() => selectionMode);
-
-const isDisabled = computed(() => disabled);
-
 const state = provideSegmentedButtonState(
-  selectionModeRef,
   selected,
-  isDisabled,
+  () => selectionMode,
+  () => disabled,
 );
 </script>
 

@@ -29,6 +29,10 @@ const {
   as = motion.section,
 } = defineProps<TooltipContentProps>();
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 const { id, trigger, tooltip, open } = useTooltipState();
 
 const placementForFloating = computed<Placement>(() => {
@@ -84,6 +88,7 @@ const finalPlacement = computed<Variants['placement']>(() => {
       role="tooltip"
       :style="floatingStyles"
       :class="tooltipVariants({ variant, placement: finalPlacement })"
+      v-bind="$attrs"
       v-tw-merge
     >
       <p
