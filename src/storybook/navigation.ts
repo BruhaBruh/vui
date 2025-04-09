@@ -16,6 +16,7 @@ import type { Component } from 'vue';
 import {
   BadgePage,
   ButtonPage,
+  CardPage,
   ContainerPage,
   DividerPage,
   DurationPage,
@@ -177,6 +178,12 @@ const baseNavigation: NavigationNode[] = [
             name: 'Container',
             path: '/container',
             page: ContainerPage,
+          },
+          {
+            type: 'link',
+            name: 'Card',
+            path: '/card',
+            page: CardPage,
           },
         ],
       },

@@ -24,10 +24,10 @@ const {
   rightKey,
 } = defineProps<ButtonProps>();
 
-const ref = useTemplateRef<HTMLElement>('button');
+const elementRef = useTemplateRef<HTMLElement>('button');
 
-useButton(ref, { elementType: as === 'button' ? 'button' : '' });
-useRipple(ref);
+useButton(elementRef, { elementType: as === 'button' ? 'button' : '' });
+useRipple(elementRef);
 </script>
 
 <template>

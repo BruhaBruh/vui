@@ -1,5 +1,5 @@
 import { materialDuration } from '@/config';
-import { useElementBounding, useEventListener } from '@vueuse/core';
+import { useEventListener } from '@vueuse/core';
 import { type AnimationPlaybackControls, animate } from 'motion-v';
 import { type ShallowRef, computed } from 'vue';
 
@@ -38,8 +38,6 @@ export function useRipple(
     }
     return ref.value;
   });
-
-  const bounding = useElementBounding(ref);
 
   const controls: Controls = {
     __value__: [],
@@ -84,21 +82,23 @@ export function useRipple(
 
   useEventListener(element, 'mousedown', (e) => {
     if (!element.value) return;
+    const el = e.currentTarget as HTMLElement;
+    const bounding = el.getBoundingClientRect();
     const coordinates = {
-      x: bounding.width.value / 2,
-      y: bounding.height.value / 2,
+      x: bounding.width / 2,
+      y: bounding.height / 2,
     };
     if (!centered) {
       if (typeof MouseEvent !== 'undefined' && e instanceof MouseEvent) {
-        coordinates.x = e.clientX - bounding.x.value;
-        coordinates.y = e.clientY - bounding.y.value;
+        coordinates.x = e.clientX - bounding.x;
+        coordinates.y = e.clientY - bounding.y;
       }
     }
 
     const [ripple, data] = createRipple(controls, {
       ...coordinates,
-      width: bounding.width.value,
-      height: bounding.height.value,
+      width: bounding.width,
+      height: bounding.height,
     });
     element.value?.append(ripple);
     data.controls = animateEnter(ripple, () => {

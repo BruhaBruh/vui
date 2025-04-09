@@ -24,13 +24,13 @@ const {
   as = 'button',
 } = defineProps<ExtendedFabProps>();
 
-const ref = useTemplateRef<HTMLElement>('extended-fab');
+const elementRef = useTemplateRef<HTMLElement>('extended-fab');
 
-useButton(ref, {
+useButton(elementRef, {
   elementType: as === 'button' ? 'button' : '',
   interaction: { disabled: false },
 });
-useRipple(ref);
+useRipple(elementRef);
 </script>
 
 <template>

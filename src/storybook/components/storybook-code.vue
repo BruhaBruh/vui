@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { IconButton } from '@/components';
+import { materialDuration, materialEasing } from '@/config';
 import { IconCopy } from '@tabler/icons-vue';
 import { computedAsync, useClipboard, useDark } from '@vueuse/core';
+import { motion } from 'motion-v';
 import { type BundledLanguage, type BundledTheme, codeToHtml } from 'shiki';
 import { computed, ref } from 'vue';
 
@@ -51,13 +53,20 @@ const highlightedCode = computedAsync(async () => {
 
 <template>
   <section
+    :exit="{ height: 0 }"
     v-if="code.trim()"
-    class="flex flex-col gap-sm mb-md last:mb-0 overflow-hidden relative"
+    class="flex flex-col gap-sm mb-md last:mb-0 relative"
   >
     <h2 class="typography-title-large">{{ name }} Code Example</h2>
-    <section
-      class="code-block relative overflow-hidden p-lg rounded-lg border border-outline-variant whitespace-pre-wrap typography-body-large"
+    <motion.section
+      layout
+      :animate="{ height: 'max-content' }"
+      :transition="{
+        duration: materialDuration.asMotion('medium-1'),
+        ease: materialEasing.standard,
+      }"
       v-html="highlightedCode"
+      class="code-block relative overflow-hidden p-lg rounded-lg border border-outline-variant whitespace-pre-wrap typography-body-large"
       @mouseenter="isCopyButtonVisible = true"
       @mouseleave="isCopyButtonVisible = false"
     />

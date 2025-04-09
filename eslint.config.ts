@@ -31,9 +31,16 @@ export default defineConfigWithVueTs(
   skipFormatting,
 
   {
-    name: 'app/no-param-reassign',
+    name: 'app/overrides',
     rules: {
       'no-param-reassign': 'off',
+      'vue/no-v-text-v-html-on-component': [
+        'error',
+        {
+          allow: ['motion.section'],
+          ignoreElementNamespaces: false,
+        },
+      ],
     },
   },
 );

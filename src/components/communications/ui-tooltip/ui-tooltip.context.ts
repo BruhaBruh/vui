@@ -49,7 +49,7 @@ export function provideTooltipState(
 
   const hide = useDebounceFn(() => {
     if (ignoreHide.value || alwaysOpen) return;
-    open.value = false;
+    // open.value = false;
   }, hideDelay);
 
   const show = useDebounceFn(() => {

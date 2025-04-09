@@ -68,7 +68,7 @@ const variants = cva(
       {
         color: 'primary',
         isSelected: true,
-        className: [
+        class: [
           'bg-primary-container',
           'text-on-primary-container',
           'state-on-primary-container',
@@ -78,7 +78,7 @@ const variants = cva(
       {
         color: 'secondary',
         isSelected: true,
-        className: [
+        class: [
           'bg-secondary-container',
           'text-on-secondary-container',
           'state-on-secondary-container',
@@ -88,7 +88,7 @@ const variants = cva(
       {
         color: 'info',
         isSelected: true,
-        className: [
+        class: [
           'bg-info-container',
           'text-on-info-container',
           'state-on-info-container',
@@ -98,7 +98,7 @@ const variants = cva(
       {
         color: 'success',
         isSelected: true,
-        className: [
+        class: [
           'bg-success-container',
           'text-on-success-container',
           'state-on-success-container',
@@ -108,7 +108,7 @@ const variants = cva(
       {
         color: 'caution',
         isSelected: true,
-        className: [
+        class: [
           'bg-caution-container',
           'text-on-caution-container',
           'state-on-caution-container',
@@ -118,7 +118,7 @@ const variants = cva(
       {
         color: 'critical',
         isSelected: true,
-        className: [
+        class: [
           'bg-critical-container',
           'text-on-critical-container',
           'state-on-critical-container',

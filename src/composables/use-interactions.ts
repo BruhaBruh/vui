@@ -47,9 +47,9 @@ export function useInteractions(
   const isDisabled = computed(() => {
     if (isDisabledMutation.value) return isDisabledMutation.value;
     if (!element.value) return false;
+    const isAriaDisabled = element.value.ariaDisabled?.toLowerCase() === 'true';
     return (
-      element.value.ariaDisabled !== null ||
-      (element.value as HTMLButtonElement).disabled
+      (isAriaDisabled || (element.value as HTMLButtonElement).disabled) ?? false
     );
   });
 
@@ -58,13 +58,9 @@ export function useInteractions(
     (mutations) => {
       const mutation = mutations[0];
       if (!mutation || mutation.type !== 'attributes') return;
-      if (
-        mutation.attributeName !== 'disabled' &&
-        mutation.attributeName !== 'aria-disabled'
-      )
-        return;
       const el = mutation.target as HTMLButtonElement;
-      isDisabledMutation.value = el.ariaDisabled !== null || el.disabled;
+      const isAriaDisabled = el.ariaDisabled?.toLowerCase() === 'true';
+      isDisabledMutation.value = (isAriaDisabled || el.disabled) ?? false;
     },
     {
       attributes: true,
