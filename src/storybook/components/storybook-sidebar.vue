@@ -10,6 +10,7 @@ import { IconMoon, IconSun } from '@tabler/icons-vue';
 
 const mode = useColorMode({
   emitAuto: true,
+  initialValue: 'light',
   selector: 'body',
   modes: { dark: 'dark', light: 'light' },
 });
@@ -35,6 +36,7 @@ watchEffect(() => {
       <RouterLink to="/" class="inline-flex flex-col flex-1">
         <span class="typography-title-medium">@bruhabruh/vui</span>
         <span class="typography-label-small text-secondary">v1.0.0</span>
+        {{ mode }}
       </RouterLink>
       <IconButton @click="next()" color="secondary" :icon-key="mode">
         <IconMoon v-if="mode === 'dark'" />

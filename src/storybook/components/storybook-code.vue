@@ -82,7 +82,11 @@ const highlightedCode = computedAsync(async () => {
   font-weight: 600;
 }
 
-.code-block .line:before {
+.code-block::selection {
+  background-color: var(--color-primary-container);
+}
+
+.code-block .line::before {
   content: counter(step);
   counter-increment: step;
   display: inline-block;
