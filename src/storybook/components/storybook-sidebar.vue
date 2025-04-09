@@ -37,7 +37,12 @@ watchEffect(() => {
         <span class="typography-title-medium">@bruhabruh/vui</span>
         <span class="typography-label-small text-secondary">v1.0.0</span>
       </RouterLink>
-      <IconButton @click="next()" color="secondary" :icon-key="mode">
+      <IconButton
+        @click="next()"
+        color="secondary"
+        :icon-key="mode"
+        :aria-label="`Toggle theme. Current is ${mode}`"
+      >
         <IconMoon v-if="mode === 'dark'" />
         <IconSun v-else-if="mode === 'light'" />
       </IconButton>

@@ -113,6 +113,36 @@ export function useRipple(
     });
   });
 
+  useEventListener(element, 'click', (e: PointerEvent) => {
+    if (!element.value) return;
+    if (e.pointerType) return;
+    const el = e.currentTarget as HTMLElement;
+    const bounding = el.getBoundingClientRect();
+    const coordinates = {
+      x: bounding.width / 2,
+      y: bounding.height / 2,
+    };
+
+    const [ripple, data] = createRipple(controls, {
+      ...coordinates,
+      width: bounding.width,
+      height: bounding.height,
+    });
+    element.value?.append(ripple);
+    data.controls = animateEnter(ripple, () => {
+      if (!data.isPressed) {
+        data.animation = 'exiting';
+        data.controls = animateExit(ripple, () => {
+          ripple.remove();
+        });
+        return;
+      }
+      data.isAnimationEnded = true;
+    });
+    data.isPressed = false;
+    data.controls.speed = speedDelta * 2;
+  });
+
   useEventListener(element, 'mouseup', () => {
     if (!element.value) return;
     const ripples =

@@ -13,3 +13,11 @@
 body {
   @apply bg-surface text-on-surface overflow-x-hidden typography-body-large;
 }
+
+* {
+  @apply outline-primary;
+}
+
+*:focus-visible {
+  @apply outline-solid! outline-[3px] outline-offset-[3px];
+}

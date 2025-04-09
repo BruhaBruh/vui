@@ -76,6 +76,7 @@ const highlightedCode = computedAsync(async () => {
         isCopyButtonVisible ? 'opacity-100' : 'opacity-0',
       ]"
       color="secondary"
+      :aria-label="`Copy code of ${name} example`"
       @mouseenter="isCopyButtonVisible = true"
       @click="copy(code)"
     >

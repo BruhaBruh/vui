@@ -10,10 +10,9 @@ const { navigation } = defineProps<{
 
 <template>
   <motion.ul
-    :class="'overflow-hidden'"
-    :initial="{ height: 0 }"
-    :animate="{ height: 'auto' }"
-    :exit="{ height: 0 }"
+    :initial="{ height: 0, opacity: 0 }"
+    :animate="{ height: 'auto', opacity: 1 }"
+    :exit="{ height: 0, opacity: 0 }"
   >
     <Item v-for="node in navigation" :key="node.path" :node="node" />
   </motion.ul>

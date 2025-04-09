@@ -35,6 +35,7 @@ const onChange = ({
   code.value = `
 <Card
   variant="${variant}"
+  ${interactable ? 'as="button"' : ''}
   ${interactable ? `color="${color}"` : ''}
   :interactable="${interactable}"
   ${interactable ? `:disabled="${disabled}"` : ''}
@@ -78,9 +79,11 @@ const onChange = ({
       },
     }"
   >
-    <template #default="{ values }">
+    <template #default="{ values: { interactable, ...values } }">
       <Card
         v-bind="values"
+        :interactable="interactable as boolean"
+        :as="interactable ? 'button' : undefined"
         class="flex items-center justify-center px-md py-sm select-none"
       >
         Card
@@ -92,6 +95,7 @@ const onChange = ({
     <Card
       v-for="color in colors"
       :key="color"
+      as="button"
       :color="color"
       variant="elevated"
       interactable
@@ -124,6 +128,7 @@ const onChange = ({
         <Card
           v-for="variant in variants"
           :key="variant"
+          as="button"
           :variant="variant"
           :color="color"
           interactable
@@ -134,6 +139,7 @@ const onChange = ({
         <Card
           v-for="variant in variants"
           :key="variant"
+          as="button"
           :variant="variant"
           :color="color"
           disabled

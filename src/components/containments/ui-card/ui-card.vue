@@ -44,7 +44,8 @@ const computedDisabled = computed(() => {
     :is="as"
     ref="card"
     :tabindex="interactable ? 0 : undefined"
-    :aria-disabled="computedDisabled"
+    :aria-disabled="as !== 'button' ? computedDisabled : undefined"
+    :disabled="as === 'button' ? computedDisabled : undefined"
     :class="cardVariants({ color, variant, interactable })"
     v-tw-merge
   >
