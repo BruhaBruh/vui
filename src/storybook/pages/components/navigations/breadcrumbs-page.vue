@@ -11,7 +11,6 @@ import {
 } from '@/storybook/components';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
 
 const items = ['Home', 'Components', 'Navigations', 'Breadcrumbs'];
 const activeItem = items[items.length - 1];
@@ -22,7 +21,11 @@ const code = ref('');
 
 const onChange = ({ size }: UnknownRecord) => {
   code.value = `
-<Breadcrumbs size="${size}" active="breadcrumbs">
+<Breadcrumbs
+  aria-label="Breadcrumbs"
+  size="${size}"
+  active="breadcrumbs"
+>
   <BreadcrumbsItem
     as="a"
     href="#"
@@ -70,7 +73,11 @@ const onChange = ({ size }: UnknownRecord) => {
     }"
   >
     <template #default="{ values }">
-      <Breadcrumbs v-bind="values" :active="activeItem">
+      <Breadcrumbs
+        v-bind="values"
+        aria-label="Breadcrumbs"
+        :active="activeItem"
+      >
         <BreadcrumbsItem
           v-for="item in items"
           :key="item"
@@ -91,6 +98,7 @@ const onChange = ({ size }: UnknownRecord) => {
         :key="size"
         :size="size"
         :active="activeItem"
+        aria-label="Breadcrumbs"
       >
         <BreadcrumbsItem
           v-for="item in items"

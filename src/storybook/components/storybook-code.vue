@@ -72,7 +72,7 @@ const highlightedCode = computedAsync(async () => {
     />
     <IconButton
       :class="[
-        'absolute top-3xl right-xs',
+        'absolute top-3xl right-xs in-focus-visible:opacity-100',
         isCopyButtonVisible ? 'opacity-100' : 'opacity-0',
       ]"
       color="secondary"
