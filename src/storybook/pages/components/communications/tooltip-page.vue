@@ -179,22 +179,6 @@ const onChange = ({
     </template>
   </StorybookPlayground>
   <StorybookCode name="Tooltip" :code />
-  <StorybookStory name="Plain">
-    <Tooltip open always-open>
-      <TooltipContent class="!relative"> Plain tooltip </TooltipContent>
-    </Tooltip>
-  </StorybookStory>
-  <StorybookStory name="Rich">
-    <Tooltip open always-open>
-      <TooltipContent variant="rich" class="!relative">
-        <template #subhead> Rich tooltip </template>
-        Supporting line text lorem ipsum dolor sit amet, consectetur
-        <template #actions>
-          <Button variant="text">Action</Button>
-        </template>
-      </TooltipContent>
-    </Tooltip>
-  </StorybookStory>
   <StorybookStory name="Plain placements">
     <Tooltip v-for="placement in plainPlacements" :key="placement">
       <TooltipTrigger>

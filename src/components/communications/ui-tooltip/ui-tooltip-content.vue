@@ -12,7 +12,7 @@ import {
   shift,
   useFloating,
 } from '@floating-ui/vue';
-import { computed } from 'vue';
+import { computed, Teleport, type TeleportProps } from 'vue';
 import { AnimatePresence, motion } from 'motion-v';
 import { materialDuration, materialEasing } from '@/config';
 
@@ -21,6 +21,9 @@ type Variants = VariantProps<typeof tooltipVariants>;
 export type TooltipContentProps = PropsPolymorphic & {
   variant?: Variants['variant'];
   placement?: Variants['placement'];
+  teleportTo?: TeleportProps['to'];
+  teleportDisabled?: TeleportProps['disabled'];
+  teleportDefer?: TeleportProps['defer'];
 };
 
 const {
@@ -90,42 +93,48 @@ const finalPlacement = computed<Variants['placement']>(() => {
 </script>
 
 <template>
-  <AnimatePresence mode="wait">
-    <component
-      :is="as"
-      ref="tooltip"
-      v-if="open"
-      :initial="{ opacity: 0, scale: 0 }"
-      :animate="{ opacity: 1, scale: 1 }"
-      :exit="{ opacity: 0, scale: 0 }"
-      :transition="{
-        duration: materialDuration.asMotion('medium-1'),
-        ease: materialEasing.standard,
-      }"
-      :id
-      role="tooltip"
-      :style="floatingStyles"
-      :class="tooltipVariants({ variant, placement: finalPlacement })"
-      v-bind="$attrs"
-      v-tw-merge
-    >
-      <p
-        v-if="variant === 'rich' && $slots.subhead"
-        :class="tooltipVariants.subhead()"
+  <Teleport
+    :to="teleportTo ?? 'body'"
+    :disabled="teleportDisabled"
+    :defer="teleportDefer"
+  >
+    <AnimatePresence mode="wait">
+      <component
+        :is="as"
+        ref="tooltip"
+        v-if="open"
+        :initial="{ opacity: 0, scale: 0 }"
+        :animate="{ opacity: 1, scale: 1 }"
+        :exit="{ opacity: 0, scale: 0 }"
+        :transition="{
+          duration: materialDuration.asMotion('medium-1'),
+          ease: materialEasing.standard,
+        }"
+        :id
+        role="tooltip"
+        :style="floatingStyles"
+        :class="tooltipVariants({ variant, placement: finalPlacement })"
+        v-bind="$attrs"
         v-tw-merge
       >
-        <slot name="subhead" />
-      </p>
-      <p :class="tooltipVariants.text({ variant })" v-tw-merge>
-        <slot />
-      </p>
-      <p
-        v-if="variant === 'rich' && $slots.actions"
-        :class="tooltipVariants.actions()"
-        v-tw-merge
-      >
-        <slot name="actions" />
-      </p>
-    </component>
-  </AnimatePresence>
+        <p
+          v-if="variant === 'rich' && $slots.subhead"
+          :class="tooltipVariants.subhead()"
+          v-tw-merge
+        >
+          <slot name="subhead" />
+        </p>
+        <p :class="tooltipVariants.text({ variant })" v-tw-merge>
+          <slot />
+        </p>
+        <p
+          v-if="variant === 'rich' && $slots.actions"
+          :class="tooltipVariants.actions()"
+          v-tw-merge
+        >
+          <slot name="actions" />
+        </p>
+      </component>
+    </AnimatePresence>
+  </Teleport>
 </template>

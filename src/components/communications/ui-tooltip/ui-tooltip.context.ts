@@ -17,7 +17,6 @@ import {
 } from 'vue';
 
 export type TooltipStateOptions = {
-  alwaysOpen?: boolean;
   trigger?: 'both' | 'focus' | 'hover';
   hideDelay?: number;
   showDelay?: number;
@@ -35,7 +34,6 @@ const tooltipStateKey = Symbol() as InjectionKey<TooltipState>;
 export function provideTooltipState(
   open: TooltipState['open'],
   {
-    alwaysOpen = false,
     hideDelay = materialDuration['long-2'],
     showDelay = materialDuration['short-2'],
     trigger: triggerType = 'both',
@@ -48,7 +46,7 @@ export function provideTooltipState(
   const ignoreShow = ref(false);
 
   const hide = useDebounceFn(() => {
-    if (ignoreHide.value || alwaysOpen) return;
+    if (ignoreHide.value) return;
     open.value = false;
   }, hideDelay);
 
@@ -68,7 +66,7 @@ export function provideTooltipState(
   }, 100);
 
   useEventListener('keydown', (e) => {
-    if (e.key !== 'Escape' || alwaysOpen) return;
+    if (e.key !== 'Escape') return;
     closeOnEscape();
   });
 
