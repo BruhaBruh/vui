@@ -54,7 +54,11 @@ useRipple(elementRef);
           duration: materialDuration.asMotion('medium-1'),
           ease: materialEasing.standard,
         }"
-        :class="[buttonVariants.icon(), variant === 'text' && 'mr-2xs']"
+        :class="[
+          buttonVariants.icon(),
+          'button--left-icon',
+          variant === 'text' && 'mr-2xs',
+        ]"
         v-tw-merge
       >
         <slot name="left" />
@@ -82,7 +86,11 @@ useRipple(elementRef);
           duration: materialDuration.asMotion('medium-1'),
           ease: materialEasing.standard,
         }"
-        :class="[buttonVariants.icon(), variant === 'text' && 'ml-2xs']"
+        :class="[
+          buttonVariants.icon(),
+          'button--right-icon',
+          variant === 'text' && 'ml-2xs',
+        ]"
         v-tw-merge
       >
         <slot name="right" />

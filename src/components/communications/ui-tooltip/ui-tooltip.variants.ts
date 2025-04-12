@@ -5,25 +5,13 @@ const variants = cva(
   {
     variants: {
       placement: {
-        'top-left': [
-          'origin-bottom-right',
-          '-translate-x-[calc(100%+var(--spacing-2xs))]',
-        ],
+        'top-left': ['origin-bottom-right'],
         top: ['origin-bottom'],
-        'top-right': [
-          'origin-bottom-left',
-          'translate-x-[calc(100%+var(--spacing-2xs))]',
-        ],
+        'top-right': ['origin-bottom-left'],
         right: ['origin-left'],
-        'bottom-right': [
-          'origin-top-left',
-          'translate-x-[calc(100%+var(--spacing-2xs))]',
-        ],
+        'bottom-right': ['origin-top-left'],
         bottom: ['origin-top'],
-        'bottom-left': [
-          'origin-top-right',
-          '-translate-x-[calc(100%+var(--spacing-2xs))]',
-        ],
+        'bottom-left': ['origin-top-right'],
         left: ['origin-right'],
       },
       variant: {

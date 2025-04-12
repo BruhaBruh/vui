@@ -34,13 +34,13 @@ export function useInteractions(
     return elementRef.value;
   });
 
-  const inFocus = useFocus(elementRef);
-  const inFocusWithin = useFocusWithin(elementRef);
-  const inFocusVisible = useFocus(elementRef, {
+  const { focused: inFocus } = useFocus(elementRef);
+  const { focused: inFocusWithin } = useFocusWithin(elementRef);
+  const { focused: inFocusVisible } = useFocus(elementRef, {
     focusVisible: true,
   });
   const isHovered = useElementHover(elementRef);
-  const isPressed = useMousePressed({
+  const { pressed: isPressed } = useMousePressed({
     target: elementRef,
   });
   const isDisabledMutation = ref(false);
@@ -67,25 +67,21 @@ export function useInteractions(
     },
   );
 
-  watchEffect(() => {
+  const setData = (name: string, value: boolean, isEnabled: boolean) => {
     if (!element.value) return;
-    if (focus) {
-      element.value.dataset.inFocus = `${inFocus.focused.value}`;
+    if (value && isEnabled) {
+      element.value.setAttribute(`data-${name}`, `${value}`);
+    } else {
+      element.value.removeAttribute(`data-${name}`);
     }
-    if (focusWithin) {
-      element.value.dataset.inFocusWithin = `${inFocusWithin.focused.value}`;
-    }
-    if (focusVisible) {
-      element.value.dataset.inFocusVisible = `${inFocusVisible.focused.value}`;
-    }
-    if (hover) {
-      element.value.dataset.isHovered = `${isHovered.value}`;
-    }
-    if (press) {
-      element.value.dataset.isPressed = `${isPressed.pressed.value}`;
-    }
-    if (disabled) {
-      element.value.dataset.isDisabled = `${isDisabled.value}`;
-    }
+  };
+
+  watchEffect(() => {
+    setData('in-focus', inFocus.value, focus);
+    setData('in-focus-within', inFocusWithin.value, focusWithin);
+    setData('in-focus-visible', inFocusVisible.value, focusVisible);
+    setData('is-hovered', isHovered.value, hover);
+    setData('is-pressed', isPressed.value, press);
+    setData('is-disabled', isDisabled.value, disabled);
   });
 }

@@ -52,7 +52,25 @@ const { floatingStyles, placement: floatingPlacement } = useFloating(
   tooltip,
   {
     placement: placementForFloating,
-    middleware: [offset(4), flip(), hide(), shift()],
+    middleware: [
+      offset(({ rects }) => {
+        const padding = 4;
+        if (placement === 'top-left' || placement === 'bottom-left')
+          return {
+            mainAxis: padding,
+            crossAxis: -rects.floating.width - padding,
+          };
+        if (placement === 'top-right' || placement === 'bottom-right')
+          return {
+            mainAxis: padding,
+            crossAxis: rects.floating.width + padding,
+          };
+        return padding;
+      }),
+      flip(),
+      hide(),
+      shift(),
+    ],
     whileElementsMounted: autoUpdate,
     transform: false,
   },

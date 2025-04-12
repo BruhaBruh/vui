@@ -7,7 +7,6 @@ import type {
 } from './ui-segmented-button.context';
 import { type VariantProps } from 'class-variance-authority';
 import { segmentedButtonVariants } from './ui-segmented-button.variants';
-import { computed } from 'vue';
 
 type Variants = VariantProps<typeof segmentedButtonVariants.group>;
 
@@ -21,7 +20,7 @@ const {
   density,
   selectionMode = 'single',
   disabled = false,
-  as = 'section',
+  as = 'div',
 } = defineProps<SegmentedButtonGroupProps>();
 
 const selected = defineModel<SegmentedButtonSelectedValue[]>('selected', {

@@ -1,11 +1,11 @@
 import {
-  type InjectionKey,
-  type MaybeRefOrGetter,
-  type Ref,
-  inject,
-  provide,
-  ref,
-  toRef,
+    type InjectionKey,
+    type MaybeRefOrGetter,
+    type Ref,
+    inject,
+    provide,
+    ref,
+    toRef,
 } from 'vue';
 
 export type SegmentedButtonSelectedValue = string | number;
@@ -29,6 +29,10 @@ export function provideSegmentedButtonState(
 ) {
   const modeRef = toRef(mode);
   const disabledRef = toRef(disabled);
+  if (mode === 'single') {
+    selected.value = selected.value.slice(0, 1);
+  }
+
   function select(value: SegmentedButtonSelectedValue) {
     if (selected.value.includes(value)) {
       selected.value = selected.value.filter((v) => v !== value);

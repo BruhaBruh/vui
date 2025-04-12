@@ -41,7 +41,8 @@ export function useToggleButton(
       element.value.removeAttribute('aria-pressed');
       return;
     }
-    element.value.setAttribute('aria-pressed', `${isSelected.value}`);
+    if (!element.value.hasAttribute('aria-checked'))
+      element.value.setAttribute('aria-pressed', `${isSelected.value}`);
   });
 
   useEventListener(elementRef, 'click', () => {

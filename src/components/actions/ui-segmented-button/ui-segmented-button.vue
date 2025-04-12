@@ -26,19 +26,24 @@ const {
 
 const element = useTemplateRef<HTMLElement>('segmented-button');
 
-const state = useSegmentedButtonState();
+const { mode, selected, select, disabled } = useSegmentedButtonState();
 
-const isSelected = computed(() => state.selected.value.includes(value));
+const isSelected = computed(() => selected.value.includes(value));
 
 useToggleButton(element, {
   isToggleable: true,
   isSelected,
   onClick: () => {
-    state.select(value);
+    select(value);
   },
   elementType: as === 'button' ? 'button' : '',
 });
 useRipple(element);
+
+const checked = computed(() => {
+  if (mode.value !== 'single') return undefined;
+  return isSelected.value;
+});
 </script>
 
 <template>
@@ -46,8 +51,9 @@ useRipple(element);
     :is="as"
     ref="segmented-button"
     tabindex="0"
-    :role="state.mode.value === 'single' ? 'radio' : undefined"
-    :disabled="state.disabled.value ? true : undefined"
+    :role="mode === 'single' ? 'radio' : undefined"
+    :aria-checked="checked"
+    :disabled="disabled ? true : undefined"
     :class="
       segmentedButtonVariants({
         color,

@@ -181,7 +181,7 @@ const onChange = ({
   <StorybookCode name="Tooltip" :code />
   <StorybookStory name="Plain">
     <Tooltip open always-open>
-      <TooltipContent class="!relative">Plain tooltip</TooltipContent>
+      <TooltipContent class="!relative"> Plain tooltip </TooltipContent>
     </Tooltip>
   </StorybookStory>
   <StorybookStory name="Rich">

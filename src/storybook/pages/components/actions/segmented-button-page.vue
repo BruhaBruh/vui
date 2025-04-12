@@ -26,13 +26,22 @@ const colors = [
   'caution',
   'critical',
 ] satisfies SegmentedButtonProps['color'][];
+const densities = [
+  0, -1, -2, -3,
+] satisfies SegmentedButtonGroupProps['density'][];
 
 const code = ref('');
 
-const onChange = ({ color, selectionMode, disabled }: UnknownRecord) => {
+const onChange = ({
+  density,
+  color,
+  selectionMode,
+  disabled,
+}: UnknownRecord) => {
   code.value = `
 <SegmentedButtonGroup
   selection-mode="${selectionMode}"
+  density="${density}"
   :disabled="${disabled}"
   v-model:selected="selected"
 >
@@ -55,6 +64,13 @@ const onChange = ({ color, selectionMode, disabled }: UnknownRecord) => {
         defaultValue: 'primary',
         options: colors,
       },
+      density: {
+        type: 'select',
+        label: 'Density',
+        description: 'Density of SegmentedButton',
+        defaultValue: '0',
+        options: densities.map((v) => v.toString()),
+      },
       selectionMode: {
         type: 'select',
         label: 'Selection Mode',
@@ -70,8 +86,16 @@ const onChange = ({ color, selectionMode, disabled }: UnknownRecord) => {
       },
     }"
   >
-    <template #default="{ values: { selectionMode, disabled, ...values } }">
+    <template
+      #default="{ values: { density, selectionMode, disabled, ...values } }"
+    >
       <SegmentedButtonGroup
+        :density="
+          Number.parseInt(
+            density as string,
+            10,
+          ) as SegmentedButtonGroupProps['density']
+        "
         :selectionMode="
           selectionMode as SegmentedButtonGroupProps['selectionMode']
         "
