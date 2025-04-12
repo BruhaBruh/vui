@@ -2,33 +2,33 @@
 }
 
 @property --ui-scrollbar-width {
-  syntax: '<length-percentage>';
+  syntax: '<length>';
   inherits: false;
-  initial-value: initial;
+  initial-value: 8px;
 }
 
 @property --ui-scrollbar-thumb-color {
   syntax: '<color>';
   inherits: false;
-  initial-value: initial;
+  initial-value: rgba(0, 0, 0, 0.38);
 }
 
 @property --ui-scrollbar-track-color {
   syntax: '<color>';
   inherits: false;
-  initial-value: initial;
+  initial-value: transparent;
 }
 
 @property --ui-scrollbar-thumb-radius {
-  syntax: '<length-percentage>';
+  syntax: '<length>';
   inherits: false;
-  initial-value: initial;
+  initial-value: 9999px;
 }
 
 @property --ui-scrollbar-track-radius {
-  syntax: '<length-percentage>';
+  syntax: '<length>';
   inherits: false;
-  initial-value: initial;
+  initial-value: 0px;
 }
 
 @layer base {
