@@ -12,7 +12,8 @@ import {
   shift,
   useFloating,
 } from '@floating-ui/vue';
-import { computed, Teleport, type TeleportProps } from 'vue';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Teleport, type TeleportProps, computed } from 'vue';
 import { AnimatePresence, motion } from 'motion-v';
 import { materialDuration, materialEasing } from '@/config';
 
@@ -30,6 +31,9 @@ const {
   variant,
   placement,
   as = motion.section,
+  teleportTo,
+  teleportDisabled,
+  teleportDefer,
 } = defineProps<TooltipContentProps>();
 
 defineOptions({

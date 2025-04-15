@@ -1,47 +1,55 @@
-import { materialDuration } from '@/config';
+import type { Context } from '@/types';
 import {
-  useDebounceFn,
-  useElementHover,
-  useEventListener,
-  useFocus,
-  useThrottleFn,
+    toRef,
+    useDebounceFn,
+    useElementHover,
+    useEventListener,
+    useFocus,
+    useThrottleFn,
 } from '@vueuse/core';
 import {
-  type InjectionKey,
-  type Ref,
-  inject,
-  provide,
-  ref,
-  useId,
-  watchEffect,
+    type InjectionKey,
+    type Ref,
+    inject,
+    provide,
+    ref,
+    useId,
+    watchEffect,
 } from 'vue';
 
-export type TooltipStateOptions = {
-  trigger?: 'both' | 'focus' | 'hover';
-  hideDelay?: number;
-  showDelay?: number;
-};
+type TooltipContext = Context<
+  {
+    id: string;
+    open: Ref<boolean>;
+    trigger: Ref<HTMLElement | null>;
+    tooltip: Ref<HTMLElement | null>;
+  },
+  {
+    open: boolean;
+    trigger: 'both' | 'focus' | 'hover';
+    hideDelay: number;
+    showDelay: number;
+  }
+>;
 
-export type TooltipState = {
-  open: Ref<boolean>;
-  id: string;
-  trigger: Ref<HTMLElement | null>;
-  tooltip: Ref<HTMLElement | null>;
-};
+export type TooltipState = TooltipContext['state'];
+
+export type TooltipStateOptions = TooltipContext['options'];
 
 const tooltipStateKey = Symbol() as InjectionKey<TooltipState>;
 
-export function provideTooltipState(
-  open: TooltipState['open'],
-  {
-    hideDelay = materialDuration['long-2'],
-    showDelay = materialDuration['short-2'],
-    trigger: triggerType = 'both',
-  }: TooltipStateOptions = {},
-) {
+export function provideTooltipState({
+  hideDelay,
+  showDelay,
+  ...options
+}: TooltipContext['provideOptions']) {
+  const id = useId();
+  const open = toRef(options.open);
   const trigger = ref<HTMLElement | null>(null);
   const tooltip = ref<HTMLElement | null>(null);
-  const id = useId();
+
+  const triggerType = toRef(options.trigger);
+
   const ignoreHide = ref(false);
   const ignoreShow = ref(false);
 
@@ -70,15 +78,18 @@ export function provideTooltipState(
     closeOnEscape();
   });
 
-  // eslint-disable-next-line consistent-return
   watchEffect(() => {
-    const isHovered = triggerType !== 'focus' && isTriggerHovered.value;
-    const isFocused = triggerType !== 'hover' && isTriggerFocused.value;
+    const isHovered = triggerType.value !== 'focus' && isTriggerHovered.value;
+    const isFocused = triggerType.value !== 'hover' && isTriggerFocused.value;
     if (isHovered || isFocused) {
       ignoreShow.value = false;
-      return show();
+      show();
+      return;
     }
-    if (open.value) return hide();
+    if (open.value) {
+      hide();
+      return;
+    }
     ignoreShow.value = true;
   });
 
@@ -93,8 +104,8 @@ export function provideTooltipState(
   });
 
   const state: TooltipState = {
-    open,
     id,
+    open,
     trigger,
     tooltip,
   };

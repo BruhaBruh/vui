@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { type VariantProps, cva } from 'class-variance-authority';
 
 const variants = cva(['breadcrumbs group/breadcrumbs', 'flex items-baseline'], {
   variants: {
@@ -56,3 +56,5 @@ export const breadcrumbsVariants = Object.assign(variants, {
   item: itemVariants,
   icon: iconVariants,
 });
+
+export type BreadcrumbsVariants = VariantProps<typeof breadcrumbsVariants>;

@@ -1,22 +1,29 @@
 <script setup lang="ts">
 import type { PropsPolymorphic } from '@/types';
 import { breadcrumbsVariants } from './ui-breadcrumbs.variants';
-import type { VariantProps } from 'class-variance-authority';
-import { provideBreadcrumbsState } from './ui-breadcrumbs.context';
-
-type Variants = VariantProps<typeof breadcrumbsVariants>;
+import {
+  type BreadcrumbsStateOptions,
+  provideBreadcrumbsState,
+} from './ui-breadcrumbs.context';
 
 export type BreadcrumbsProps = PropsPolymorphic & {
-  size?: Variants['size'];
-  active?: string;
+  size?: BreadcrumbsStateOptions['size'];
+  active?: BreadcrumbsStateOptions['active'];
+  currentVariant?: BreadcrumbsStateOptions['currentVariant'];
 };
 
-const { size, active, as = 'ul' } = defineProps<BreadcrumbsProps>();
+const {
+  size,
+  active,
+  currentVariant = 'page',
+  as = 'ul',
+} = defineProps<BreadcrumbsProps>();
 
-provideBreadcrumbsState(
-  () => size,
-  () => active,
-);
+provideBreadcrumbsState({
+  size: () => size,
+  active: () => active,
+  currentVariant: () => currentVariant,
+});
 </script>
 
 <template>

@@ -1,35 +1,43 @@
-import {
-    type InjectionKey,
-    type MaybeRefOrGetter,
-    type Ref,
-    inject,
-    provide,
-    ref,
-    toRef,
-} from 'vue';
+import type { Context } from '@/types';
+import { toRef } from '@vueuse/core';
+import { type InjectionKey, type Ref, inject, provide } from 'vue';
+import type { SegmentedButtonVariants } from './ui-segmented-button.variants';
+
+type SegmentedButtonContext = Context<
+  {
+    mode: Readonly<Ref<'single' | 'multiple'>>;
+    selected: Ref<SegmentedButtonSelectedValue[]>;
+    disabled: Readonly<Ref<boolean>>;
+    color: Ref<SegmentedButtonVariants['color']>;
+    select: (value: SegmentedButtonSelectedValue) => void;
+  },
+  {
+    mode: 'single' | 'multiple';
+    selected: SegmentedButtonSelectedValue[];
+    disabled: boolean;
+    color: SegmentedButtonVariants['color'];
+  }
+>;
 
 export type SegmentedButtonSelectedValue = string | number;
 
-export type SegmentedButtonGroupMode = 'single' | 'multiple';
+export type SegmentedButtonGroupState = SegmentedButtonContext['state'];
 
-export type SegmentedButtonGroupState = {
-  mode: Readonly<Ref<SegmentedButtonGroupMode>>;
-  disabled: Readonly<Ref<boolean>>;
-  selected: Ref<SegmentedButtonSelectedValue[]>;
-  select: (value: SegmentedButtonSelectedValue) => void;
-};
+export type SegmentedButtonGroupStateOptions =
+  SegmentedButtonContext['options'];
 
 const segmentedButtonStateKey =
   Symbol() as InjectionKey<SegmentedButtonGroupState>;
 
 export function provideSegmentedButtonState(
-  selected: SegmentedButtonGroupState['selected'],
-  mode: MaybeRefOrGetter<SegmentedButtonGroupMode>,
-  disabled: MaybeRefOrGetter<boolean> = ref(false),
+  options: SegmentedButtonContext['provideOptions'],
 ) {
-  const modeRef = toRef(mode);
-  const disabledRef = toRef(disabled);
-  if (mode === 'single') {
+  const mode = toRef(options.mode);
+  const selected = toRef(options.selected);
+  const disabled = toRef(options.disabled);
+  const color = toRef(options.color);
+
+  if (mode.value === 'single') {
     selected.value = selected.value.slice(0, 1);
   }
 
@@ -38,7 +46,7 @@ export function provideSegmentedButtonState(
       selected.value = selected.value.filter((v) => v !== value);
       return;
     }
-    if (modeRef.value === 'single') {
+    if (mode.value === 'single') {
       selected.value = [value];
     } else {
       selected.value = [...selected.value, value];
@@ -46,10 +54,11 @@ export function provideSegmentedButtonState(
   }
 
   const state: SegmentedButtonGroupState = {
-    mode: modeRef,
+    mode,
     selected,
+    disabled,
+    color,
     select,
-    disabled: disabledRef,
   };
 
   provide(segmentedButtonStateKey, state);

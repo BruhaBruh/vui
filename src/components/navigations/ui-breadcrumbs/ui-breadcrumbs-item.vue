@@ -7,20 +7,15 @@ import { computed } from 'vue';
 
 export type BreadcrumbsItemProps = PropsPolymorphic & {
   value: string;
-  currentVariant?: 'page' | 'step' | 'location' | 'date' | 'time' | boolean;
 };
 
-const {
-  value,
-  currentVariant = 'page',
-  as = 'span',
-} = defineProps<BreadcrumbsItemProps>();
+const { value, as = 'span' } = defineProps<BreadcrumbsItemProps>();
 
 defineOptions({
   inheritAttrs: false,
 });
 
-const { active, size } = useBreadcrumbsState();
+const { active, size, currentVariant } = useBreadcrumbsState();
 
 const isActive = computed(() => active.value === value);
 </script>

@@ -3,7 +3,6 @@ import {
   SegmentedButton,
   SegmentedButtonGroup,
   type SegmentedButtonGroupProps,
-  type SegmentedButtonProps,
 } from '@/components';
 import {
   StorybookCode,
@@ -25,7 +24,7 @@ const colors = [
   'success',
   'caution',
   'critical',
-] satisfies SegmentedButtonProps['color'][];
+] satisfies SegmentedButtonGroupProps['color'][];
 const densities = [
   0, -1, -2, -3,
 ] satisfies SegmentedButtonGroupProps['density'][];
@@ -42,12 +41,13 @@ const onChange = ({
 <SegmentedButtonGroup
   selection-mode="${selectionMode}"
   density="${density}"
+  color="${color}"
   :disabled="${disabled}"
   v-model:selected="selected"
 >
-  <SegmentedButton color="${color}" value="a">A</SegmentedButton>
-  <SegmentedButton color="${color}" value="b">B</SegmentedButton>
-  <SegmentedButton color="${color}" value="c" disabled>C</SegmentedButton>
+  <SegmentedButton value="a">A</SegmentedButton>
+  <SegmentedButton value="b">B</SegmentedButton>
+  <SegmentedButton value="c" disabled>C</SegmentedButton>
 </SegmentedButtonGroup>
 `;
 };
@@ -86,9 +86,7 @@ const onChange = ({
       },
     }"
   >
-    <template
-      #default="{ values: { density, selectionMode, disabled, ...values } }"
-    >
+    <template #default="{ values: { density, ...values } }">
       <SegmentedButtonGroup
         :density="
           Number.parseInt(
@@ -96,14 +94,11 @@ const onChange = ({
             10,
           ) as SegmentedButtonGroupProps['density']
         "
-        :selectionMode="
-          selectionMode as SegmentedButtonGroupProps['selectionMode']
-        "
-        :disabled="disabled as boolean"
+        v-bind="values"
       >
-        <SegmentedButton v-bind="values" value="a">A</SegmentedButton>
-        <SegmentedButton v-bind="values" value="b">B</SegmentedButton>
-        <SegmentedButton v-bind="values" value="c" disabled>C</SegmentedButton>
+        <SegmentedButton value="a">A</SegmentedButton>
+        <SegmentedButton value="b">B</SegmentedButton>
+        <SegmentedButton value="c" disabled>C</SegmentedButton>
       </SegmentedButtonGroup>
     </template>
   </StorybookPlayground>

@@ -158,7 +158,6 @@ const onChange = ({
       }"
     >
       <Tooltip
-        :key="`${showDelay}-${hideDelay}-${trigger}`"
         :trigger="trigger as TooltipProps['trigger']"
         :showDelay="showDelay as number"
         :hideDelay="hideDelay as number"

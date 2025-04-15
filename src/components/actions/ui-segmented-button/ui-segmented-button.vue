@@ -3,32 +3,39 @@ import { useRipple, useToggleButton } from '@/composables';
 import type { PropsPolymorphic } from '@/types';
 import { computed, useTemplateRef } from 'vue';
 import { useSegmentedButtonState } from './ui-segmented-button.context';
-import type { VariantProps } from 'class-variance-authority';
-import { segmentedButtonVariants } from './ui-segmented-button.variants';
+import {
+  type SegmentedButtonVariants,
+  segmentedButtonVariants,
+} from './ui-segmented-button.variants';
 import { AnimatePresence, motion } from 'motion-v';
 import { materialDuration, materialEasing } from '@/config';
 import { IconCheck } from '@tabler/icons-vue';
 
-type Variants = VariantProps<typeof segmentedButtonVariants>;
-
 export type SegmentedButtonProps = PropsPolymorphic & {
   value: string | number;
-  color?: Variants['color'];
+  color?: SegmentedButtonVariants['color'];
   iconKey?: string;
 };
 
 const {
   value,
-  color,
+  color: buttonColor,
   iconKey,
   as = 'button',
 } = defineProps<SegmentedButtonProps>();
 
 const element = useTemplateRef<HTMLElement>('segmented-button');
 
-const { mode, selected, select, disabled } = useSegmentedButtonState();
+const {
+  mode,
+  selected,
+  disabled,
+  color: groupColor,
+  select,
+} = useSegmentedButtonState();
 
 const isSelected = computed(() => selected.value.includes(value));
+const color = computed(() => buttonColor ?? groupColor.value);
 
 useToggleButton(element, {
   isToggleable: true,

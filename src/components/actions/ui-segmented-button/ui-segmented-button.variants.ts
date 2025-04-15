@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { type VariantProps, cva } from 'class-variance-authority';
 
 const groupVariants = cva(
   [
@@ -148,3 +148,11 @@ export const segmentedButtonVariants = Object.assign(variants, {
   label: labelVariants,
   icon: iconVariants,
 });
+
+export type SegmentedButtonVariants = VariantProps<
+  typeof segmentedButtonVariants
+>;
+
+export type SegmentedButtonGroupVariants = VariantProps<
+  typeof segmentedButtonVariants.group
+>;

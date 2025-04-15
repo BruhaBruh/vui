@@ -2,22 +2,24 @@
 import type { PropsPolymorphic } from '@/types';
 import { provideSegmentedButtonState } from './ui-segmented-button.context';
 import type {
-  SegmentedButtonGroupMode,
+  SegmentedButtonGroupStateOptions,
   SegmentedButtonSelectedValue,
 } from './ui-segmented-button.context';
-import { type VariantProps } from 'class-variance-authority';
-import { segmentedButtonVariants } from './ui-segmented-button.variants';
-
-type Variants = VariantProps<typeof segmentedButtonVariants.group>;
+import {
+  type SegmentedButtonGroupVariants,
+  segmentedButtonVariants,
+} from './ui-segmented-button.variants';
 
 export type SegmentedButtonGroupProps = PropsPolymorphic & {
-  density?: Variants['density'];
-  selectionMode?: SegmentedButtonGroupMode;
-  disabled?: boolean;
+  density?: SegmentedButtonGroupVariants['density'];
+  color?: SegmentedButtonGroupStateOptions['color'];
+  selectionMode?: SegmentedButtonGroupStateOptions['mode'];
+  disabled?: SegmentedButtonGroupStateOptions['disabled'];
 };
 
 const {
   density,
+  color,
   selectionMode = 'single',
   disabled = false,
   as = 'div',
@@ -27,11 +29,12 @@ const selected = defineModel<SegmentedButtonSelectedValue[]>('selected', {
   default: [],
 });
 
-const state = provideSegmentedButtonState(
+const state = provideSegmentedButtonState({
+  mode: () => selectionMode,
   selected,
-  () => selectionMode,
-  () => disabled,
-);
+  disabled: () => disabled,
+  color: () => color,
+});
 </script>
 
 <template>
