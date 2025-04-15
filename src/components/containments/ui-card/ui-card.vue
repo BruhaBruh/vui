@@ -16,7 +16,7 @@ const {
   variant,
   interactable,
   disabled,
-  as = 'section',
+  as = 'div',
 } = defineProps<CardProps>();
 
 const elementRef = useTemplateRef<HTMLElement>('card');

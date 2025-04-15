@@ -27,7 +27,7 @@ export type TooltipContentProps = PropsPolymorphic & {
 const {
   variant,
   placement,
-  as = motion.section,
+  as = motion.div,
   teleportTo,
   teleportDisabled,
   teleportDefer,

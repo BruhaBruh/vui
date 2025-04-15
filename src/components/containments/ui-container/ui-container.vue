@@ -9,7 +9,7 @@ export type ContainerProps = PropsPolymorphic & {
   color?: ContainerVariants['color'];
 };
 
-const { color, as = 'section' } = defineProps<ContainerProps>();
+const { color, as = 'div' } = defineProps<ContainerProps>();
 </script>
 
 <template>
