@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import type { PropsPolymorphic } from '@/types';
-import type { VariantProps } from 'class-variance-authority';
-import { cardVariants } from './ui-card.variants';
+import { type CardVariants, cardVariants } from './ui-card.variants';
 import { useButton, useRipple } from '@/composables';
 import { computed, useTemplateRef } from 'vue';
 
-type Variants = VariantProps<typeof cardVariants>;
-
 export type CardProps = PropsPolymorphic & {
-  color?: Variants['color'];
-  variant?: Variants['variant'];
+  color?: CardVariants['color'];
+  variant?: CardVariants['variant'];
   interactable?: boolean;
   disabled?: boolean;
 };

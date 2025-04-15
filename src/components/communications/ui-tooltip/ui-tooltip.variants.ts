@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { type VariantProps, cva } from 'class-variance-authority';
 
 const variants = cva(
   ['tooltip group/tooltip', 'overflow-hidden', 'relative', 'z-20'],
@@ -69,3 +69,11 @@ export const tooltipVariants = Object.assign(variants, {
   subhead: subheadVariants,
   actions: actionsVariants,
 });
+
+export type TooltipVariants = VariantProps<typeof tooltipVariants>;
+
+export type TooltipTextVariants = VariantProps<typeof textVariants>;
+
+export type TooltipSubheadVariants = VariantProps<typeof subheadVariants>;
+
+export type TooltipActionsVariants = VariantProps<typeof actionsVariants>;

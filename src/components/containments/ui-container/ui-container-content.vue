@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { PropsPolymorphic } from '@/types';
-import type { VariantProps } from 'class-variance-authority';
-import { containerVariants } from './ui-container.variants';
-
-type Variants = VariantProps<typeof containerVariants.content>;
+import {
+  type ContainerContentVariants,
+  containerVariants,
+} from './ui-container.variants';
 
 export type ContainerContentProps = PropsPolymorphic & {
-  variant?: Variants['variant'];
-  padding?: Variants['padding'];
-  fluid?: Variants['fluid'];
+  variant?: ContainerContentVariants['variant'];
+  padding?: ContainerContentVariants['padding'];
+  fluid?: ContainerContentVariants['fluid'];
 };
 
 const {

@@ -4,14 +4,11 @@ import { materialDuration, materialEasing } from '@/config';
 import type { PropsPolymorphic } from '@/types';
 import { AnimatePresence, motion } from 'motion-v';
 import { useTemplateRef } from 'vue';
-import { type VariantProps } from 'class-variance-authority';
-import { buttonVariants } from './ui-button.variants';
-
-type Variants = VariantProps<typeof buttonVariants>;
+import { type ButtonVariants, buttonVariants } from './ui-button.variants';
 
 export type ButtonProps = PropsPolymorphic & {
-  variant?: Variants['variant'];
-  color?: Variants['color'];
+  variant?: ButtonVariants['variant'];
+  color?: ButtonVariants['color'];
   leftKey?: string;
   rightKey?: string;
 };

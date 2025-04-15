@@ -4,15 +4,12 @@ import { materialDuration, materialEasing } from '@/config';
 import type { PropsPolymorphic } from '@/types';
 import { AnimatePresence, motion } from 'motion-v';
 import { useTemplateRef } from 'vue';
-import { type VariantProps } from 'class-variance-authority';
-import { fabVariants } from './ui-fab.variants';
-
-type Variants = VariantProps<typeof fabVariants>;
+import { type FabVariants, fabVariants } from './ui-fab.variants';
 
 export type FabProps = PropsPolymorphic & {
-  color?: Variants['color'];
-  size?: Variants['size'];
-  lowered?: Variants['lowered'];
+  color?: FabVariants['color'];
+  size?: FabVariants['size'];
+  lowered?: FabVariants['lowered'];
   iconKey?: string;
 };
 

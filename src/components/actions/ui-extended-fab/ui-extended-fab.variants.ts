@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { type VariantProps, cva } from 'class-variance-authority';
 
 const variants = cva(
   [
@@ -119,3 +119,13 @@ export const extendedFabVariants = Object.assign(variants, {
   icon: iconVariants,
   label: labelVariants,
 });
+
+export type ExtendedFabVariants = VariantProps<typeof extendedFabVariants>;
+
+export type ExtendedFabIconVariants = VariantProps<
+  typeof extendedFabVariants.icon
+>;
+
+export type ExtendedFabLabelVariants = VariantProps<
+  typeof extendedFabVariants.label
+>;

@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { type VariantProps, cva } from 'class-variance-authority';
 
 const variants = cva(['group/container', 'flex items-stretch justify-center'], {
   variants: {
@@ -69,3 +69,9 @@ const contentVariants = cva(['container--content', 'flex-1', 'px-md'], {
 export const containerVariants = Object.assign(variants, {
   content: contentVariants,
 });
+
+export type ContainerVariants = VariantProps<typeof containerVariants>;
+
+export type ContainerContentVariants = VariantProps<
+  typeof containerVariants.content
+>

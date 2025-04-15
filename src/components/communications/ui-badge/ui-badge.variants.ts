@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { type VariantProps, cva } from 'class-variance-authority';
 
 const variants = cva(
   [
@@ -52,3 +52,5 @@ const variants = cva(
 );
 
 export const badgeVariants = Object.assign(variants, {});
+
+export type BadgeVariants = VariantProps<typeof variants>;

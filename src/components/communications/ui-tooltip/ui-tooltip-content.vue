@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { useTooltipState } from './ui-tooltip.context';
 import type { PropsPolymorphic } from '@/types';
-import { tooltipVariants } from './ui-tooltip.variants';
-import type { VariantProps } from 'class-variance-authority';
+import { type TooltipVariants, tooltipVariants } from './ui-tooltip.variants';
 import {
   type Placement,
   autoUpdate,
@@ -17,11 +16,9 @@ import { Teleport, type TeleportProps, computed } from 'vue';
 import { AnimatePresence, motion } from 'motion-v';
 import { materialDuration, materialEasing } from '@/config';
 
-type Variants = VariantProps<typeof tooltipVariants>;
-
 export type TooltipContentProps = PropsPolymorphic & {
-  variant?: Variants['variant'];
-  placement?: Variants['placement'];
+  variant?: TooltipVariants['variant'];
+  placement?: TooltipVariants['placement'];
   teleportTo?: TeleportProps['to'];
   teleportDisabled?: TeleportProps['disabled'];
   teleportDefer?: TeleportProps['defer'];
@@ -83,7 +80,7 @@ const { floatingStyles, placement: floatingPlacement } = useFloating(
   },
 );
 
-const finalPlacement = computed<Variants['placement']>(() => {
+const finalPlacement = computed<TooltipVariants['placement']>(() => {
   if (floatingPlacement.value === 'top') return floatingPlacement.value;
   if (floatingPlacement.value === 'left') return floatingPlacement.value;
   if (floatingPlacement.value === 'right') return floatingPlacement.value;

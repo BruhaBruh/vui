@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { type VariantProps, cva } from 'class-variance-authority';
 
 const variants = cva(
   [
@@ -344,3 +344,7 @@ const iconVariants = cva([
 export const iconButtonVariants = Object.assign(variants, {
   icon: iconVariants,
 });
+
+export type IconButtonVariants = VariantProps<typeof iconButtonVariants>
+
+export type IconButtonIconVariants = VariantProps<typeof iconButtonVariants.icon>

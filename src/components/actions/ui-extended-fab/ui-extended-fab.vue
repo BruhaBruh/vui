@@ -4,14 +4,14 @@ import { materialDuration, materialEasing } from '@/config';
 import type { PropsPolymorphic } from '@/types';
 import { AnimatePresence, motion } from 'motion-v';
 import { useTemplateRef } from 'vue';
-import { type VariantProps } from 'class-variance-authority';
-import { extendedFabVariants } from './ui-extended-fab.variants';
-
-type Variants = VariantProps<typeof extendedFabVariants>;
+import {
+  type ExtendedFabVariants,
+  extendedFabVariants,
+} from './ui-extended-fab.variants';
 
 export type ExtendedFabProps = PropsPolymorphic & {
-  color?: Variants['color'];
-  lowered?: Variants['lowered'];
+  color?: ExtendedFabVariants['color'];
+  lowered?: ExtendedFabVariants['lowered'];
   iconKey?: string;
   slotKey?: string;
 };

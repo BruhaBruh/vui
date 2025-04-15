@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { type VariantProps, cva } from 'class-variance-authority';
 
 const variants = cva(
   [
@@ -28,3 +28,5 @@ const variants = cva(
 );
 
 export const dividerVariants = Object.assign(variants, {});
+
+export type DividerVariants = VariantProps<typeof dividerVariants>;

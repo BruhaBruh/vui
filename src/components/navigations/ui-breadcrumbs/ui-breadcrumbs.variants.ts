@@ -58,3 +58,11 @@ export const breadcrumbsVariants = Object.assign(variants, {
 });
 
 export type BreadcrumbsVariants = VariantProps<typeof breadcrumbsVariants>;
+
+export type BreadcrumbsItemVariants = VariantProps<
+  typeof breadcrumbsVariants.item
+>;
+
+export type BreadcrumbsIconVariants = VariantProps<
+  typeof breadcrumbsVariants.icon
+>;

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { PropsPolymorphic } from '@/types';
-import type { VariantProps } from 'class-variance-authority';
-import { containerVariants } from './ui-container.variants';
-
-type Variants = VariantProps<typeof containerVariants>;
+import {
+  type ContainerVariants,
+  containerVariants,
+} from './ui-container.variants';
 
 export type ContainerProps = PropsPolymorphic & {
-  color?: Variants['color'];
+  color?: ContainerVariants['color'];
 };
 
 const { color, as = 'section' } = defineProps<ContainerProps>();

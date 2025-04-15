@@ -153,6 +153,14 @@ export type SegmentedButtonVariants = VariantProps<
   typeof segmentedButtonVariants
 >;
 
+export type SegmentedButtonLabelVariants = VariantProps<
+  typeof segmentedButtonVariants.label
+>;
+
+export type SegmentedButtonIconVariants = VariantProps<
+  typeof segmentedButtonVariants.icon
+>;
+
 export type SegmentedButtonGroupVariants = VariantProps<
   typeof segmentedButtonVariants.group
 >;

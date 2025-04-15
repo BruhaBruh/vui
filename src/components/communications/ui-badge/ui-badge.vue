@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import type { PropsPolymorphic } from '@/types';
-import type { VariantProps } from 'class-variance-authority';
 import { computed } from 'vue';
-import { badgeVariants } from './ui-badge.variants';
+import { type BadgeVariants, badgeVariants } from './ui-badge.variants';
 import { AnimatePresence, motion } from 'motion-v';
 import { materialDuration, materialEasing } from '@/config';
 
-type Variants = VariantProps<typeof badgeVariants>;
-
 export type BadgeProps = PropsPolymorphic & {
-  color?: Variants['color'];
-  placement?: Variants['placement'];
+  color?: BadgeVariants['color'];
+  placement?: BadgeVariants['placement'];
   value?: number;
   maxValue?: number;
 };
