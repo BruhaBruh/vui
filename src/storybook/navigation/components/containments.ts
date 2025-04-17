@@ -1,10 +1,11 @@
 import {
-  CardPage,
-  ContainerPage,
-  DialogPage,
-  DividerPage,
-  ModalPage,
-  PopoverPage,
+    CardPage,
+    CarouselPage,
+    ContainerPage,
+    DialogPage,
+    DividerPage,
+    ModalPage,
+    PopoverPage,
 } from '@/storybook/pages';
 import { IconSquare } from '@tabler/icons-vue';
 import type { NavigationNode } from '../navigation.types';
@@ -50,6 +51,12 @@ export const containments: NavigationNode = {
       name: 'Dialog',
       path: '/dialog',
       page: DialogPage,
+    },
+    {
+      type: 'link',
+      name: 'Carousel',
+      path: '/carousel',
+      page: CarouselPage,
     },
   ],
 };

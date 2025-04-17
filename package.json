@@ -26,6 +26,7 @@
     "@vueuse/core": "^13.0.0",
     "@vueuse/integrations": "^13.1.0",
     "class-variance-authority": "^0.7.1",
+    "embla-carousel-vue": "^8.6.0",
     "focus-trap": "^7.6.4",
     "motion-v": "^0.13.1",
     "shiki": "^3.2.1",

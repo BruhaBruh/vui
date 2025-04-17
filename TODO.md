@@ -1,7 +1,5 @@
 # TODO for the project
 
-- [ ] Modal
-- [ ] Dialog
 - [ ] Carousel
 - [ ] TextField
 - [ ] TextAreaField
