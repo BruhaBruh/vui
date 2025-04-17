@@ -3,7 +3,6 @@ import { useTooltipState } from './ui-tooltip.context';
 import type { PropsPolymorphic } from '@/types';
 import { type TooltipVariants, tooltipVariants } from './ui-tooltip.variants';
 import {
-  type Placement,
   autoUpdate,
   flip,
   hide,
@@ -15,6 +14,10 @@ import {
 import { Teleport, type TeleportProps, computed } from 'vue';
 import { AnimatePresence, motion } from 'motion-v';
 import { materialDuration, materialEasing } from '@/config';
+import {
+  floatingPlacementToVariantPlacement,
+  variantPlacementToFloatingPlacement,
+} from './ui-tooltip.utility';
 
 export type TooltipContentProps = PropsPolymorphic & {
   variant?: TooltipVariants['variant'];
@@ -39,23 +42,11 @@ defineOptions({
 
 const { id, trigger, tooltip, open } = useTooltipState();
 
-const placementForFloating = computed<Placement>(() => {
-  if (placement === 'top') return placement;
-  if (placement === 'left') return placement;
-  if (placement === 'right') return placement;
-  if (placement === 'bottom') return placement;
-  if (placement === 'top-left') return 'top-start';
-  if (placement === 'top-right') return 'top-end';
-  if (placement === 'bottom-left') return 'bottom-start';
-  if (placement === 'bottom-right') return 'bottom-end';
-  return 'top';
-});
-
 const { floatingStyles, placement: floatingPlacement } = useFloating(
   trigger,
   tooltip,
   {
-    placement: placementForFloating,
+    placement: () => variantPlacementToFloatingPlacement(placement),
     middleware: [
       offset(({ rects }) => {
         const padding = 4;
@@ -80,17 +71,9 @@ const { floatingStyles, placement: floatingPlacement } = useFloating(
   },
 );
 
-const finalPlacement = computed<TooltipVariants['placement']>(() => {
-  if (floatingPlacement.value === 'top') return floatingPlacement.value;
-  if (floatingPlacement.value === 'left') return floatingPlacement.value;
-  if (floatingPlacement.value === 'right') return floatingPlacement.value;
-  if (floatingPlacement.value === 'bottom') return floatingPlacement.value;
-  if (floatingPlacement.value === 'top-start') return 'top-left';
-  if (floatingPlacement.value === 'top-end') return 'top-right';
-  if (floatingPlacement.value === 'bottom-start') return 'bottom-left';
-  if (floatingPlacement.value === 'bottom-end') return 'bottom-right';
-  return 'top';
-});
+const finalPlacement = computed(() =>
+  floatingPlacementToVariantPlacement(floatingPlacement.value),
+);
 </script>
 
 <template>
