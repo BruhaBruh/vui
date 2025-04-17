@@ -9,9 +9,9 @@ export type CarouselDotsProps = PropsPolymorphic & {
   label?: string;
 };
 
-const { label = 'Select slide', as = 'div' } = defineProps<CarouselDotsProps>();
+const { label = 'Slide', as = 'div' } = defineProps<CarouselDotsProps>();
 
-const { api } = useCarouselState();
+const { id, api } = useCarouselState();
 
 const selectedIndex = ref(0);
 const scrollSnaps = ref<number[]>([]);
@@ -38,14 +38,23 @@ watchEffect(() => {
 </script>
 
 <template>
-  <component :is="as" :class="carouselVariants.dotsContainer()" v-tw-merge>
+  <component
+    :is="as"
+    :class="carouselVariants.dotsContainer()"
+    role="tablist"
+    aria-label="Slides"
+    v-tw-merge
+  >
     <button
       v-for="(_, index) in scrollSnaps"
       :key="index"
       @click="select(index)"
-      tabindex="0"
       type="button"
       :aria-label="`${label} ${index + 1}`"
+      role="tab"
+      :aria-selected="selectedIndex === index"
+      :tabindex="selectedIndex === index ? undefined : -1"
+      :aria-controls="`${id}-slide-${index}`"
       :class="
         carouselVariants.dot({
           isSelected: selectedIndex === index,

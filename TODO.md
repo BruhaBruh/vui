@@ -1,11 +1,14 @@
 # TODO for the project
 
-- [ ] Carousel
-- [ ] TextField
-- [ ] TextAreaField
-- [ ] NumberField
-- [ ] Checkbox
-- [ ] Radio
-- [ ] Switch
-- [ ] Menu
-- [ ] Slider
+- [ ] Navigations
+  - [ ] Pagination
+- [ ] Inputs
+  - [ ] TextField
+  - [ ] TextAreaField
+  - [ ] NumberField
+- [ ] Selections
+  - [ ] Checkbox
+  - [ ] Radio
+  - [ ] Switch
+  - [ ] Menu
+  - [ ] Slider

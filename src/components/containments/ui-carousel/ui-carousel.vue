@@ -27,7 +27,12 @@ provideCarouselState({
 </script>
 
 <template>
-  <component :is="as" :class="carouselVariants()" v-tw-merge>
+  <component
+    :is="as"
+    :class="carouselVariants()"
+    aria-roledescription="carousel"
+    v-tw-merge
+  >
     <slot name="before" />
     <div :class="carouselVariants.container()" v-tw-merge>
       <slot />

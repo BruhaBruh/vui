@@ -9,10 +9,11 @@ import {
 import type { Context } from '@/types';
 import { toRef } from '@vueuse/core';
 import type { InjectionKey, Ref } from 'vue';
-import { inject, provide, watchEffect } from 'vue';
+import { inject, provide, useId, watchEffect } from 'vue';
 
 type CarouselContext = Context<
   {
+    id: string;
     api: Ref<EmblaCarouselApi | undefined>;
     carousel: Ref<HTMLElement | undefined>;
   },
@@ -32,6 +33,7 @@ const carouselStateKey = Symbol() as InjectionKey<CarouselState>;
 export function provideCarouselState(
   options: CarouselContext['provideOptions'],
 ) {
+  const id = useId()
   const api = toRef(options.api);
 
   const { ref: carousel, api: carouselApi } = useCarousel({
@@ -44,6 +46,7 @@ export function provideCarouselState(
   });
 
   const state: CarouselState = {
+    id,
     api,
     carousel,
   };

@@ -17,12 +17,22 @@ import {
 const slides = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const code = `
-<Carousel :options="{ loop: true, slidesToScroll: 1, align: 'center' }">
+<Carousel
+  aria-label="Slides with numbers from 1 to 12"
+  :options="{ loop: true, slidesToScroll: 1, align: 'center' }"
+>
   <CarouselView>
     <template #left>
       <CarouselPrevButton />
     </template>
-    <CarouselSlide v-for="slide in slides" :key="slide" class="basis-1/3">
+    <CarouselSlide
+      v-for="(slide, i) in slides"
+      :key="slide"
+      :index="i"
+      :aria-label="\`Slide $\{slide} of ${slides.length}\`"
+      role="tabpanel"
+      class="basis-1/3"
+    >
       <CarouselSlideContent>
         {{ slide }}
       </CarouselSlideContent>
@@ -42,13 +52,21 @@ const code = `
   <StorybookPlayground>
     <Carousel
       class="w-full"
+      aria-label="Slides with numbers from 1 to 12"
       :options="{ loop: true, slidesToScroll: 1, align: 'center' }"
     >
       <CarouselView>
         <template #left>
           <CarouselPrevButton />
         </template>
-        <CarouselSlide v-for="slide in slides" :key="slide" class="basis-1/3">
+        <CarouselSlide
+          v-for="(slide, i) in slides"
+          :key="slide"
+          :index="i"
+          :aria-label="`Slide ${slide} of ${slides.length}`"
+          role="tabpanel"
+          class="basis-1/3"
+        >
           <CarouselSlideContent
             class="flex h-96 items-center justify-center rounded-lg typography-display-large bg-surface-container border-outline"
           >
@@ -68,13 +86,20 @@ const code = `
   <StorybookStory name="With Buttons">
     <Carousel
       class="w-full"
+      aria-label="Slides with numbers from 1 to 12"
       :options="{ loop: true, slidesToScroll: 1, align: 'center' }"
     >
       <CarouselView>
         <template #left>
           <CarouselPrevButton />
         </template>
-        <CarouselSlide v-for="slide in slides" :key="slide" class="basis-1/3">
+        <CarouselSlide
+          v-for="(slide, i) in slides"
+          :key="slide"
+          :index="i"
+          :aria-label="`Slide ${slide} of ${slides.length}`"
+          class="basis-1/3"
+        >
           <CarouselSlideContent
             class="flex h-96 items-center justify-center rounded-lg typography-display-large bg-surface-container border-outline"
           >
@@ -90,10 +115,18 @@ const code = `
   <StorybookStory name="With Dots">
     <Carousel
       class="w-full"
+      aria-label="Slides with numbers from 1 to 12"
       :options="{ loop: true, slidesToScroll: 1, align: 'center' }"
     >
       <CarouselView>
-        <CarouselSlide v-for="slide in slides" :key="slide" class="basis-1/3">
+        <CarouselSlide
+          v-for="(slide, i) in slides"
+          :key="slide"
+          :index="i"
+          :aria-label="`Slide ${slide} of ${slides.length}`"
+          role="tabpanel"
+          class="basis-1/3"
+        >
           <CarouselSlideContent
             class="flex h-96 items-center justify-center rounded-lg typography-display-large bg-surface-container border-outline"
           >
@@ -109,10 +142,17 @@ const code = `
   <StorybookStory name="Without Controls">
     <Carousel
       class="w-full"
+      aria-label="Slides with numbers from 1 to 12"
       :options="{ loop: true, slidesToScroll: 1, align: 'center' }"
     >
       <CarouselView>
-        <CarouselSlide v-for="slide in slides" :key="slide" class="basis-1/3">
+        <CarouselSlide
+          v-for="(slide, i) in slides"
+          :key="slide"
+          :index="i"
+          :aria-label="`Slide ${slide} of ${slides.length}`"
+          class="basis-1/3"
+        >
           <CarouselSlideContent
             class="flex h-96 items-center justify-center rounded-lg typography-display-large bg-surface-container border-outline"
           >
