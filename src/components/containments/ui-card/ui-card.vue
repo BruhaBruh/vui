@@ -34,15 +34,19 @@ const computedDisabled = computed(() => {
   if (!disabled) return undefined;
   return disabled;
 });
+
+const extraProps = computed(() => ({
+  tabindex: interactable ? 0 : undefined,
+  'aria-disabled': as === 'button' ? undefined : computedDisabled.value,
+  disabled: as === 'button' ? computedDisabled.value : undefined,
+}));
 </script>
 
 <template>
   <component
     :is="as"
     ref="card"
-    :tabindex="interactable ? 0 : undefined"
-    :aria-disabled="as !== 'button' ? computedDisabled : undefined"
-    :disabled="as === 'button' ? computedDisabled : undefined"
+    v-bind="extraProps"
     :class="cardVariants({ color, variant, interactable })"
     v-tw-merge
   >

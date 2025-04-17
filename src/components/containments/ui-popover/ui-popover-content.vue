@@ -33,7 +33,7 @@ const {
   placement = 'top',
   offset: offsetAmount = 0,
   as = motion.div,
-  teleportTo,
+  teleportTo = 'body',
   teleportDisabled,
   teleportDefer,
 } = defineProps<PopoverContentProps>();
@@ -65,7 +65,7 @@ watchEffect(() => {
 
 <template>
   <Teleport
-    :to="teleportTo ?? 'body'"
+    :to="teleportTo"
     :disabled="teleportDisabled"
     :defer="teleportDefer"
   >

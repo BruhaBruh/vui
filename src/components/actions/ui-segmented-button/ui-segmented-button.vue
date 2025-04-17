@@ -51,6 +51,11 @@ const checked = computed(() => {
   if (mode.value !== 'single') return undefined;
   return isSelected.value;
 });
+
+const extraProps = computed(() => ({
+  role: mode.value === 'single' ? 'radio' : undefined,
+  disabled: disabled.value ? true : undefined,
+}));
 </script>
 
 <template>
@@ -58,9 +63,8 @@ const checked = computed(() => {
     :is="as"
     ref="segmented-button"
     tabindex="0"
-    :role="mode === 'single' ? 'radio' : undefined"
     :aria-checked="checked"
-    :disabled="disabled ? true : undefined"
+    v-bind="extraProps"
     :class="
       segmentedButtonVariants({
         color,

@@ -31,7 +31,7 @@ const {
   variant,
   placement,
   as = motion.div,
-  teleportTo,
+  teleportTo = 'body',
   teleportDisabled,
   teleportDefer,
 } = defineProps<TooltipContentProps>();
@@ -78,7 +78,7 @@ const finalPlacement = computed(() =>
 
 <template>
   <Teleport
-    :to="teleportTo ?? 'body'"
+    :to="teleportTo"
     :disabled="teleportDisabled"
     :defer="teleportDefer"
   >

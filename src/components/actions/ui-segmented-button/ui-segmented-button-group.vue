@@ -9,6 +9,7 @@ import {
   type SegmentedButtonGroupVariants,
   segmentedButtonVariants,
 } from './ui-segmented-button.variants';
+import { computed } from 'vue';
 
 export type SegmentedButtonGroupProps = PropsPolymorphic & {
   density?: SegmentedButtonGroupVariants['density'];
@@ -35,14 +36,18 @@ const state = provideSegmentedButtonState({
   disabled: () => disabled,
   color: () => color,
 });
+
+const extraProps = computed(() => ({
+  role: state.mode.value === 'single' ? 'radiogroup' : 'toolbar',
+  'aria-disabled': state.disabled.value || disabled ? 'true' : undefined,
+}));
 </script>
 
 <template>
   <component
     :is="as"
-    :role="state.mode.value === 'single' ? 'radiogroup' : 'toolbar'"
     aria-orientation="horizontal"
-    :aria-disabled="disabled ? 'true' : undefined"
+    v-bind="extraProps"
     :class="segmentedButtonVariants.group({ density })"
     v-tw-merge
   >
