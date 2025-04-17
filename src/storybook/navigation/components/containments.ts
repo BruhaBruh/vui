@@ -1,11 +1,12 @@
-import { IconSquare } from '@tabler/icons-vue';
 import {
   CardPage,
   ContainerPage,
+  DialogPage,
   DividerPage,
   ModalPage,
   PopoverPage,
-} from '../../pages';
+} from '@/storybook/pages';
+import { IconSquare } from '@tabler/icons-vue';
 import type { NavigationNode } from '../navigation.types';
 
 export const containments: NavigationNode = {
@@ -43,6 +44,12 @@ export const containments: NavigationNode = {
       name: 'Modal',
       path: '/modal',
       page: ModalPage,
+    },
+    {
+      type: 'link',
+      name: 'Dialog',
+      path: '/dialog',
+      page: DialogPage,
     },
   ],
 };

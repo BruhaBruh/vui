@@ -15,9 +15,13 @@ const code = `
   </ModalTrigger>
   <ModalUnderlay>
     <ModalContent>
-      <p>Modal</p>
-      <input placeholder="Name" />
-      <Button>Button</Button>
+      <template #default="{ close }">
+        <div>
+          <p>Modal</p>
+          <input placeholder="Name" />
+          <Button @click="close">Close</Button>
+        </div>
+      </template>
     </ModalContent>
   </ModalUnderlay>
 </Modal>
@@ -34,13 +38,16 @@ const code = `
         <ModalContent
           class="bg-surface-container text-on-surface p-md rounded-md flex flex-col gap-sm"
         >
-          <p>Modal</p>
-          <input placeholder="Name" />
-          <Button class="w-max">Button</Button>
+          <template #default="{ close }">
+            <div>
+              <p>Modal</p>
+              <input placeholder="Name" />
+              <Button class="w-max" @click="close">Close</Button>
+            </div>
+          </template>
         </ModalContent>
       </ModalUnderlay>
     </Modal>
   </StorybookPlayground>
   <StorybookCode name="Modal" :code />
-  <div class="h-[300vh]" />
 </template>

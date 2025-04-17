@@ -8,6 +8,8 @@ const underlayVariants = cva([
   'inline-flex items-center justify-center',
   'overflow-hidden z-50',
   'overscroll-contain',
+  'transition easing-standard duration-medium-1',
+  'starting:opacity-0 opacity-100',
 ]);
 
 export const modalVariants = Object.assign(variants, {

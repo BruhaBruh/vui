@@ -1,5 +1,5 @@
+import { BreadcrumbsPage } from '@/storybook/pages';
 import { IconNavigation } from '@tabler/icons-vue';
-import { BreadcrumbsPage } from '../../pages';
 import type { NavigationNode } from '../navigation.types';
 
 export const navigations: NavigationNode = {
