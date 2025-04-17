@@ -19,7 +19,7 @@ const sizes = ['lg', 'md', 'sm'] satisfies BreadcrumbsProps['size'][];
 
 const code = ref('');
 
-const onChange = ({ size }: UnknownRecord) => {
+function onChange({ size }: UnknownRecord) {
   code.value = `
 <Breadcrumbs
   aria-label="Breadcrumbs"
@@ -56,7 +56,7 @@ const onChange = ({ size }: UnknownRecord) => {
   </BreadcrumbsItem>
 </Breadcrumbs>
 `;
-};
+}
 </script>
 
 <template>

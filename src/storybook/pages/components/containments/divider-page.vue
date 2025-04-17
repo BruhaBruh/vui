@@ -15,7 +15,7 @@ const orientations = [
 
 const code = ref('');
 
-const onChange = ({ orientation, inset }: UnknownRecord) => {
+function onChange({ orientation, inset }: UnknownRecord) {
   code.value = `
 <section
   class="inline-flex ${orientation === 'vertical' ? 'h-12' : 'flex-col w-24'} items-center justify-center gap-md"
@@ -29,7 +29,7 @@ const onChange = ({ orientation, inset }: UnknownRecord) => {
   <span>Four</span>
 </section>
 `;
-};
+}
 </script>
 
 <template>

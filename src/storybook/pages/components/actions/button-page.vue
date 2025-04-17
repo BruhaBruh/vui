@@ -30,14 +30,14 @@ const icons = ['none', 'circle', 'square'];
 
 const code = ref('');
 
-const onChange = ({
+function onChange({
   label,
   color,
   variant,
   disabled,
   left,
   right,
-}: UnknownRecord) => {
+}: UnknownRecord) {
   let leftIcon = '';
   if (left === 'square') {
     leftIcon = '<IconSquare />';
@@ -75,7 +75,7 @@ const onChange = ({
   }
 </Button>
 `;
-};
+}
 </script>
 
 <template>

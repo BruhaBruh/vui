@@ -24,7 +24,7 @@ const icons = ['none', 'circle', 'square'];
 
 const code = ref('');
 
-const onChange = ({ label, color, lowered, icon }: UnknownRecord) => {
+function onChange({ label, color, lowered, icon }: UnknownRecord) {
   let displayIcon = '';
   if (icon === 'square') {
     displayIcon = '<IconSquare />';
@@ -47,7 +47,7 @@ const onChange = ({ label, color, lowered, icon }: UnknownRecord) => {
   ${label}
 </ExtendedFab>
 `;
-};
+}
 </script>
 
 <template>

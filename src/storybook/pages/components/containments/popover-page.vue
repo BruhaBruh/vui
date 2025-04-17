@@ -31,7 +31,7 @@ const placements = [
 
 const code = ref('');
 
-const onChange = ({ placement }: UnknownRecord) => {
+function onChange({ placement }: UnknownRecord) {
   code.value = `
 <Popover>
   <PopoverTrigger>
@@ -42,7 +42,7 @@ const onChange = ({ placement }: UnknownRecord) => {
   </PopoverContent>
 </Popover>
 `;
-};
+}
 </script>
 
 <template>

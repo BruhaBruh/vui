@@ -1,9 +1,9 @@
 import {
-  useElementHover,
-  useFocus,
-  useFocusWithin,
-  useMousePressed,
-  useMutationObserver,
+    useElementHover,
+    useFocus,
+    useFocusWithin,
+    useMousePressed,
+    useMutationObserver,
 } from '@vueuse/core';
 import { type ShallowRef, computed, ref, watchEffect } from 'vue';
 
@@ -67,7 +67,7 @@ export function useInteractions(
     },
   );
 
-  const setData = (name: string, value: boolean, isEnabled: boolean) => {
+  function setData(name: string, value: boolean, isEnabled: boolean) {
     if (!element.value) return;
     if (value && isEnabled) {
       element.value.setAttribute(`data-${name}`, `${value}`);

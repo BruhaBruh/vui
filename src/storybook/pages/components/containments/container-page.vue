@@ -45,7 +45,7 @@ const colors = [
 
 const code = ref('');
 
-const onChange = ({ color, variant, padding }: UnknownRecord) => {
+function onChange({ color, variant, padding }: UnknownRecord) {
   code.value = `
 <Container color="${color}">
   <ContainerContent variant="${variant}" padding="${padding}">
@@ -53,7 +53,7 @@ const onChange = ({ color, variant, padding }: UnknownRecord) => {
   </ContainerContent>
 </Container>
 `;
-};
+}
 </script>
 
 <template>

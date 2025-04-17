@@ -27,7 +27,7 @@ const values = [0, 1, 500, 1000];
 
 const code = ref('');
 
-const onChange = ({ color, value, maxValue }: UnknownRecord) => {
+function onChange({ color, value, maxValue }: UnknownRecord) {
   code.value = `
 <Badge
   color="${color}"
@@ -38,7 +38,7 @@ const onChange = ({ color, value, maxValue }: UnknownRecord) => {
   <IconMail />
 </Badge>
 `;
-};
+}
 </script>
 
 <template>
