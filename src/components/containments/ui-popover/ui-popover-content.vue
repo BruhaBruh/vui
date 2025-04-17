@@ -3,16 +3,15 @@ import type { PropsPolymorphic } from '@/types';
 import {
   autoUpdate,
   flip,
+  offset as floatingOffset,
   hide,
-  offset,
   shift,
   useFloating,
 } from '@floating-ui/vue';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Teleport,
   type TeleportProps,
-  computed,
   useAttrs,
   watchEffect,
 } from 'vue';
@@ -31,7 +30,7 @@ export type PopoverContentProps = PropsPolymorphic & {
 
 const {
   placement = 'top',
-  offset: offsetAmount = 0,
+  offset = 0,
   as = motion.div,
   teleportTo = 'body',
   teleportDisabled,
@@ -49,7 +48,7 @@ const { floatingStyles, placement: floatingPlacement } = useFloating(
   popover,
   {
     placement: () => placement,
-    middleware: [offset(offsetAmount), flip(), hide(), shift()],
+    middleware: [floatingOffset(offset), flip(), hide(), shift()],
     whileElementsMounted: autoUpdate,
     transform: false,
   },

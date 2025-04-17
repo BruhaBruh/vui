@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { usePopoverState } from './ui-popover.context';
 import { Slot } from '@/components/utility';
+import { useModalState } from './ui-modal.context';
 
-const { trigger, open, id } = usePopoverState();
+const { trigger, open, id } = useModalState();
 </script>
 
 <template>

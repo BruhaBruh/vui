@@ -72,7 +72,7 @@ const onChange = ({ placement }: UnknownRecord) => {
       </Popover>
     </template>
   </StorybookPlayground>
-  <StorybookCode name="Tooltip" :code />
+  <StorybookCode name="Popover" :code />
   <StorybookStory name="Top placements">
     <Popover v-for="placement in placements.slice(0, 3)" :key="placement">
       <PopoverTrigger>
