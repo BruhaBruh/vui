@@ -43,9 +43,9 @@ export function useInteractions(
   const { pressed: isPressed } = useMousePressed({
     target: elementRef,
   });
-  const isDisabledMutation = ref(false);
+  const isDisabledMutation = ref<boolean | undefined>(undefined);
   const isDisabled = computed(() => {
-    if (isDisabledMutation.value) return isDisabledMutation.value;
+    if (isDisabledMutation.value !== undefined) return isDisabledMutation.value;
     if (!element.value) return false;
     const isAriaDisabled = element.value.ariaDisabled?.toLowerCase() === 'true';
     return (
@@ -74,7 +74,7 @@ export function useInteractions(
     } else {
       element.value.removeAttribute(`data-${name}`);
     }
-  };
+  }
 
   watchEffect(() => {
     setData('in-focus', inFocus.value, focus);

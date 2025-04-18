@@ -46,7 +46,7 @@ const subheadVariants = cva([
   'mb-2xs',
 ]);
 
-const textVariants = cva(['tooltip--text'], {
+const textVariants = cva(['tooltip--text text-pretty'], {
   variants: {
     variant: {
       plain: 'typography-body-small text-inverse-on-surface',

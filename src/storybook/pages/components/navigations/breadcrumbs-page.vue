@@ -90,7 +90,7 @@ function onChange({ size }: UnknownRecord) {
       </Breadcrumbs>
     </template>
   </StorybookPlayground>
-  <StorybookCode name="Divider" :code />
+  <StorybookCode name="Breadcrumbs" :code />
   <StorybookStory name="Sizes">
     <section class="grid gap-md">
       <Breadcrumbs

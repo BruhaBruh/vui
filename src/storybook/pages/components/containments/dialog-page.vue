@@ -102,5 +102,5 @@ const code = `
       </ModalUnderlay>
     </Modal>
   </StorybookPlayground>
-  <StorybookCode name="Modal" :code />
+  <StorybookCode name="Dialog" :code />
 </template>

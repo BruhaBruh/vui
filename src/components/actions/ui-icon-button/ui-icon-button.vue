@@ -12,12 +12,14 @@ import {
 export type IconButtonProps = PropsPolymorphic & {
   variant?: IconButtonVariants['variant'];
   color?: IconButtonVariants['color'];
+  ignoreSelectBehavior?: boolean;
   iconKey?: string;
 };
 
 const {
   variant = 'standard',
   color = 'primary',
+  ignoreSelectBehavior = false,
   as = 'button',
   iconKey,
 } = defineProps<IconButtonProps>();
@@ -31,7 +33,7 @@ useToggleButton(element, {
   isToggleable: toggleable,
   isSelected: selected,
   onClick: () => {
-    if (toggleable.value) {
+    if (toggleable.value && !ignoreSelectBehavior) {
       selected.value = !selected.value;
     }
   },

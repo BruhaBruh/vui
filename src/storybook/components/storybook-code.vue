@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { IconButton } from '@/components';
+import {
+  IconButton,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components';
 import { materialDuration, materialEasing } from '@/config';
 import { IconCopy } from '@tabler/icons-vue';
 import { computedAsync, useClipboard, useDark } from '@vueuse/core';
@@ -70,18 +75,24 @@ const highlightedCode = computedAsync(async () => {
       @mouseenter="isCopyButtonVisible = true"
       @mouseleave="isCopyButtonVisible = false"
     />
-    <IconButton
-      :class="[
-        'absolute top-3xl right-xs in-focus-visible:opacity-100',
-        isCopyButtonVisible ? 'opacity-100' : 'opacity-0',
-      ]"
-      color="secondary"
-      :aria-label="`Copy code of ${name} example`"
-      @mouseenter="isCopyButtonVisible = true"
-      @click="copy(code)"
-    >
-      <IconCopy />
-    </IconButton>
+
+    <Tooltip>
+      <TooltipTrigger>
+        <IconButton
+          :class="[
+            'absolute top-3xl right-xs in-focus-visible:opacity-100',
+            isCopyButtonVisible ? 'opacity-100' : 'opacity-0',
+          ]"
+          color="secondary"
+          :aria-label="`Copy code of ${name} example`"
+          @mouseenter="isCopyButtonVisible = true"
+          @click="copy(code)"
+        >
+          <IconCopy />
+        </IconButton>
+      </TooltipTrigger>
+      <TooltipContent> Copy code </TooltipContent>
+    </Tooltip>
   </section>
 </template>
 
