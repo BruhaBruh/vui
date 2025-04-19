@@ -1,4 +1,4 @@
-import { TextFieldPage } from '@/storybook/pages';
+import { TextAreaFieldPage, TextFieldPage } from '@/storybook/pages';
 import { IconForms } from '@tabler/icons-vue';
 import type { NavigationNode } from '../navigation.types';
 
@@ -13,6 +13,12 @@ export const inputs: NavigationNode = {
       name: 'TextField',
       path: '/text-field',
       page: TextFieldPage,
+    },
+    {
+      type: 'link',
+      name: 'TextAreaField',
+      path: '/textarea-field',
+      page: TextAreaFieldPage,
     },
   ],
 };
