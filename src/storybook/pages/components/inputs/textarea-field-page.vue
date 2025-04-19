@@ -1,14 +1,62 @@
 <script setup lang="ts">
 import { TextAreaField, type TextAreaFieldProps } from '@/components';
-import { StorybookPlayground, StorybookStory } from '@/storybook/components';
+import {
+  StorybookCode,
+  StorybookPlayground,
+  StorybookStory,
+} from '@/storybook/components';
+import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { IconCircle, IconSquare } from '@tabler/icons-vue';
+import { ref } from 'vue';
 
 const sizes = ['sm', 'md', 'lg'] satisfies TextAreaFieldProps['size'][];
 const icons = ['none', 'circle', 'square'];
+
+const code = ref('');
+
+function onChange({
+  label,
+  description,
+  error,
+  left,
+  right,
+  placeholder,
+  size,
+  invalid,
+  disabled,
+}: UnknownRecord) {
+  code.value = `
+<TextAreaField
+  size="${size}"
+  ${(placeholder as string).length > 0 ? `placeholder="${placeholder}"` : ''}
+  :invalid="${invalid}"
+  :disabled="${disabled}"
+>
+  ${left === 'none' ? '' : '<template #left>'}
+    ${left === 'square' ? '<IconSquare />' : ''}
+    ${left === 'circle' ? '<IconCircle />' : ''}
+  ${left === 'none' ? '' : '</template>'}
+  ${(label as string).length > 0 ? '<template #label>' : ''}
+    ${label}
+  ${(label as string).length > 0 ? '</template>' : ''}
+  ${right === 'none' ? '' : '<template right>'}
+    ${right === 'square' ? '<IconSquare />' : ''}
+    ${right === 'circle' ? '<IconCircle />' : ''}
+  ${right === 'none' ? '' : '</template>'}
+  ${(description as string).length > 0 ? '<template #description>' : ''}
+    ${description}
+  ${(description as string).length > 0 ? '</template>' : ''}
+  ${(error as string).length > 0 ? '<template #error>' : ''}
+    ${error}
+  ${(error as string).length > 0 ? '</template>' : ''}
+</TextAreaField>
+`;
+}
 </script>
 
 <template>
   <StorybookPlayground
+    @change="onChange"
     :arguments="{
       label: {
         type: 'text',
@@ -84,25 +132,23 @@ const icons = ['none', 'circle', 'square'];
           <IconSquare v-if="left === 'square'" />
           <IconCircle v-else-if="left === 'circle'" />
         </template>
-        <template #label="props" v-if="(label as string).length > 0">
-          <label v-bind="props" v-tw-merge>{{ label }}</label>
+        <template #label v-if="(label as string).length > 0">
+          {{ label }}
         </template>
         <template #right v-if="right !== 'none'">
           <IconSquare v-if="right === 'square'" />
           <IconCircle v-else-if="right === 'circle'" />
         </template>
-        <template
-          #description="props"
-          v-if="(description as string).length > 0"
-        >
-          <p v-bind="props" v-tw-merge>{{ description }}</p>
+        <template #description v-if="(description as string).length > 0">
+          {{ description }}
         </template>
-        <template #error="props" v-if="(error as string).length > 0">
-          <p v-bind="props" v-tw-merge>{{ error }}</p>
+        <template #error v-if="(error as string).length > 0">
+          {{ error }}
         </template>
       </TextAreaField>
     </template>
   </StorybookPlayground>
+  <StorybookCode name="TextAreaField" :code />
   <StorybookStory name="Sizes">
     <section class="grid grid-cols-3 items-center gap-md w-full">
       <TextAreaField
@@ -110,9 +156,7 @@ const icons = ['none', 'circle', 'square'];
         :key="size"
         :size="size"
       >
-        <template #label="props">
-          <label v-bind="props" v-tw-merge>Label</label>
-        </template>
+        <template #label> Label </template>
       </TextAreaField>
     </section>
   </StorybookStory>

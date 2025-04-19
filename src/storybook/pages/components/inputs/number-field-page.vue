@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TextField, type TextFieldProps } from '@/components';
+import { NumberField, type NumberFieldProps } from '@/components';
 import {
   StorybookCode,
   StorybookPlayground,
@@ -9,7 +9,7 @@ import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { ref } from 'vue';
 
-const sizes = ['sm', 'md', 'lg'] satisfies TextFieldProps['size'][];
+const sizes = ['sm', 'md', 'lg'] satisfies NumberFieldProps['size'][];
 const icons = ['none', 'circle', 'square'];
 
 const code = ref('');
@@ -19,15 +19,22 @@ function onChange({
   description,
   error,
   left,
-  right,
   placeholder,
   size,
   invalid,
   disabled,
+  min,
+  max,
+  step,
+  stepMultiplier,
 }: UnknownRecord) {
   code.value = `
-<TextField
+<NumberField
   size="${size}"
+  :min="${min}"
+  :max="${max}"
+  :step="${step}"
+  :step-multiplier="${stepMultiplier}"
   ${(placeholder as string).length > 0 ? `placeholder="${placeholder}"` : ''}
   :invalid="${invalid}"
   :disabled="${disabled}"
@@ -39,17 +46,13 @@ function onChange({
   ${(label as string).length > 0 ? '<template #label>' : ''}
     ${label}
   ${(label as string).length > 0 ? '</template>' : ''}
-  ${right === 'none' ? '' : '<template right>'}
-    ${right === 'square' ? '<IconSquare />' : ''}
-    ${right === 'circle' ? '<IconCircle />' : ''}
-  ${right === 'none' ? '' : '</template>'}
   ${(description as string).length > 0 ? '<template #description>' : ''}
     ${description}
   ${(description as string).length > 0 ? '</template>' : ''}
   ${(error as string).length > 0 ? '<template #error>' : ''}
     ${error}
   ${(error as string).length > 0 ? '</template>' : ''}
-</TextField>
+</NumberField>
 `;
 }
 </script>
@@ -108,12 +111,29 @@ function onChange({
         defaultValue: 'none',
         options: icons,
       },
-      right: {
-        type: 'select',
-        label: 'Right',
-        description: 'Right component of TextField',
-        defaultValue: 'none',
-        options: icons,
+      min: {
+        type: 'number',
+        label: 'Minimum value',
+        description: 'Minimum value of TextField',
+        defaultValue: -0b1000_0000_0000_0000_0000_0000_0000_0000,
+      },
+      max: {
+        type: 'number',
+        label: 'Maximum value',
+        description: 'Maximum value of TextField',
+        defaultValue: 0b0111_1111_1111_1111_1111_1111_1111_1111,
+      },
+      step: {
+        type: 'number',
+        label: 'Step value',
+        description: 'Step value of TextField',
+        defaultValue: 1,
+      },
+      stepMultiplier: {
+        type: 'number',
+        label: 'Step multiplier for large step',
+        description: 'Step multiplier for large step of TextField',
+        defaultValue: 10,
       },
     }"
   >
@@ -122,7 +142,7 @@ function onChange({
         values: { label, description, error, left, right, ...values },
       }"
     >
-      <TextField
+      <NumberField
         :left-key="left as string"
         :right-key="right as string"
         v-bind="values"
@@ -134,29 +154,25 @@ function onChange({
         <template #label v-if="(label as string).length > 0">
           {{ label }}
         </template>
-        <template #right v-if="right !== 'none'">
-          <IconSquare v-if="right === 'square'" />
-          <IconCircle v-else-if="right === 'circle'" />
-        </template>
         <template #description v-if="(description as string).length > 0">
           {{ description }}
         </template>
         <template #error v-if="(error as string).length > 0">
           {{ error }}
         </template>
-      </TextField>
+      </NumberField>
     </template>
   </StorybookPlayground>
-  <StorybookCode name="TextField" :code />
+  <StorybookCode name="NumberField" :code />
   <StorybookStory name="Sizes">
     <section class="grid grid-cols-3 items-center gap-md w-full">
-      <TextField
+      <NumberField
         v-for="size in ['sm', 'md', 'lg'] as const"
         :key="size"
         :size="size"
       >
         <template #label> Label </template>
-      </TextField>
+      </NumberField>
     </section>
   </StorybookStory>
 </template>

@@ -26,7 +26,7 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const elementRef = useTemplateRef<HTMLElement | null>('input');
+const elementRef = useTemplateRef<HTMLInputElement | null>('input');
 
 const value = defineModel<string>({ default: '' });
 

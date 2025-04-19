@@ -51,6 +51,7 @@ const inputFieldVariants = cva([
   'placeholder:text-outline group-is-disabled/field:placeholder:text-on-surface/38',
   'transition easing-standard duration-medium-1',
   'outline-0! overflow-hidden',
+  'appearance-none [-moz-appearance:textfield]',
 ]);
 
 const labelVariants = cva([
@@ -111,7 +112,6 @@ const iconVariants = cva(
     'field--icon',
     'text-on-surface-variant group-is-disabled/field:text-on-surface/38',
     'relative inline-block',
-    'overflow-hidden',
     '[&>*]:absolute [&>*]:inset-0 [&>*]:size-full',
   ],
   {
