@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { NumberField, TextField } from '@/components';
 import type { EmptyObject, UnknownRecord } from '@bruhabruh/type-safe';
 import { reactive, watchEffect } from 'vue';
 
@@ -99,20 +100,17 @@ watchEffect(() => emit('change', values));
           <p :id="`pl-label-${name}`" class="typography-label-large">
             {{ argument.label ?? name }}
           </p>
-          <input
+          <NumberField
             v-if="argument.type === 'number'"
-            v-model.number="values[name]"
-            class="h-10 bg-surface-container px-sm rounded-sm w-max max-w-full"
+            size="sm"
+            v-model="values[name] as number"
             :aria-labelledby="`pl-label-${name}`"
-            type="number"
-            inputmode="numeric"
           />
-          <input
+          <TextField
             v-if="argument.type === 'text'"
-            v-model="values[name]"
-            class="h-10 bg-surface-container px-sm rounded-sm w-max max-w-full"
+            size="sm"
+            v-model="values[name] as string"
             :aria-labelledby="`pl-label-${name}`"
-            type="text"
           />
           <select
             v-if="argument.type === 'select'"

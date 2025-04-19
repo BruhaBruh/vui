@@ -13,20 +13,18 @@ export type NumberFieldProps = FieldProps & {
   max?: number;
   step?: number;
   stepMultiplier?: number;
-  pattern?: RegExp;
   placeholder?: string;
   disabled?: boolean;
 };
 
 const {
-  pattern = /^\d+(\.)?(\d*)?$/i,
   min,
   max,
   step = 1,
   stepMultiplier = 10,
   placeholder,
   disabled,
-  size,
+  size = 'lg',
   alwaysShowLabel,
   invalid,
   leftKey,
@@ -58,41 +56,38 @@ const isExpanded = computed(() => {
 });
 
 watchEffect(() => {
-  const numberValue = Number.parseFloat(inputValue.value);
-  if (Number.isNaN(numberValue)) return;
-  value.value = numberValue;
-});
-
-watchEffect(() => {
   if (focused.value) return;
   if (!element.value) return;
-  inputValue.value = value.value.toString();
-  element.value.value = value.value.toString();
+  setValue({ value: value.value });
 });
+
+function setValue(
+  opts:
+    | { value: string | number; withNumber?: false }
+    | { value: number; withNumber: true },
+) {
+  if (opts.withNumber && opts.value !== value.value) {
+    value.value = opts.value;
+  }
+  if (opts.value.toString() !== inputValue.value) {
+    inputValue.value = opts.value.toString();
+  }
+  if (!element.value) return;
+  element.value.value = opts.value.toString();
+}
 
 function onInput(e: Event) {
   const target = e.target as HTMLInputElement;
-  if (!pattern.test(target.value) && target.value.length > 0) {
-    target.value = inputValue.value;
+  const val = target.value.replace(/,+/g, '.').replace(/[^0-9.]/g, '');
+  const isInteger = /^\d+$/.test(val);
+  const isDecimal = /^\d+\.\d*[1-9]$/.test(val);
+  const isValid = isInteger || isDecimal;
+  if (isValid) {
+    const numberValue = Number.parseFloat(val);
+    setValue({ value: numberValue, withNumber: true });
     return;
   }
-  inputValue.value = target.value;
-}
-
-function attrsWithoutClass(attrs: UnknownRecord) {
-  const newAttrs = { ...attrs };
-  if ('class' in newAttrs) delete newAttrs.class;
-  return newAttrs;
-}
-
-function nextStep() {
-  value.value += step;
-  inputValue.value = value.value.toString();
-}
-
-function previousStep() {
-  value.value -= step;
-  inputValue.value = value.value.toString();
+  setValue({ value: val });
 }
 
 function onKeyDown(e: KeyboardEvent) {
@@ -109,23 +104,25 @@ function onKeyDown(e: KeyboardEvent) {
 
   if (e.key === 'Home') {
     if (min === undefined) return;
-    value.value = min;
-    inputValue.value = value.value.toString();
+    setValue({ value: min, withNumber: true });
   } else if (e.key === 'End') {
     if (max === undefined) return;
-    value.value = max;
-    inputValue.value = value.value.toString();
+    setValue({ value: max, withNumber: true });
   } else if (e.key === 'PageUp') {
-    value.value += step * stepMultiplier;
-    inputValue.value = value.value.toString();
+    setValue({ value: value.value + step * stepMultiplier, withNumber: true });
   } else if (e.key === 'PageDown') {
-    value.value -= step * stepMultiplier;
-    inputValue.value = value.value.toString();
+    setValue({ value: value.value - step * stepMultiplier, withNumber: true });
   } else if (e.key === 'ArrowUp') {
-    nextStep();
+    setValue({ value: value.value + 1, withNumber: true });
   } else if (e.key === 'ArrowDown') {
-    previousStep();
+    setValue({ value: value.value - 1, withNumber: true });
   }
+}
+
+function attrsWithoutClass(attrs: UnknownRecord) {
+  const newAttrs = { ...attrs };
+  if ('class' in newAttrs) delete newAttrs.class;
+  return newAttrs;
 }
 </script>
 
@@ -155,8 +152,8 @@ function onKeyDown(e: KeyboardEvent) {
         <button
           tabindex="-1"
           aria-label="next"
-          @click="nextStep()"
-          :class="numberFieldVariants.spinButton()"
+          @click="setValue({ value: value + 1, withNumber: true })"
+          :class="numberFieldVariants.spinButton({ size })"
           :disabled
         >
           <IconCaretUpFilled class="size-4" />
@@ -164,8 +161,8 @@ function onKeyDown(e: KeyboardEvent) {
         <button
           tabindex="-1"
           aria-label="previous"
-          @click="previousStep()"
-          :class="numberFieldVariants.spinButton()"
+          @click="setValue({ value: value - 1, withNumber: true })"
+          :class="numberFieldVariants.spinButton({ size })"
           :disabled
         >
           <IconCaretDownFilled />
@@ -181,7 +178,7 @@ function onKeyDown(e: KeyboardEvent) {
       <AnimatePresence mode="wait">
         <motion.input
           ref="input"
-          type="number"
+          type="text"
           inputmode="decimal"
           :step
           :min
