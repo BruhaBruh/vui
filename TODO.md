@@ -1,6 +1,7 @@
 # TODO for the project
 
 - [ ] Inputs
+  - [x] Field: utility component for building other fields
   - [ ] TextField
   - [ ] TextAreaField
   - [ ] NumberField

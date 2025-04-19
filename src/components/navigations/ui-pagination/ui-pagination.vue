@@ -122,7 +122,7 @@ addEventListener('keydown', async (e) => {
         :tabindex="page === p ? 0 : -1"
         @click="selectPage(p)"
       >
-        <span :class="paginationVariants.buttonText()">
+        <span :class="paginationVariants.buttonText()" v-tw-merge>
           {{ p }}
         </span>
       </IconButton>

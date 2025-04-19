@@ -1,9 +1,9 @@
 import {
-    useElementHover,
-    useFocus,
-    useFocusWithin,
-    useMousePressed,
-    useMutationObserver,
+  useElementHover,
+  useFocus,
+  useFocusWithin,
+  useMousePressed,
+  useMutationObserver,
 } from '@vueuse/core';
 import { type ShallowRef, computed, ref, watchEffect } from 'vue';
 
@@ -84,4 +84,13 @@ export function useInteractions(
     setData('is-pressed', isPressed.value, press);
     setData('is-disabled', isDisabled.value, disabled);
   });
+
+  return {
+    inFocus: inFocus,
+    inFocusVisible: inFocusVisible,
+    inFocusWithin: inFocusWithin,
+    isHovered: isHovered,
+    isPressed: isPressed,
+    isDisabled: isDisabled,
+  };
 }

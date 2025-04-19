@@ -1,3 +1,4 @@
+import { TextFieldPage } from '@/storybook/pages';
 import { IconForms } from '@tabler/icons-vue';
 import type { NavigationNode } from '../navigation.types';
 
@@ -6,5 +7,12 @@ export const inputs: NavigationNode = {
   name: 'Inputs',
   path: '/inputs',
   icon: IconForms,
-  children: [],
+  children: [
+    {
+      type: 'link',
+      name: 'TextField',
+      path: '/text-field',
+      page: TextFieldPage,
+    },
+  ],
 };
