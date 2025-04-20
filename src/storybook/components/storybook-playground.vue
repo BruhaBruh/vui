@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NumberField, TextField } from '@/components';
+import { NumberField, Switch, TextField } from '@/components';
 import type { EmptyObject, UnknownRecord } from '@bruhabruh/type-safe';
 import { reactive, watchEffect } from 'vue';
 
@@ -103,13 +103,13 @@ watchEffect(() => emit('change', values));
           <NumberField
             v-if="argument.type === 'number'"
             size="sm"
-            v-model="values[name] as number"
+            v-model:value="values[name] as number"
             :aria-labelledby="`pl-label-${name}`"
           />
           <TextField
             v-if="argument.type === 'text'"
             size="sm"
-            v-model="values[name] as string"
+            v-model:value="values[name] as string"
             :aria-labelledby="`pl-label-${name}`"
           />
           <select
@@ -122,12 +122,10 @@ watchEffect(() => emit('change', values));
               {{ value }}
             </option>
           </select>
-          <input
+          <Switch
             v-if="argument.type === 'switch'"
-            v-model="values[name]"
-            class="size-4.5"
+            v-model:checked="values[name] as boolean"
             :aria-labelledby="`pl-label-${name}`"
-            type="checkbox"
           />
           <template v-if="argument.type === 'radio'">
             <section

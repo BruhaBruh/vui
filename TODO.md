@@ -3,6 +3,5 @@
 - [ ] Selections
   - [ ] Checkbox
   - [ ] Radio
-  - [ ] Switch
   - [ ] Menu
   - [ ] Slider
