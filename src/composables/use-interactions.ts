@@ -71,7 +71,7 @@ export function useInteractions(
     if (!element.value) return;
     if (value && isEnabled) {
       element.value.setAttribute(`data-${name}`, `${value}`);
-    } else {
+    } else if (isEnabled) {
       element.value.removeAttribute(`data-${name}`);
     }
   }
