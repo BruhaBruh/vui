@@ -44,7 +44,7 @@ const element = computed<HTMLInputElement | null>(() => {
   return elementRef.value;
 });
 
-const value = defineModel<number>({ default: 0 });
+const value = defineModel<number>('value', { default: 0 });
 const inputValue = ref('');
 
 const { focused } = useFocus(elementRef);

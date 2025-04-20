@@ -28,7 +28,7 @@ defineOptions({
 
 const elementRef = useTemplateRef<HTMLInputElement | null>('input');
 
-const value = defineModel<string>({ default: '' });
+const value = defineModel<string>('value', { default: '' });
 
 const { focused } = useFocus(elementRef);
 

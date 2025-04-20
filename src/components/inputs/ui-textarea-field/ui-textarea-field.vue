@@ -28,7 +28,7 @@ defineOptions({
 
 const elementRef = useTemplateRef<HTMLElement | null>('input');
 
-const value = defineModel<string>({ default: '' });
+const value = defineModel<string>('value', { default: '' });
 
 const height = ref('auto');
 

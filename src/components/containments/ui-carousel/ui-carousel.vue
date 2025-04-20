@@ -15,7 +15,7 @@ export type CarouselProps = PropsPolymorphic & {
 
 const { as = 'div', options = {}, plugins = [] } = defineProps<CarouselProps>();
 
-const api = defineModel<EmblaCarouselApi | undefined>({
+const api = defineModel<EmblaCarouselApi | undefined>('api', {
   default: undefined,
 });
 

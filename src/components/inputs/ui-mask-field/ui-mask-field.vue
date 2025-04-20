@@ -38,7 +38,7 @@ const element = computed<HTMLInputElement | null>(() => {
   return elementRef.value;
 });
 
-const value = defineModel<string>({ default: '' });
+const value = defineModel<string>('value', { default: '' });
 const formattedValue = ref('');
 
 const { focused } = useFocus(elementRef);
