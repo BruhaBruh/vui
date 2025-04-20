@@ -78,7 +78,10 @@ function setValue(
 
 function onInput(e: Event) {
   const target = e.target as HTMLInputElement;
-  const val = target.value.replace(/,+/g, '.').replace(/[^0-9.]/g, '');
+  const val = target.value
+    .replace(/[,\\.]+/g, '.')
+    .replace(/(\..*)\./g, '$1')
+    .replace(/[^0-9.]/g, '');
   const isInteger = /^\d+$/.test(val);
   const isDecimal = /^\d+\.\d*[1-9]$/.test(val);
   const isValid = isInteger || isDecimal;

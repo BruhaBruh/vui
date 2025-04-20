@@ -1,4 +1,5 @@
 import {
+  MaskFieldPage,
   NumberFieldPage,
   TextAreaFieldPage,
   TextFieldPage,
@@ -29,6 +30,12 @@ export const inputs: NavigationNode = {
       name: 'TextAreaField',
       path: '/textarea-field',
       page: TextAreaFieldPage,
+    },
+    {
+      type: 'link',
+      name: 'MaskField',
+      path: '/mask-field',
+      page: MaskFieldPage,
     },
   ],
 };

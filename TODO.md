@@ -1,7 +1,5 @@
 # TODO for the project
 
-- [ ] Inputs
-  - [ ] PhoneField
 - [ ] Selections
   - [ ] Checkbox
   - [ ] Radio
