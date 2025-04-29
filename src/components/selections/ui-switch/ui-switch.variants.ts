@@ -104,7 +104,6 @@ const thumbWrapperVariants = cva(
       color: 'primary',
       isSelected: false,
     },
-    compoundVariants: [],
   },
 );
 
