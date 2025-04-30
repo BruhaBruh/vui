@@ -13,14 +13,18 @@ import type {
 import { IconCheck, IconMinus } from '@tabler/icons-vue';
 
 export type CheckboxProps = PropsPolymorphic & {
+  value: string | number;
   color?: CheckboxVariants['color'];
+  checked?: boolean;
   indeterminate?: boolean;
   disabled?: boolean;
 };
 
 const {
+  value,
   color,
   disabled,
+  checked,
   indeterminate,
   as = 'div',
 } = defineProps<CheckboxProps>();
@@ -31,12 +35,16 @@ defineOptions({
 
 const elementRef = useTemplateRef<HTMLElement>('checkbox');
 
-const checked = defineModel<boolean>('checked', {
-  default: false,
+const emit = defineEmits<{
+  change: [checked: boolean];
+}>();
+
+const group = defineModel<(string | number)[] | undefined>('group', {
+  default: undefined,
 });
 
 const state = computed<NonNullable<CheckboxMarkVariants['state']>>(() => {
-  if (checked.value) return 'checked';
+  if (group.value?.includes(value) || checked) return 'checked';
   if (indeterminate) return 'indeterminate';
   return 'unchecked';
 });
@@ -45,6 +53,29 @@ function attrsWithoutClass(attrs: UnknownRecord) {
   const newAttrs = { ...attrs };
   if ('class' in newAttrs) delete newAttrs.class;
   return newAttrs;
+}
+
+function update(isChecked: boolean) {
+  emit('change', isChecked);
+  if (!group.value) return;
+  if (isChecked) {
+    group.value = [...group.value.filter((v) => v !== value), value];
+  } else {
+    group.value = group.value.filter((v) => v !== value);
+  }
+}
+
+function onClick() {
+  update(!(group.value?.includes(value) || checked));
+  if (!elementRef.value) return;
+  const inputElement = elementRef.value.querySelector('input');
+  inputElement?.focus();
+}
+
+function onChange(e: Event) {
+  const target = e.target as HTMLInputElement | null;
+  if (!target) return;
+  update(Boolean(target.checked));
 }
 
 useInteractions(elementRef, {
@@ -59,20 +90,25 @@ useRipple(elementRef);
     ref="checkbox"
     :class="[checkboxVariants({ color }), $attrs.class]"
     :data-is-disabled="disabled ? 'true' : undefined"
-    @click="checked = !checked"
+    @click="onClick"
     v-tw-merge
   >
     <input
       type="checkbox"
-      role="switch"
       class="sr-only"
       :indeterminate
       :disabled
-      v-model="checked"
+      :checked="group?.includes(value) || checked"
+      :value
+      @change="onChange"
       v-bind="attrsWithoutClass($attrs)"
       v-tw-merge
     />
-    <span :class="checkboxVariants.mark({ color, state })" v-tw-merge>
+    <span
+      aria-hidden
+      :class="checkboxVariants.mark({ color, state })"
+      v-tw-merge
+    >
       <AnimatePresence mode="wait">
         <motion.span
           :key="state"

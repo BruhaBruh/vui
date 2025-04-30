@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Checkbox, type CheckboxProps } from '@/components';
+import { Radio, type RadioProps } from '@/components';
 import {
   StorybookCode,
   StorybookPlayground,
@@ -15,18 +15,17 @@ const colors = [
   'success',
   'caution',
   'critical',
-] satisfies CheckboxProps['color'][];
+] satisfies RadioProps['color'][];
 
-const group = ref<string[]>([...colors]);
+const group = ref<string>('primary');
 
 const code = ref('');
 
-function onChange({ color, indeterminate, disabled }: UnknownRecord) {
+function onChange({ color, disabled }: UnknownRecord) {
   code.value = `
-<Checkbox
+<Radio
   value="some-value"
   color="${color}"
-  ${indeterminate ? 'indeterminate' : ''}
   ${disabled ? 'disabled' : ''}
 />
 `;
@@ -40,65 +39,48 @@ function onChange({ color, indeterminate, disabled }: UnknownRecord) {
       color: {
         type: 'select',
         label: 'Color',
-        description: 'Color of Checkbox',
+        description: 'Color of Radio',
         defaultValue: 'primary',
         options: colors,
       },
       checked: {
         type: 'switch',
         label: 'Checked',
-        description: 'Checked state of Checkbox',
-        defaultValue: false,
-      },
-      indeterminate: {
-        type: 'switch',
-        label: 'Indeterminate',
-        description: 'Indeterminate state of Checkbox',
+        description: 'Checked state of Radio',
         defaultValue: false,
       },
       disabled: {
         type: 'switch',
         label: 'Disabled',
-        description: 'Disabled state of Checkbox',
+        description: 'Disabled state of Radio',
         defaultValue: false,
       },
     }"
   >
     <template #default="{ values }">
-      <Checkbox
+      <Radio
         value="playground"
-        @change="(v) => (values.checked = v)"
+        @change="values.checked = true"
         v-bind="values"
       />
     </template>
   </StorybookPlayground>
-  <StorybookCode name="Checkbox" :code />
+  <StorybookCode name="Radio" :code />
   <StorybookStory name="States">
-    <Checkbox value="a" aria-label="Unchecked checkbox" />
-    <Checkbox value="b" indeterminate aria-label="Indeterminate checkbox" />
-    <Checkbox value="c" checked aria-label="Checked checkbox" />
-    <Checkbox value="a" disabled aria-label="Unchecked disabled checkbox" />
-    <Checkbox
-      value="b"
-      disabled
-      indeterminate
-      aria-label="Indeterminate disabled checkbox"
-    />
-    <Checkbox
-      value="c"
-      disabled
-      checked
-      aria-label="Checked disabled checkbox"
-    />
+    <Radio value="a" aria-label="Unchecked radio" />
+    <Radio value="b" checked aria-label="Checked radio" />
+    <Radio value="a" disabled aria-label="Unchecked disabled radio" />
+    <Radio value="b" disabled checked aria-label="Checked disabled radio" />
   </StorybookStory>
   <StorybookStory name="Colors">
-    <Checkbox
+    <Radio
       v-for="color in colors"
       :key="color"
       :color="color"
       :value="color"
       v-model:group="group"
-      :aria-label="`${color} checkbox`"
+      name="color"
+      :aria-label="`${color} radio`"
     />
   </StorybookStory>
 </template>

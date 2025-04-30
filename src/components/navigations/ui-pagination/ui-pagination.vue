@@ -70,9 +70,9 @@ function previousPage() {
 
 addEventListener('keydown', async (e) => {
   if (!focused.value) return;
-  if (['ArrowLeft', 'ArrowDown'].includes(e.key)) {
+  if (['ArrowLeft', 'ArrowUp'].includes(e.key)) {
     previousPage();
-  } else if (['ArrowRight', 'ArrowUp'].includes(e.key)) {
+  } else if (['ArrowRight', 'ArrowDown'].includes(e.key)) {
     nextPage();
   } else {
     return;

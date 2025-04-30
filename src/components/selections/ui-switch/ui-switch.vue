@@ -10,10 +10,11 @@ import { materialDuration, materialEasing } from '@/config';
 
 export type SwitchProps = PropsPolymorphic & {
   color?: SwitchVariants['color'];
+  checked?: boolean;
   disabled?: boolean;
 };
 
-const { color, disabled, as = 'div' } = defineProps<SwitchProps>();
+const { color, checked, disabled, as = 'div' } = defineProps<SwitchProps>();
 
 defineOptions({
   inheritAttrs: false,
@@ -21,14 +22,27 @@ defineOptions({
 
 const elementRef = useTemplateRef<HTMLElement>('switch');
 
-const checked = defineModel<boolean>('checked', {
-  default: false,
-});
+const emit = defineEmits<{
+  change: [checked: boolean];
+}>();
 
 function attrsWithoutClass(attrs: UnknownRecord) {
   const newAttrs = { ...attrs };
   if ('class' in newAttrs) delete newAttrs.class;
   return newAttrs;
+}
+
+function onClick() {
+  emit('change', !checked);
+  if (!elementRef.value) return;
+  const inputElement = elementRef.value.querySelector('input');
+  inputElement?.focus();
+}
+
+function onChange(e: Event) {
+  const target = e.target as HTMLInputElement | null;
+  if (!target) return;
+  emit('change', Boolean(target.checked));
 }
 
 const { isPressed } = useInteractions(elementRef, {
@@ -42,7 +56,7 @@ const { isPressed } = useInteractions(elementRef, {
     ref="switch"
     :class="[switchVariants({ color, isSelected: checked }), $attrs.class]"
     :data-is-disabled="disabled ? 'true' : undefined"
-    @click="checked = !checked"
+    @click="onClick"
     v-tw-merge
   >
     <input
@@ -50,7 +64,8 @@ const { isPressed } = useInteractions(elementRef, {
       role="switch"
       class="sr-only"
       :disabled
-      v-model="checked"
+      :checked
+      @change="onChange"
       v-bind="attrsWithoutClass($attrs)"
       v-tw-merge
     />

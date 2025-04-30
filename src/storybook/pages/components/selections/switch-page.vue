@@ -85,6 +85,12 @@ ${displayCheckedIcon || displayUncheckedIcon ? '</Switch>' : ''}
         defaultValue: 'primary',
         options: colors,
       },
+      checked: {
+        type: 'switch',
+        label: 'Checked',
+        description: 'Checked state of Switch',
+        defaultValue: false,
+      },
       disabled: {
         type: 'switch',
         label: 'Disabled',
@@ -107,19 +113,19 @@ ${displayCheckedIcon || displayUncheckedIcon ? '</Switch>' : ''}
       },
     }"
   >
-    <template #default="{ values: { checkedIcon, uncheckedIcon, ...values } }">
-      <Switch v-bind="values">
-        <template #unchecked v-if="uncheckedIcon !== 'none'">
-          <IconSquare v-if="uncheckedIcon === 'square'" />
-          <IconCircle v-else-if="uncheckedIcon === 'circle'" />
-          <IconCheck v-else-if="uncheckedIcon === 'check'" />
-          <IconX v-else-if="uncheckedIcon === 'x'" />
+    <template #default="{ values }">
+      <Switch v-bind="values" @change="(v) => (values.checked = v)">
+        <template #unchecked v-if="values.uncheckedIcon !== 'none'">
+          <IconSquare v-if="values.uncheckedIcon === 'square'" />
+          <IconCircle v-else-if="values.uncheckedIcon === 'circle'" />
+          <IconCheck v-else-if="values.uncheckedIcon === 'check'" />
+          <IconX v-else-if="values.uncheckedIcon === 'x'" />
         </template>
-        <template #checked v-if="checkedIcon !== 'none'">
-          <IconSquare v-if="checkedIcon === 'square'" />
-          <IconCircle v-else-if="checkedIcon === 'circle'" />
-          <IconCheck v-else-if="checkedIcon === 'check'" />
-          <IconX v-else-if="checkedIcon === 'x'" />
+        <template #checked v-if="values.checkedIcon !== 'none'">
+          <IconSquare v-if="values.checkedIcon === 'square'" />
+          <IconCircle v-else-if="values.checkedIcon === 'circle'" />
+          <IconCheck v-else-if="values.checkedIcon === 'check'" />
+          <IconX v-else-if="values.checkedIcon === 'x'" />
         </template>
       </Switch>
     </template>

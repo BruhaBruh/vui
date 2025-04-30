@@ -1,4 +1,5 @@
 @theme {
+  --color-current: currentColor;
   --state-hover: 8;
   --state-focus: 10;
   --state-press: 10;

@@ -124,7 +124,8 @@ watchEffect(() => emit('change', values));
           </select>
           <Switch
             v-if="argument.type === 'switch'"
-            v-model:checked="values[name] as boolean"
+            :checked="values[name] as boolean"
+            @change="(v) => (values[name] = v)"
             :aria-labelledby="`pl-label-${name}`"
           />
           <template v-if="argument.type === 'radio'">
