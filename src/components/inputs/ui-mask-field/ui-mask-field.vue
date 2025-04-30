@@ -71,6 +71,10 @@ function format(val: string) {
     .join('');
 }
 
+function formatToPlain(val: string) {
+  return val.replace(/[^+0-9]/g, '').replace(/(\+.*)\+/g, '$1');
+}
+
 function setCursor(val: string) {
   if (!element.value) return;
   const index = val.indexOf('_');
@@ -81,9 +85,9 @@ function setCursor(val: string) {
 
 function onInput(e: Event) {
   const input = e.target as HTMLInputElement;
-  const val = input.value.replace(/[^+0-9]/g, '').replace(/(\+.*)\+/g, '$1');
+  const val = formatToPlain(input.value);
   const newValue = format(val);
-  value.value = newValue.replace(/[^+0-9]/g, '');
+  value.value = formatToPlain(newValue);
   formattedValue.value = newValue;
   input.value = newValue;
   setCursor(newValue);
@@ -100,10 +104,26 @@ function onKeyDown(e: KeyboardEvent) {
     formattedValue.value = '';
     return;
   }
-  const newValue = value.value.slice(0, value.value.length - 1);
-  value.value = newValue;
-  formattedValue.value = format(newValue);
-  setCursor(format(newValue));
+  e.preventDefault();
+  const input = e.target as HTMLInputElement;
+  let val = formatToPlain(input.value);
+  if (
+    input.selectionStart !== null &&
+    input.selectionEnd !== null &&
+    input.selectionStart !== input.selectionEnd
+  ) {
+    val = formatToPlain(
+      input.value.slice(0, input.selectionStart) +
+        input.value.slice(input.selectionEnd),
+    );
+  } else {
+    val = val.slice(0, val.length - 1);
+  }
+  const newValue = format(val);
+  value.value = formatToPlain(newValue);
+  formattedValue.value = newValue;
+  input.value = newValue;
+  setCursor(newValue);
 }
 
 function attrsWithoutClass(attrs: UnknownRecord) {
