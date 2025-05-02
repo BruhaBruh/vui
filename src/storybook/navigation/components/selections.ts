@@ -1,4 +1,4 @@
-import { CheckboxPage, RadioPage, SwitchPage } from '@/storybook/pages';
+import { CheckboxPage, RadioPage, SliderPage, SwitchPage } from '@/storybook/pages';
 import { IconSquareCheck } from '@tabler/icons-vue';
 import type { NavigationNode } from '../navigation.types';
 
@@ -25,6 +25,12 @@ export const selections: NavigationNode = {
       name: 'Radio',
       path: '/radio',
       page: RadioPage,
+    },
+    {
+      type: 'link',
+      name: 'Slider',
+      path: '/slider',
+      page: SliderPage,
     },
   ],
 };

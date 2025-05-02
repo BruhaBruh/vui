@@ -26,8 +26,8 @@ function onChange({ color, indeterminate, disabled }: UnknownRecord) {
 <Checkbox
   value="some-value"
   color="${color}"
-  ${indeterminate ? 'indeterminate' : ''}
-  ${disabled ? 'disabled' : ''}
+  :indeterminate="${indeterminate}"
+  :disabled="${disabled}"
 />
 `;
 }

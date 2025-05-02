@@ -116,9 +116,9 @@ function onKeyDown(e: KeyboardEvent) {
   } else if (e.key === 'PageDown') {
     setValue({ value: value.value - step * stepMultiplier, withNumber: true });
   } else if (e.key === 'ArrowUp') {
-    setValue({ value: value.value + 1, withNumber: true });
+    setValue({ value: value.value + step, withNumber: true });
   } else if (e.key === 'ArrowDown') {
-    setValue({ value: value.value - 1, withNumber: true });
+    setValue({ value: value.value - step, withNumber: true });
   }
 }
 

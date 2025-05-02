@@ -51,7 +51,7 @@ function onChange({
   code.value = `
 <Switch
   color="${color}"
-  ${disabled ? ':disabled="true"' : ''}
+  :disabled="${disabled}"
 ${displayCheckedIcon || displayUncheckedIcon ? '' : '/'}>
   ${
     displayCheckedIcon

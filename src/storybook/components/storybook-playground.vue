@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NumberField, Switch, TextField } from '@/components';
+import { NumberField, Switch, TextAreaField, TextField } from '@/components';
 import type { EmptyObject, UnknownRecord } from '@bruhabruh/type-safe';
 import { reactive, watchEffect } from 'vue';
 
@@ -32,13 +32,19 @@ type CheckboxArgument = BaseArgument<'checkbox', string[]> & {
   options: string[];
 };
 
+type ArrayArgument = BaseArgument<'array', unknown[]>;
+
+type ObjectArgument = BaseArgument<'object', UnknownRecord>;
+
 export type Argument =
   | TextArgument
   | NumberArgument
   | SwitchArgument
   | SelectArgument
   | RadioArgument
-  | CheckboxArgument;
+  | CheckboxArgument
+  | ArrayArgument
+  | ObjectArgument;
 
 export type Arguments = Record<string, Argument>;
 
@@ -75,6 +81,12 @@ function createValuesWithDefaults() {
     }
     if (argument.type === 'checkbox') {
       obj[name] = [];
+    }
+    if (argument.type === 'array') {
+      obj[name] = [];
+    }
+    if (argument.type === 'object') {
+      obj[name] = {};
     }
   });
 
@@ -160,6 +172,30 @@ watchEffect(() => emit('change', values));
               {{ value }}
             </section>
           </template>
+          <TextAreaField
+            v-if="argument.type === 'array'"
+            :value="JSON.stringify(values[name])"
+            @update:value="
+              (v) => {
+                try {
+                  values[name] = JSON.parse(v);
+                } catch {}
+              }
+            "
+            :aria-labelledby="`pl-label-${name}`"
+          />
+          <TextAreaField
+            v-if="argument.type === 'object'"
+            :value="JSON.stringify(values[name])"
+            @update:value="
+              (v) => {
+                try {
+                  values[name] = JSON.parse(v);
+                } catch {}
+              }
+            "
+            :aria-labelledby="`pl-label-${name}`"
+          />
         </section>
       </template>
     </section>

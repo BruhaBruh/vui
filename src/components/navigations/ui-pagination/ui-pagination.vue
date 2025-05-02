@@ -3,7 +3,7 @@ import { paginationVariants } from './ui-pagination.variants';
 import { computed, nextTick, useId, useTemplateRef, watchEffect } from 'vue';
 import { IconButton } from '@/components/actions';
 import type { PropsPolymorphic } from '@/types';
-import { useFocusWithin } from '@vueuse/core';
+import { useEventListener, useFocusWithin } from '@vueuse/core';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-vue';
 import { calculatePages } from './ui-pagination.utility';
 
@@ -68,7 +68,7 @@ function previousPage() {
   page.value = page.value - 1;
 }
 
-addEventListener('keydown', async (e) => {
+useEventListener('keydown', async (e) => {
   if (!focused.value) return;
   if (['ArrowLeft', 'ArrowUp'].includes(e.key)) {
     previousPage();

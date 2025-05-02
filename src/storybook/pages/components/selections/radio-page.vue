@@ -26,7 +26,7 @@ function onChange({ color, disabled }: UnknownRecord) {
 <Radio
   value="some-value"
   color="${color}"
-  ${disabled ? 'disabled' : ''}
+  :disabled="${disabled}"
 />
 `;
 }
