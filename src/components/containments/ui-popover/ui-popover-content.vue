@@ -16,9 +16,9 @@ import {
   watchEffect,
 } from 'vue';
 import { AnimatePresence, motion } from 'motion-v';
-import { materialDuration, materialEasing } from '@/config';
 import { usePopoverState } from './ui-popover.context';
 import { type PopoverVariants, popoverVariants } from './ui-popover.variants';
+import { Slot } from '@/components/utility';
 
 export type PopoverContentProps = PropsPolymorphic & {
   placement?: NonNullable<PopoverVariants['placement']>;
@@ -60,6 +60,10 @@ watchEffect(() => {
   if (!idAttribute) return;
   id.value = `${idAttribute}`;
 });
+
+function close() {
+  open.value = false;
+}
 </script>
 
 <template>
@@ -69,25 +73,18 @@ watchEffect(() => {
     :defer="teleportDefer"
   >
     <AnimatePresence mode="wait">
-      <component
+      <Slot
         :is="as"
         ref="popover"
         v-if="open"
-        :initial="{ opacity: 0, scale: 0 }"
-        :animate="{ opacity: 1, scale: 1 }"
-        :exit="{ opacity: 0, scale: 0 }"
-        :transition="{
-          duration: materialDuration.asMotion('medium-1'),
-          ease: materialEasing.standard,
-        }"
         :id
         :style="floatingStyles"
         :class="popoverVariants({ placement: floatingPlacement })"
         v-bind="$attrs"
         v-tw-merge
       >
-        <slot />
-      </component>
+        <slot :close />
+      </Slot>
     </AnimatePresence>
   </Teleport>
 </template>

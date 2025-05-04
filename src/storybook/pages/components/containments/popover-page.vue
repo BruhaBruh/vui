@@ -11,8 +11,10 @@ import {
   StorybookPlayground,
   StorybookStory,
 } from '@/storybook/components';
+import { materialDuration, materialEasing } from '@/config';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { ref } from 'vue';
+import { motion } from 'motion-v';
 
 const placements = [
   'top',
@@ -38,7 +40,9 @@ function onChange({ placement }: UnknownRecord) {
     <Button> Click me </Button>
   </PopoverTrigger>
   <PopoverContent placement="${placement}">
-    Popover
+    <div>
+      Popover
+    </div>
   </PopoverContent>
 </Popover>
 `;
@@ -67,7 +71,17 @@ function onChange({ placement }: UnknownRecord) {
           v-bind="values"
           class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-2xs"
         >
-          Popover
+          <motion.div
+            :initial="{ opacity: 0, scale: 0 }"
+            :animate="{ opacity: 1, scale: 1 }"
+            :exit="{ opacity: 0, scale: 0 }"
+            :transition="{
+              duration: materialDuration.asMotion('medium-1'),
+              ease: materialEasing.standard,
+            }"
+          >
+            Popover
+          </motion.div>
         </PopoverContent>
       </Popover>
     </template>
@@ -89,7 +103,17 @@ function onChange({ placement }: UnknownRecord) {
         :placement="placement"
         class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-2xs"
       >
-        Popover
+        <motion.div
+          :initial="{ opacity: 0, scale: 0 }"
+          :animate="{ opacity: 1, scale: 1 }"
+          :exit="{ opacity: 0, scale: 0 }"
+          :transition="{
+            duration: materialDuration.asMotion('medium-1'),
+            ease: materialEasing.standard,
+          }"
+        >
+          Popover
+        </motion.div>
       </PopoverContent>
     </Popover>
   </StorybookStory>
@@ -109,7 +133,17 @@ function onChange({ placement }: UnknownRecord) {
         :placement="placement"
         class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-2xs"
       >
-        Popover
+        <motion.div
+          :initial="{ opacity: 0, scale: 0 }"
+          :animate="{ opacity: 1, scale: 1 }"
+          :exit="{ opacity: 0, scale: 0 }"
+          :transition="{
+            duration: materialDuration.asMotion('medium-1'),
+            ease: materialEasing.standard,
+          }"
+        >
+          Popover
+        </motion.div>
       </PopoverContent>
     </Popover>
   </StorybookStory>
@@ -129,7 +163,17 @@ function onChange({ placement }: UnknownRecord) {
         :placement="placement"
         class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-2xs"
       >
-        Popover
+        <motion.div
+          :initial="{ opacity: 0, scale: 0 }"
+          :animate="{ opacity: 1, scale: 1 }"
+          :exit="{ opacity: 0, scale: 0 }"
+          :transition="{
+            duration: materialDuration.asMotion('medium-1'),
+            ease: materialEasing.standard,
+          }"
+        >
+          Popover
+        </motion.div>
       </PopoverContent>
     </Popover>
   </StorybookStory>
@@ -149,7 +193,17 @@ function onChange({ placement }: UnknownRecord) {
         :placement="placement"
         class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-2xs"
       >
-        Popover
+        <motion.div
+          :initial="{ opacity: 0, scale: 0 }"
+          :animate="{ opacity: 1, scale: 1 }"
+          :exit="{ opacity: 0, scale: 0 }"
+          :transition="{
+            duration: materialDuration.asMotion('medium-1'),
+            ease: materialEasing.standard,
+          }"
+        >
+          Popover
+        </motion.div>
       </PopoverContent>
     </Popover>
   </StorybookStory>

@@ -2,4 +2,8 @@
 
 - [ ] Selections
   - [ ] Menu
-  - [ ] Slider
+- [ ] CLI
+  - [ ] Generate config file
+  - [ ] Generate registry
+  - [ ] Download all project
+  - [ ] Download separate components
