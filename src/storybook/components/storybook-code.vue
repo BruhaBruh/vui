@@ -58,7 +58,6 @@ const highlightedCode = computedAsync(async () => {
 
 <template>
   <section
-    :exit="{ height: 0 }"
     v-if="code.trim()"
     class="flex flex-col gap-sm mb-md last:mb-0 relative"
   >

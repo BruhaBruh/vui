@@ -52,7 +52,7 @@ const trackVariants = cva(
     'transition easing-standard duration-medium-1',
     'before:absolute',
     'before:h-full',
-    'before:w-screen',
+    'before:w-(--ui-slider-before-width)',
   ],
   {
     variants: {

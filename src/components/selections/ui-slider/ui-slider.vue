@@ -317,6 +317,9 @@ function recalculate({
         duration: materialDuration.asMotion('short-2'),
         ease: materialEasing.standard,
       }"
+      :style="{
+        '--ui-slider-before-width': `${elementRef?.clientWidth ?? 1920}px`,
+      }"
       :class="[
         sliderVariants.track({ position: track.position }),
         track.isActive
