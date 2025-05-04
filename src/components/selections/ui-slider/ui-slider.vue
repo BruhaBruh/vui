@@ -139,9 +139,9 @@ function clamp(minValue: number, currentValue: number, maxValue: number) {
   return Math.min(maxValue, Math.max(minValue, currentValue));
 }
 
-function calculateValue(el: HTMLElement, e: MouseEvent) {
+function calculateValue(el: HTMLElement, x: number) {
   const bounding = el.getBoundingClientRect();
-  const percent = clamp(0, (e.x - bounding.x) / bounding.width, 1);
+  const percent = clamp(0, (x - bounding.x) / bounding.width, 1);
   const diff = max - min;
   const diffValue = diff * percent;
   const val = min + diffValue;
@@ -208,12 +208,20 @@ function onChange(
   }
 }
 
-function onMouseDown(e: MouseEvent) {
+function onStart(e: MouseEvent | TouchEvent) {
   if (disabled) return;
   const element = e.currentTarget as HTMLElement | null;
   if (!element) return;
 
-  const initialValue = calculateValue(element, e);
+  let x: number | null = null;
+  if (e instanceof MouseEvent) {
+    x = e.x;
+  } else if (e instanceof TouchEvent) {
+    x = e.touches[0].clientX;
+  }
+  if (x === null) return;
+
+  const initialValue = calculateValue(element, x);
   const thumb = nearestThumb(initialValue);
   if (!thumb) return;
 
@@ -225,7 +233,7 @@ function onMouseDown(e: MouseEvent) {
 
   window.addEventListener(
     'mousemove',
-    (ev) => recalculate({ e: ev, thumb, element }),
+    (ev) => recalculate({ x: ev.x, thumb, element }),
     { signal: abortController.value.signal },
   );
   window.addEventListener(
@@ -233,24 +241,44 @@ function onMouseDown(e: MouseEvent) {
     (ev) => {
       abortController.value.abort();
       currentDraggingThumbId.value = null;
-      recalculate({ e: ev, thumb, element });
+      recalculate({ x: ev.x, thumb, element });
+    },
+    { signal: abortController.value.signal },
+  );
+  window.addEventListener(
+    'touchmove',
+    (ev) => {
+      const touch = ev.touches[0];
+      if (!touch) return;
+      recalculate({ x: touch.clientX, thumb, element });
+    },
+    { signal: abortController.value.signal },
+  );
+  window.addEventListener(
+    'touchend',
+    (ev) => {
+      abortController.value.abort();
+      currentDraggingThumbId.value = null;
+      const touch = ev.touches[0];
+      if (!touch) return;
+      recalculate({ x: touch.clientX, thumb, element });
     },
     { signal: abortController.value.signal },
   );
 }
 
 function recalculate({
-  e,
+  x,
   thumb,
   element,
 }: {
-  e: MouseEvent;
+  x: number;
   thumb: Thumb;
   element: HTMLElement;
 }) {
   const minValue = valueArray.value[thumb.index - 1] ?? min;
   const maxValue = valueArray.value[thumb.index + 1] ?? max;
-  const newValue = calculateValue(element, e);
+  const newValue = calculateValue(element, x);
   setValue(thumb, clamp(minValue, newValue, maxValue));
   (document.querySelector(`#${thumb.id}`) as HTMLElement | null)?.focus();
 }
@@ -262,7 +290,8 @@ function recalculate({
     :id
     ref="slider"
     :data-is-disabled="disabled"
-    @mousedown="onMouseDown"
+    @touchstart="onStart"
+    @mousedown="onStart"
     :class="sliderVariants()"
     v-tw-merge
   >
