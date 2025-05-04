@@ -114,41 +114,4 @@ const onChange = ({
       {{ variant.charAt(0).toUpperCase() + variant.slice(1) }}
     </Card>
   </StorybookStory>
-  <StorybookStory name="All">
-    <section class="grid grid-cols-8 gap-md">
-      <Card
-        v-for="variant in variants"
-        :key="variant"
-        :variant="variant"
-        class="flex items-center justify-center px-md py-sm select-none col-span-2"
-      >
-        Card
-      </Card>
-      <template v-for="color in colors" :key="color">
-        <Card
-          v-for="variant in variants"
-          :key="variant"
-          as="button"
-          :variant="variant"
-          :color="color"
-          interactable
-          class="flex items-center justify-center px-md py-sm select-none"
-        >
-          Card
-        </Card>
-        <Card
-          v-for="variant in variants"
-          :key="variant"
-          as="button"
-          :variant="variant"
-          :color="color"
-          disabled
-          interactable
-          class="flex items-center justify-center px-md py-sm select-none"
-        >
-          Card
-        </Card>
-      </template>
-    </section>
-  </StorybookStory>
 </template>

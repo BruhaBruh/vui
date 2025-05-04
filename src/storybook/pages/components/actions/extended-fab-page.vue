@@ -141,22 +141,4 @@ function onChange({ label, color, lowered, icon }: UnknownRecord) {
       ExtendedFab
     </ExtendedFab>
   </StorybookStory>
-  <StorybookStory name="All">
-    <section class="grid grid-cols-2 place-items-center gap-md">
-      <template v-for="variant in ['icon', 'text', 'icon-text']" :key="variant">
-        <template v-for="color in colors" :key="color">
-          <template v-for="lowered in loweredStates" :key="`${lowered}`">
-            <ExtendedFab :color="color" :lowered="lowered">
-              <template v-if="variant !== 'text'" #icon>
-                <IconSquare />
-              </template>
-              <template v-if="variant !== 'icon'" #default>
-                ExtendedFab
-              </template>
-            </ExtendedFab>
-          </template>
-        </template>
-      </template>
-    </section>
-  </StorybookStory>
 </template>

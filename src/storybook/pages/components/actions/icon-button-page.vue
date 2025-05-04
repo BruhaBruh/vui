@@ -27,10 +27,6 @@ const variants = [
 ] satisfies IconButtonProps['variant'][];
 const icons = ['circle', 'square'];
 
-const isToggleable = true;
-const isSelected = true;
-const isNotSelected = !isSelected;
-
 const code = ref('');
 
 const onChange = ({
@@ -135,36 +131,5 @@ const onChange = ({
     <IconButton v-for="variant in variants" :key="variant" :variant="variant">
       <IconSquare />
     </IconButton>
-  </StorybookStory>
-  <StorybookStory name="All">
-    <section class="grid gap-md">
-      <section
-        v-for="color in colors"
-        :key="color"
-        class="grid grid-cols-12 place-items-center gap-md"
-      >
-        <template v-for="variant in variants" :key="variant">
-          <IconButton :variant :color="color">
-            <IconSquare />
-          </IconButton>
-          <IconButton
-            v-model:toggleable="isToggleable"
-            v-model:selected="isNotSelected"
-            :variant
-            :color="color"
-          >
-            <IconSquare />
-          </IconButton>
-          <IconButton
-            v-model:toggleable="isToggleable"
-            v-model:selected="isSelected"
-            :variant
-            :color="color"
-          >
-            <IconSquare />
-          </IconButton>
-        </template>
-      </section>
-    </section>
   </StorybookStory>
 </template>

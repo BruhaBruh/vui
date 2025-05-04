@@ -109,17 +109,4 @@ function onChange({ color, size, lowered, icon }: UnknownRecord) {
       <IconSquare />
     </Fab>
   </StorybookStory>
-  <StorybookStory name="All">
-    <section class="grid grid-cols-6 place-items-center gap-md">
-      <template v-for="color in colors" :key="color">
-        <template v-for="size in sizes" :key="size">
-          <template v-for="lowered in loweredStates" :key="`${lowered}`">
-            <Fab :size :color="color" :lowered="lowered">
-              <IconSquare />
-            </Fab>
-          </template>
-        </template>
-      </template>
-    </section>
-  </StorybookStory>
 </template>
