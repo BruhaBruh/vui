@@ -1,20 +1,20 @@
 import type { Context } from '@/types';
 import {
-    toRef,
-    useDebounceFn,
-    useElementHover,
-    useEventListener,
-    useFocus,
-    useThrottleFn,
+  toRef,
+  useDebounceFn,
+  useElementHover,
+  useEventListener,
+  useFocus,
+  useThrottleFn
 } from '@vueuse/core';
 import {
-    type InjectionKey,
-    type Ref,
-    inject,
-    provide,
-    ref,
-    useId,
-    watchEffect,
+  type InjectionKey,
+  type Ref,
+  inject,
+  provide,
+  ref,
+  useId,
+  watchEffect,
 } from 'vue';
 
 type TooltipContext = Context<
@@ -73,11 +73,6 @@ export function provideTooltipState({
     open.value = false;
   }, 100);
 
-  useEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
-    closeOnEscape();
-  });
-
   watchEffect(() => {
     const isHovered = triggerType.value !== 'focus' && isTriggerHovered.value;
     const isFocused = triggerType.value !== 'hover' && isTriggerFocused.value;
@@ -102,6 +97,12 @@ export function provideTooltipState({
     open.value = true;
     ignoreHide.value = true;
   });
+
+  useEventListener('keydown', (e) => {
+    if (!open.value) return
+    if (e.key !== 'Escape') return;
+      closeOnEscape();
+  })
 
   const state: TooltipState = {
     id,

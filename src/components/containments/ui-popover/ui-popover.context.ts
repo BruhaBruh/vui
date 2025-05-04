@@ -1,6 +1,7 @@
 import type { Context } from '@/types';
 import { toRef, useEventListener } from '@vueuse/core';
 import {
+  type ComputedRef,
   type InjectionKey,
   type Ref,
   computed,
@@ -15,6 +16,7 @@ type PopoverContext = Context<
     id: Ref<string>;
     open: Ref<boolean>;
     trigger: Ref<HTMLElement | null>;
+    triggerElement: ComputedRef<HTMLElement | null>;
     popover: Ref<HTMLElement | null>;
   },
   {
@@ -47,11 +49,6 @@ export function providePopoverState(options: PopoverContext['provideOptions']) {
     return popover.value;
   });
 
-  useEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
-    open.value = false;
-  });
-
   useEventListener(trigger, 'click', () => {
     open.value = !open.value;
   });
@@ -66,10 +63,18 @@ export function providePopoverState(options: PopoverContext['provideOptions']) {
     open.value = false;
   });
 
+  useEventListener('keydown', (e) => {
+    if (!open.value) return;
+    if (e.key !== 'Escape') return;
+    open.value = false;
+    triggerElement.value?.focus();
+  });
+
   const state: PopoverState = {
     id,
     open,
     trigger,
+    triggerElement,
     popover,
   };
 

@@ -52,6 +52,7 @@ export function provideModalState(options: ModalContext['provideOptions']) {
   });
 
   useEventListener('keydown', (e) => {
+    if (!open.value) return;
     if (e.key !== 'Escape') return;
     open.value = false;
   });
