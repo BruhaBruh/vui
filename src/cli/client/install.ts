@@ -125,18 +125,23 @@ async function installDependencies(registry: BasicRegistry) {
 
 async function addFiles(registry: BasicRegistry, config: Config) {
   const directory = config.directory;
+  const importRegexp = /import (.*) from '@([^']+)';/gm;
 
   for (const file of registry.files) {
     const filePath = `${directory}/${file.path}`;
     if (fs.existsSync(filePath)) {
       logger.log(
         highlighter.warn('WARNING'),
-        `File ${highlighter.info(filePath)} already exists. Overriding...`,
+        `File ${highlighter.info(filePath)} already exists. Backup...`,
       );
     }
     const fileSpinner = ora(`Adding ${filePath}`).start();
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
-    fs.writeFileSync(filePath, file.content);
+    const formattedContent = file.content.replace(
+      importRegexp,
+      `import $1 from '${config.alias}$2'`,
+    );
+    fs.writeFileSync(filePath, formattedContent);
     fileSpinner.succeed();
   }
 }
