@@ -1,6 +1,6 @@
 {
   "name": "@bruhabruh/vui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "BruhaBruh UI Library",
   "author": "BruhaBruh",
@@ -10,6 +10,7 @@
     "type": "git",
     "url": "https://github.com/bruhabruh/vui"
   },
+  "bin": "./dist/index.js",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
