@@ -127,7 +127,7 @@ async function installDependencies(registry: BasicRegistry) {
 
 async function addFiles(registry: BasicRegistry, config: Config) {
   const directory = config.directory;
-  const importRegexp = /import (.*) from '@\/([^']+)';/gm;
+  const importRegexp = /from '@\/([^']+)';/gm;
 
   for (const file of registry.files) {
     const filePath = `${directory}/${file.path}`;
@@ -141,7 +141,7 @@ async function addFiles(registry: BasicRegistry, config: Config) {
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
     const formattedContent = file.content.replace(
       importRegexp,
-      `import $1 from '${config.alias}/$2'`,
+      `from '${config.alias}/$2'`,
     );
     fs.writeFileSync(filePath, formattedContent);
     fileSpinner.succeed();
