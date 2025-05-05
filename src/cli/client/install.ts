@@ -141,7 +141,7 @@ async function addFiles(registry: BasicRegistry, config: Config) {
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
     const formattedContent = file.content.replace(
       importRegexp,
-      `from '${config.alias}/$2'`,
+      `from '${config.alias}/$1'`,
     );
     fs.writeFileSync(filePath, formattedContent);
     fileSpinner.succeed();
