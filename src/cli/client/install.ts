@@ -69,8 +69,10 @@ async function installDependencies(registry: BasicRegistry) {
 
   const packageJson = getPackageJson();
 
-  const installedDependencies = Object.keys(packageJson.dependencies);
-  const installedDevDependencies = Object.keys(packageJson.devDependencies);
+  const installedDependencies = Object.keys(packageJson.dependencies ?? {});
+  const installedDevDependencies = Object.keys(
+    packageJson.devDependencies ?? {},
+  );
 
   const dependencies = registry.dependencies.filter(
     (dependency) => !installedDependencies.includes(dependency),
