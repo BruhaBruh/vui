@@ -87,7 +87,10 @@ async function installDependencies(registry: BasicRegistry) {
       `Installing ${dependencies.join(', ')} dependencies`,
     ).start();
     try {
-      await addDependencies(dependencies, packageManager);
+      await addDependencies(
+        dependencies.map((v) => `${v}@${registry.dependecyVersions[v]}`),
+        packageManager,
+      );
     } catch {
       logger.log(
         highlighter.error('ERROR'),
@@ -104,7 +107,10 @@ async function installDependencies(registry: BasicRegistry) {
       `Installing ${devDependencies.join(', ')} dev dependencies`,
     ).start();
     try {
-      await addDependencies(devDependencies, packageManager);
+      await addDependencies(
+        devDependencies.map((v) => `${v}@${registry.dependecyVersions[v]}`),
+        packageManager,
+      );
     } catch {
       logger.log(
         highlighter.error('ERROR'),
