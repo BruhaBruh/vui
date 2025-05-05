@@ -28,3 +28,7 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# Testing CLI
+vui.config.json
+fake-src/

@@ -7,7 +7,8 @@
     "nightwatch.conf.*",
     "playwright.config.*",
     "eslint.config.*",
-    "prettier.config.*"
+    "prettier.config.*",
+    "tsup.config.*"
   ],
   "compilerOptions": {
     "noEmit": true,

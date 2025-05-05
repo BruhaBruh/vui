@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "registry": {
+      "type": "string",
+      "minLength": 1,
+      "format": "uri"
+    },
+    "directory": {
+      "type": "string",
+      "minLength": 1
+    },
+    "alias": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "registry",
+    "directory",
+    "alias"
+  ]
+}
