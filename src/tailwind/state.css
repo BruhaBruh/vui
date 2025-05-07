@@ -24,24 +24,17 @@
   initial-value: 0%;
 }
 
-@layer base {
-  *,
-  *::after,
-  *::before {
-    background-color: color-mix(
-      in oklab,
-      var(--ui-background-color) calc(100% - var(--ui-state-opacity)),
-      var(--ui-state-color)
-    ) !important;
-  }
-}
-
 @utility bg-* {
   --ui-background-color: --value(--color- *, [color]);
   --ui-background-color: color-mix(
     in oklab,
     --value(--color- *, [color]) calc(--modifier(integer) * 1%),
     transparent
+  );
+  background-color: color-mix(
+    in oklab,
+    var(--ui-background-color) calc(100% - var(--ui-state-opacity)),
+    var(--ui-state-color)
   );
 }
 
@@ -52,6 +45,11 @@
     in oklab,
     --value(--color- *, [color]) calc(--modifier(integer) * 1%),
     transparent
+  );
+  background-color: color-mix(
+    in oklab,
+    var(--ui-background-color) calc(100% - var(--ui-state-opacity)),
+    var(--ui-state-color)
   );
 }
 

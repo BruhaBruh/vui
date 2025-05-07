@@ -51,6 +51,12 @@ const variants = cva(
   },
 );
 
-export const badgeVariants = Object.assign(variants, {});
+const wrapperVariants = cva(['relative', '[&>:not(.badge)]:size-full']);
 
-export type BadgeVariants = VariantProps<typeof variants>;
+export const badgeVariants = Object.assign(variants, {
+  wrapper: wrapperVariants,
+});
+
+export type BadgeVariants = VariantProps<typeof badgeVariants>;
+
+export type BadgeWrapperVariants = VariantProps<typeof badgeVariants.wrapper>;

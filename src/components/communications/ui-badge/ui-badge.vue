@@ -28,7 +28,7 @@ const displayValue = computed(() => {
 </script>
 
 <template>
-  <component :is="as" class="relative" v-tw-merge>
+  <component :is="as" :class="badgeVariants.wrapper()" v-tw-merge>
     <slot />
     <AnimatePresence mode="wait">
       <motion.span
