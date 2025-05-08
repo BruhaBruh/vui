@@ -24,7 +24,7 @@ const itemVariants = cva(
     variants: {
       isActive: {
         true: ['text-on-surface'],
-        false: ['text-on-surface-variant hover:text-primary cursor-pointer'],
+        false: ['text-on-surface-variant hover:text-primary focus-visible:text-primary cursor-pointer'],
       },
       size: {
         lg: ['typography-title-large'],
