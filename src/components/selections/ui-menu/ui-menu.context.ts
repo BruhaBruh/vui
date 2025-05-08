@@ -9,7 +9,6 @@ import {
   inject,
   provide,
   ref,
-  watchEffect,
 } from 'vue';
 
 type SelectionMode = 'single' | 'multiple' | 'none';
@@ -18,7 +17,7 @@ type MenuContext = Context<
   {
     selectionMode: Ref<SelectionMode>;
     disabledValues: Ref<string[]>;
-    selectedValues: Ref<string[]>;
+    selectedValues: ComputedRef<string[]>;
     collection: Ref<string[]>;
     focusedId: Ref<string | null>;
     triggerId: ComputedRef<string | undefined>;
@@ -31,8 +30,13 @@ type MenuContext = Context<
   },
   {
     selectionMode: SelectionMode;
-    selectedValues: string[];
     disabledValues: string[];
+  },
+  {
+    selectedValues: string[];
+  },
+  {
+    onChange: (values: string[]) => void;
   }
 >;
 
@@ -47,7 +51,7 @@ export function provideMenuState(options: MenuContext['provideOptions']) {
   const itemsCollection = computed(() =>
     collection.value.filter((v) => !v.endsWith('-section')),
   );
-  const selectedValues = toRef(options.selectedValues);
+  const selectedValues = options.selectedValues;
   const selectionMode = toRef(options.selectionMode);
   const disabledValues = toRef(options.disabledValues);
   const focusedId = ref<string | null>(null);
@@ -74,18 +78,18 @@ export function provideMenuState(options: MenuContext['provideOptions']) {
   function select(value: string) {
     if (selectionMode.value === 'none') return;
     if (selectionMode.value === 'single') {
-      selectedValues.value = [value];
+      options.onChange([value]);
       return;
     }
-    selectedValues.value = [
+    options.onChange([
       ...selectedValues.value.filter((v) => v !== value),
       value,
-    ];
+    ]);
   }
 
   function unselect(value: string) {
     if (selectionMode.value === 'single') return;
-    selectedValues.value = selectedValues.value.filter((v) => v !== value);
+    options.onChange(selectedValues.value.filter((v) => v !== value));
   }
 
   function toggleSelect(value: string) {
@@ -169,13 +173,13 @@ export function provideMenuState(options: MenuContext['provideOptions']) {
     }
   });
 
-  watchEffect(() => {
-    if (selectionMode.value === 'none') {
-      selectedValues.value = [];
-    } else if (selectionMode.value === 'single') {
-      selectedValues.value = selectedValues.value.slice(0, 1);
-    }
-  });
+  // watchEffect(() => {
+  //   if (selectionMode.value === 'none') {
+  //     selectedValues.value = [];
+  //   } else if (selectionMode.value === 'single') {
+  //     selectedValues.value = selectedValues.value.slice(0, 1);
+  //   }
+  // });
 
   const state: MenuState = {
     selectionMode,

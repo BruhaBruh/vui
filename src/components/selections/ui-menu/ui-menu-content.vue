@@ -9,11 +9,12 @@ import { motion } from 'motion-v';
 import { menuVariants } from './ui-menu.variants';
 import { provideMenuState } from './ui-menu.context';
 import type { MenuStateOptions } from './ui-menu.context';
-import { onUnmounted } from 'vue';
+import { computed, onUnmounted } from 'vue';
 
 export type MenuContentProps = PropsPolymorphic &
   Omit<PopoverContentProps, 'as'> & {
     contentAs?: PropsPolymorphic['as'];
+    selectedValues?: MenuStateOptions['selectedValues'];
     selectionMode?: MenuStateOptions['selectionMode'];
     disabledValues?: MenuStateOptions['disabledValues'];
   };
@@ -21,6 +22,7 @@ export type MenuContentProps = PropsPolymorphic &
 const {
   as = motion.div,
   selectionMode = 'none',
+  selectedValues = [],
   disabledValues = [],
   contentAs,
   placement = 'bottom',
@@ -32,17 +34,17 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const selectedValues = defineModel<MenuStateOptions['selectedValues']>(
-  'selected',
-  {
-    default: [],
-  },
-);
+const emit = defineEmits<{
+  change: [values: MenuStateOptions['selectedValues']];
+}>();
+
+const selectedValuesComputed = computed(() => selectedValues);
 
 const { triggerId, clearCollection } = provideMenuState({
   selectionMode: () => selectionMode,
   disabledValues: () => disabledValues,
-  selectedValues,
+  selectedValues: selectedValuesComputed,
+  onChange: (v) => emit('change', v),
 });
 
 onUnmounted(clearCollection);

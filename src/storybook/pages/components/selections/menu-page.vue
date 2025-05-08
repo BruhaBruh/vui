@@ -16,6 +16,9 @@ import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { IconEye, IconPencil } from '@tabler/icons-vue';
 import { ref } from 'vue';
 
+const singleSelection = ref<string[]>([]);
+const multipleSelection = ref<string[]>([]);
+
 const code = ref('');
 
 function onChange({ selectionMode }: UnknownRecord) {
@@ -70,6 +73,12 @@ function onChange({ selectionMode }: UnknownRecord) {
         defaultValue: 'none',
         options: ['none', 'single', 'multiple'],
       },
+      selectedValues: {
+        type: 'array',
+        label: 'Selected value',
+        description: 'Selected value of Menu',
+        defaultValue: [],
+      },
     }"
   >
     <template #default="{ values }">
@@ -77,7 +86,10 @@ function onChange({ selectionMode }: UnknownRecord) {
         <MenuTrigger>
           <Button> Click me </Button>
         </MenuTrigger>
-        <MenuContent v-bind="values">
+        <MenuContent
+          v-bind="values"
+          @change="(v) => (values.selectedValues = v)"
+        >
           <MenuSection label="first pair of items">
             <UiMenuItem value="item-1">
               <template #left>
@@ -113,7 +125,12 @@ function onChange({ selectionMode }: UnknownRecord) {
       <MenuTrigger>
         <Button> Click me </Button>
       </MenuTrigger>
-      <MenuContent selection-mode="single" :disabled-values="['item-3']">
+      <MenuContent
+        :selected-values="singleSelection"
+        @change="(v) => (singleSelection = v)"
+        selection-mode="single"
+        :disabled-values="['item-3']"
+      >
         <MenuSection label="first pair of items">
           <UiMenuItem value="item-1">
             <template #left>
@@ -147,7 +164,12 @@ function onChange({ selectionMode }: UnknownRecord) {
       <MenuTrigger>
         <Button> Click me </Button>
       </MenuTrigger>
-      <MenuContent selection-mode="multiple" :disabled-values="['item-3']">
+      <MenuContent
+        :selected-values="multipleSelection"
+        @change="(v) => (multipleSelection = v)"
+        selection-mode="multiple"
+        :disabled-values="['item-3']"
+      >
         <MenuSection label="first pair of items">
           <UiMenuItem value="item-1">
             <template #left>
