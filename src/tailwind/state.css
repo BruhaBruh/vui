@@ -33,8 +33,9 @@
   );
   background-color: color-mix(
     in oklab,
-    var(--ui-background-color) calc(100% - var(--ui-state-opacity)),
-    var(--ui-state-color)
+    var(--ui-background-color, transparent)
+      calc(100% - var(--ui-state-opacity, 0%)),
+    var(--ui-state-color, transparent)
   );
 }
 
@@ -48,8 +49,9 @@
   );
   background-color: color-mix(
     in oklab,
-    var(--ui-background-color) calc(100% - var(--ui-state-opacity)),
-    var(--ui-state-color)
+    var(--ui-background-color, transparent)
+      calc(100% - var(--ui-state-opacity, 0%)),
+    var(--ui-state-color, transparent)
   );
 }
 
