@@ -2,7 +2,7 @@
 import { AnimatePresence, motion } from 'motion-v';
 import { Field, type FieldProps } from '../ui-field';
 import { materialDuration, materialEasing } from '@/config';
-import { computed, ref, useTemplateRef, watchEffect } from 'vue';
+import { computed, nextTick, ref, useTemplateRef, watchEffect } from 'vue';
 import { useFocus } from '@vueuse/core';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { IconCaretDownFilled, IconCaretUpFilled } from '@tabler/icons-vue';
@@ -58,7 +58,9 @@ const isExpanded = computed(() => {
 watchEffect(() => {
   if (focused.value) return;
   if (!element.value) return;
-  setValue({ value: value.value });
+  nextTick(() => {
+    setValue({ value: value.value });
+  });
 });
 
 function setValue(
@@ -82,8 +84,8 @@ function onInput(e: Event) {
     .replace(/[,\\.]+/g, '.')
     .replace(/(\..*)\./g, '$1')
     .replace(/[^0-9.]/g, '');
-  const isInteger = /^\d+$/.test(val);
-  const isDecimal = /^\d+\.\d*[1-9]$/.test(val);
+  const isInteger = /^-?\d+$/.test(val);
+  const isDecimal = /^-?\d+\.\d*[1-9]$/.test(val);
   const isValid = isInteger || isDecimal;
   if (isValid) {
     const numberValue = Number.parseFloat(val);
