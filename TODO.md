@@ -2,7 +2,6 @@
 
 - [ ] Material Desing Update
 
-  - [ ] ExtendedFab
   - [ ] Fab
   - [ ] IconButton
   - [ ] Badge

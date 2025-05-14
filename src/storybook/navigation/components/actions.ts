@@ -1,4 +1,4 @@
-import { ButtonPage } from '@/storybook/pages';
+import { ButtonPage, ExtendedFabPage } from '@/storybook/pages';
 import { IconHandFinger } from '@tabler/icons-vue';
 import type { NavigationNode } from '../navigation.types';
 
@@ -20,12 +20,12 @@ export const actions: NavigationNode = {
     //   path: '/fab',
     //   page: FabPage,
     // },
-    // {
-    //   type: 'link',
-    //   name: 'ExtendedFab',
-    //   path: '/extended-fab',
-    //   page: ExtendedFabPage,
-    // },
+    {
+      type: 'link',
+      name: 'ExtendedFab',
+      path: '/extended-fab',
+      page: ExtendedFabPage,
+    },
     // {
     //   type: 'link',
     //   name: 'IconButton',

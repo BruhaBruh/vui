@@ -4,8 +4,8 @@ import { cva } from 'class-variance-authority';
 const variants = cva(
   [
     'button group/button',
-    'inline-flex items-center justify-center',
     [
+      'inline-flex items-center justify-center',
       'relative',
       'overflow-hidden',
       'cursor-pointer',
