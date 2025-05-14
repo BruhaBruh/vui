@@ -4,3 +4,4 @@ export { default as StorybookNavigation } from './storybook-navigation.vue';
 export { default as StorybookPlayground } from './storybook-playground.vue';
 export { default as StorybookSidebar } from './storybook-sidebar.vue';
 export { default as StorybookStory } from './storybook-story.vue';
+export { default as StorybookTest } from './storybook-test.vue';

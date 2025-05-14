@@ -57,12 +57,9 @@ const highlightedCode = computedAsync(async () => {
 </script>
 
 <template>
-  <section
-    v-if="code.trim()"
-    class="flex flex-col gap-sm mb-md last:mb-0 relative"
-  >
+  <div v-if="code.trim()" class="flex flex-col gap-sm mb-md last:mb-0 relative">
     <h2 class="typography-title-large">{{ name }} Code Example</h2>
-    <motion.section
+    <motion.div
       layout
       :animate="{ height: 'max-content' }"
       :transition="{
@@ -92,7 +89,7 @@ const highlightedCode = computedAsync(async () => {
       </TooltipTrigger>
       <TooltipContent> Copy code </TooltipContent>
     </Tooltip>
-  </section>
+  </div>
 </template>
 
 <style>
@@ -100,6 +97,10 @@ const highlightedCode = computedAsync(async () => {
   counter-reset: step;
   counter-increment: step 0;
   font-weight: 600;
+}
+
+.code-block pre {
+  background-color: transparent !important;
 }
 
 .code-block::selection {

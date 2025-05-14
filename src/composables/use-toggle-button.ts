@@ -1,7 +1,6 @@
 import { useEventListener } from '@vueuse/core';
 import {
-  type MaybeRef,
-  type Ref,
+  type MaybeRefOrGetter,
   type ShallowRef,
   computed,
   toRef,
@@ -10,16 +9,16 @@ import {
 import { type UseButtonOptions, useButton } from './use-button';
 
 export type UseToggleButtonOptions = {
-  isToggleable: Readonly<MaybeRef<boolean>>;
-  isSelected: Readonly<Ref<boolean>>;
+  isToggleable: Readonly<MaybeRefOrGetter<boolean>>;
+  isSelected: Readonly<MaybeRefOrGetter<boolean>>;
   onClick?: () => void;
 } & UseButtonOptions;
 
 export function useToggleButton(
   elementRef: Readonly<ShallowRef<HTMLElement | null>>,
   {
-    isToggleable: isToggleableRef,
-    isSelected,
+    isToggleable: isToggleableMaybeRefOrGetter,
+    isSelected: isSelectedMaybeRefOrGetter,
     onClick = () => {},
     ...options
   }: UseToggleButtonOptions,
@@ -31,9 +30,10 @@ export function useToggleButton(
     return elementRef.value;
   });
 
-  const isToggleable = toRef(isToggleableRef);
+  const isToggleable = toRef(isToggleableMaybeRefOrGetter);
+  const isSelected = toRef(isSelectedMaybeRefOrGetter);
 
-  useButton(elementRef, options);
+  const button = useButton(elementRef, options);
 
   watchEffect(() => {
     if (!element.value) return;
@@ -48,4 +48,6 @@ export function useToggleButton(
   useEventListener(elementRef, 'click', () => {
     onClick();
   });
+
+  return button;
 }

@@ -1,13 +1,13 @@
 import {
-  type MaybeRef,
-  type ShallowRef,
-  computed,
-  toRef,
-  watchEffect,
+    type MaybeRef,
+    type ShallowRef,
+    computed,
+    toRef,
+    watchEffect,
 } from 'vue';
 import {
-  type UseInteractionsOptions,
-  useInteractions,
+    type UseInteractionsOptions,
+    useInteractions,
 } from './use-interactions';
 
 export type UseButtonOptions = {
@@ -33,7 +33,7 @@ export function useButton(
 
   const removeRoleRef = toRef(removeRole);
 
-  useInteractions(elementRef, interaction);
+  const interactions = useInteractions(elementRef, interaction);
 
   watchEffect(() => {
     if (!element.value) return;
@@ -48,4 +48,6 @@ export function useButton(
     if (element.value.getAttribute('type')) return;
     element.value.setAttribute('type', 'button');
   });
+
+  return interactions;
 }

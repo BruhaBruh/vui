@@ -19,7 +19,7 @@ const isOpen = ref(true);
       :class="[
         'w-full cursor-pointer select-none',
         'inline-flex items-center gap-xs',
-        'py-xs px-sm rounded-sm',
+        'py-xs px-sm rounded-md',
         'state-on-surface hover:state-hover',
         '[&>svg]:size-6',
       ]"

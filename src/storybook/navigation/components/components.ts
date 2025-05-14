@@ -1,10 +1,5 @@
 import type { NavigationNode } from '../navigation.types';
 import { actions } from './actions';
-import { communications } from './communcations';
-import { containments } from './containments';
-import { inputs } from './inputs';
-import { navigations } from './navigations';
-import { selections } from './selections';
 
 export const components: NavigationNode = {
   type: 'folder',
@@ -12,10 +7,10 @@ export const components: NavigationNode = {
   path: '/components',
   children: [
     actions,
-    communications,
-    containments,
-    inputs,
-    navigations,
-    selections,
+    // communications,
+    // containments,
+    // inputs,
+    // navigations,
+    // selections,
   ],
 };

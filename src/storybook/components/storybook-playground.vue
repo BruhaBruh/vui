@@ -96,19 +96,27 @@ function createValuesWithDefaults() {
 const values = reactive(createValuesWithDefaults());
 
 watchEffect(() => emit('change', values));
+
+function set(obj: UnknownRecord) {
+  const valuesKeys = Object.keys(values);
+  for (const [key, value] of Object.entries(obj)) {
+    if (!valuesKeys.includes(key)) continue;
+    values[key] = value;
+  }
+}
 </script>
 
 <template>
-  <section class="flex flex-col gap-sm mb-md last:mb-0">
+  <div class="flex flex-col gap-sm mb-md last:mb-0">
     <h2 class="typography-title-large">Playground</h2>
-    <section
+    <div
       class="relative flex min-h-64 items-center justify-center gap-md rounded-lg border p-lg border-outline-variant"
     >
-      <slot :values />
-    </section>
-    <section class="grid gap-md grid-cols-4">
+      <slot :values :set />
+    </div>
+    <div class="grid gap-md grid-cols-4">
       <template v-for="(argument, name) in arguments" :key="name">
-        <section class="flex flex-col items-start gap-2xs">
+        <div class="flex flex-col items-start gap-2xs">
           <p :id="`pl-label-${name}`" class="typography-label-large">
             {{ argument.label ?? name }}
           </p>
@@ -141,7 +149,7 @@ watchEffect(() => emit('change', values));
             :aria-labelledby="`pl-label-${name}`"
           />
           <template v-if="argument.type === 'radio'">
-            <section
+            <div
               v-for="value in argument.options"
               :key="value"
               class="flex items-center gap-xs"
@@ -154,10 +162,10 @@ watchEffect(() => emit('change', values));
                 type="radio"
               />
               {{ value }}
-            </section>
+            </div>
           </template>
           <template v-if="argument.type === 'checkbox'">
-            <section
+            <div
               v-for="value in argument.options"
               :key="value"
               class="flex items-center gap-xs"
@@ -170,7 +178,7 @@ watchEffect(() => emit('change', values));
                 type="checkbox"
               />
               {{ value }}
-            </section>
+            </div>
           </template>
           <TextAreaField
             v-if="argument.type === 'array'"
@@ -196,8 +204,8 @@ watchEffect(() => emit('change', values));
             "
             :aria-labelledby="`pl-label-${name}`"
           />
-        </section>
+        </div>
       </template>
-    </section>
-  </section>
+    </div>
+  </div>
 </template>

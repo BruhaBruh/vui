@@ -23,22 +23,9 @@ spacing:
   - 0: 0px
   - _generator:
       start: 0.125
-      end: 0.875
+      end: 96
       step: 0.125
       valuePattern: '{spacing.base} * {i}'
-  - _generator:
-      start: 1
-      end: 16
-      step: 0.5
-      valuePattern: '{spacing.base} * {i}'
-  - _generator:
-      start: 20
-      end: 64
-      step: 4
-      valuePattern: '{spacing.base} * {i}'
-  - 72: '{spacing.base} * 72'
-  - 80: '{spacing.base} * 80'
-  - 96: '{spacing.base} * 96'
 
 font:
   - sans: 'Inter, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'

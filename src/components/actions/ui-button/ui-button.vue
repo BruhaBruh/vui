@@ -1,97 +1,140 @@
 <script setup lang="ts">
-import { useButton, useRipple } from '@/composables';
-import { materialDuration, materialEasing } from '@/config';
-import type { PropsPolymorphic } from '@/types';
-import { AnimatePresence, motion } from 'motion-v';
-import { useTemplateRef } from 'vue';
+import { useRipple, useToggleButton } from '@/composables';
+import type { MotionPropsPolymorphic } from '@/types';
+import { computed, useTemplateRef } from 'vue';
 import { type ButtonVariants, buttonVariants } from './ui-button.variants';
+import { AnimatePresence, Motion } from 'motion-v';
+import { materialDuration, materialEasing } from '@/config';
+import {
+  buttonBorderRadius,
+  buttonBorderRadiusAlt,
+  buttonIconMargin,
+  buttonIconSize,
+} from './ui-button.options';
+import { Slot } from '@/components/utility';
 
-export type ButtonProps = PropsPolymorphic & {
+export type ButtonProps = MotionPropsPolymorphic & {
+  size?: ButtonVariants['size'];
+  shape?: ButtonVariants['shape'];
   variant?: ButtonVariants['variant'];
   color?: ButtonVariants['color'];
-  leftKey?: string;
-  rightKey?: string;
+  toggleable?: boolean;
+  selected?: boolean;
+  leadingKey?: string;
+  trailingKey?: string;
 };
 
 const {
-  variant,
-  color,
+  size = 'sm',
+  shape = 'rounded',
+  variant = 'filled',
+  color = 'primary',
+  toggleable,
+  selected,
   as = 'button',
-  leftKey,
-  rightKey,
+  leadingKey,
+  trailingKey,
 } = defineProps<ButtonProps>();
+
+const emit = defineEmits<{
+  select: [];
+}>();
 
 const elementRef = useTemplateRef<HTMLElement>('button');
 
-useButton(elementRef, { elementType: as === 'button' ? 'button' : '' });
+const { isPressed } = useToggleButton(elementRef, {
+  isToggleable: () => toggleable,
+  isSelected: () => selected,
+  onClick: () => {
+    if (!toggleable) return;
+    emit('select');
+  },
+  elementType: as === 'button' ? 'button' : '',
+});
 useRipple(elementRef);
+
+const variants = computed(() => ({
+  size,
+  shape,
+  variant,
+  color,
+}));
+
+const borderRadius = computed(() => {
+  if (toggleable) {
+    return selected
+      ? buttonBorderRadiusAlt[shape][size]
+      : buttonBorderRadius[shape][size];
+  }
+  if (shape === 'rounded' && isPressed.value) {
+    return buttonBorderRadiusAlt[shape][size];
+  }
+  return buttonBorderRadius[shape][size];
+});
 </script>
 
 <template>
-  <component
-    :is="as"
-    ref="button"
-    tabindex="0"
-    :class="buttonVariants({ variant, color })"
-    v-tw-merge
+  <Motion
+    as-child
+    :initial="{ borderRadius }"
+    :animate="{ borderRadius }"
+    :transition="{
+      duration: materialDuration.asMotion('medium-1'),
+      ease: materialEasing.standard,
+    }"
   >
-    <AnimatePresence mode="wait">
-      <motion.span
-        :key="leftKey"
-        v-if="$slots.left"
-        :initial="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
-        :exit="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
-        :animate="{
-          width: 'var(--spacing-4h)',
-          height: 'var(--spacing-4h)',
-          opacity: 1,
-          marginRight: variant === 'text' ? 'var(--spacing-2xs)' : 0,
-        }"
-        :transition="{
-          duration: materialDuration.asMotion('medium-1'),
-          ease: materialEasing.standard,
-        }"
-        :class="[
-          buttonVariants.icon(),
-          'button--left-icon',
-          variant === 'text' && 'mr-2xs',
-        ]"
-        v-tw-merge
-      >
-        <slot name="left" />
-      </motion.span>
-    </AnimatePresence>
-    <span
-      :class="buttonVariants.label({ isText: variant === 'text' })"
+    <component
+      :is="as"
+      ref="button"
+      tabindex="0"
+      :class="buttonVariants(variants)"
       v-tw-merge
     >
-      <slot />
-    </span>
-    <AnimatePresence mode="wait">
-      <motion.span
-        :key="rightKey"
-        v-if="$slots.right"
-        :initial="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
-        :exit="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
-        :animate="{
-          width: 'var(--spacing-4h)',
-          height: 'var(--spacing-4h)',
-          opacity: 1,
-          marginLeft: variant === 'text' ? 'var(--spacing-2xs)' : 0,
-        }"
-        :transition="{
-          duration: materialDuration.asMotion('medium-1'),
-          ease: materialEasing.standard,
-        }"
-        :class="[
-          buttonVariants.icon(),
-          'button--right-icon',
-          variant === 'text' && 'ml-2xs',
-        ]"
-        v-tw-merge
-      >
-        <slot name="right" />
-      </motion.span>
-    </AnimatePresence>
-  </component>
+      <AnimatePresence mode="wait">
+        <Motion
+          as-child
+          v-if="$slots.leading"
+          :key="leadingKey"
+          :initial="{ width: 0, height: 0, marginRight: 0 }"
+          :animate="{
+            width: buttonIconSize[size],
+            height: buttonIconSize[size],
+            marginRight: buttonIconMargin[size],
+          }"
+          :exit="{ width: 0, height: 0, marginRight: 0 }"
+        >
+          <Slot
+            :class="buttonVariants.icon({ ...variants, position: 'leading' })"
+            v-tw-merge
+          >
+            <slot name="leading" />
+          </Slot>
+        </Motion>
+      </AnimatePresence>
+      <span :class="buttonVariants.label(variants)" v-tw-merge>
+        <slot />
+      </span>
+      <AnimatePresence mode="wait">
+        <Motion
+          as-child
+          v-if="$slots.trailing"
+          :key="trailingKey"
+          :initial="{ width: 0, height: 0, marginLeft: 0 }"
+          :animate="{
+            width: buttonIconSize[size],
+            height: buttonIconSize[size],
+            marginLeft: buttonIconMargin[size],
+          }"
+          :exit="{ width: 0, height: 0, marginLeft: 0 }"
+        >
+          <Slot
+            :class="buttonVariants.icon({ ...variants, position: 'trailing' })"
+            v-tw-merge
+          >
+            <slot name="trailing" />
+          </Slot>
+        </Motion>
+      </AnimatePresence>
+    </component>
+  </Motion>
 </template>

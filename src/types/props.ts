@@ -1,5 +1,5 @@
-import type { Component, IntrinsicElementAttributes } from 'vue';
+import type { Options } from 'motion-v';
 
-export type PropsPolymorphic = {
-  as?: keyof IntrinsicElementAttributes | (string & {}) | Component;
-};
+export type PropsPolymorphic = Pick<Options, 'as'>;
+
+export type MotionPropsPolymorphic = Options
