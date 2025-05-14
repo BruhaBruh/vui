@@ -2,8 +2,8 @@
 
 - [ ] Material Desing Update
 
-  - [ ] Fab
   - [ ] IconButton
+  - [ ] SegmentedButton
   - [ ] Badge
   - [ ] Tooltip
   - [ ] Card
@@ -25,6 +25,12 @@
   - [ ] Radio
   - [ ] Slider
   - [ ] Switch
+
+- [ ] New Components in Material Expression
+
+  - [ ] Button Groups
+  - [ ] Fab menu
+  - [ ] Split Buttons
 
 - [ ] CLI
   - [ ] Generate config file

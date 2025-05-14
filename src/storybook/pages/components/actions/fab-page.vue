@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Fab, type FabProps } from '@/components';
+import { Fab, type FabVariants } from '@/components';
 import {
   StorybookCode,
   StorybookPlayground,
@@ -10,22 +10,24 @@ import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
+const icons = ['square', 'circle'];
+
+const sizes = ['sm', 'md', 'lg'] satisfies FabVariants['size'][];
+
+const variants = ['filled', 'tonal'] satisfies FabVariants['variant'][];
+
 const colors = [
-  'surface',
   'primary',
   'secondary',
   'info',
   'success',
   'caution',
   'critical',
-] satisfies FabProps['color'][];
-const sizes = ['sm', 'md', 'lg'] satisfies FabProps['size'][];
-const loweredStates = [false, true] satisfies FabProps['lowered'][];
-const icons = ['circle', 'square'];
+] satisfies FabVariants['color'][];
 
 const code = ref('');
 
-function onChange({ color, size, lowered, icon }: UnknownRecord) {
+function onChange({ icon, size, variant, color }: UnknownRecord) {
   let displayIcon = '';
   if (icon === 'square') {
     displayIcon = '<IconSquare />';
@@ -34,11 +36,12 @@ function onChange({ color, size, lowered, icon }: UnknownRecord) {
   }
   code.value = `
 <Fab
-  color="${color}"
   size="${size}"
-  :lowered="${lowered}"
+  variant="${variant}"
+  color=${color}
 >
   ${displayIcon}
+  Fab
 </Fab>
 `;
 }
@@ -48,64 +51,63 @@ function onChange({ color, size, lowered, icon }: UnknownRecord) {
   <StorybookPlayground
     @change="onChange"
     :arguments="{
+      icon: {
+        type: 'select',
+        label: 'Icon',
+        description: 'Icon of Fab',
+        defaultValue: 'square',
+        options: icons,
+      },
       size: {
         type: 'select',
         label: 'Size',
         description: 'Size of Fab',
-        defaultValue: 'md',
+        defaultValue: 'sm',
         options: sizes,
+      },
+      variant: {
+        type: 'select',
+        label: 'Variant',
+        description: 'Variant of Fab',
+        defaultValue: 'filled',
+        options: variants,
       },
       color: {
         type: 'select',
         label: 'Color',
         description: 'Color of Fab',
-        defaultValue: 'surface',
+        defaultValue: 'primary',
         options: colors,
-      },
-      lowered: {
-        type: 'switch',
-        label: 'Lowered',
-        description: 'Lowered state of Fab',
-        defaultValue: false,
-      },
-      icon: {
-        type: 'select',
-        label: 'Icon',
-        description: 'Icon component of Fab',
-        defaultValue: 'square',
-        options: icons,
       },
     }"
   >
     <template #default="{ values: { icon, ...values } }">
       <Fab v-bind="values" :icon-key="icon as string">
         <IconSquare v-if="icon === 'square'" />
-        <IconCircle v-else-if="icon === 'circle'" />
+        <IconCircle v-else />
       </Fab>
     </template>
   </StorybookPlayground>
   <StorybookCode name="Fab" :code />
-  <StorybookStory name="As Link">
+  <StorybookStory name="As link">
     <Fab :as="RouterLink" to="#">
       <IconSquare />
     </Fab>
   </StorybookStory>
-  <StorybookStory name="Colors">
-    <Fab v-for="color in colors" :key="color" :color="color">
-      <IconSquare />
-    </Fab>
-  </StorybookStory>
   <StorybookStory name="Sizes">
-    <Fab v-for="size in sizes" :key="size" :size="size">
+    <div class="flex flex-col items-center gap-md">
+      <Fab v-for="size in sizes" :key="size" :size>
+        <IconSquare />
+      </Fab>
+    </div>
+  </StorybookStory>
+  <StorybookStory name="Variants">
+    <Fab v-for="variant in variants" :key="variant" :variant>
       <IconSquare />
     </Fab>
   </StorybookStory>
-  <StorybookStory name="Lowered">
-    <Fab
-      v-for="lowered in loweredStates"
-      :key="`${lowered}`"
-      :lowered="lowered"
-    >
+  <StorybookStory name="Colors">
+    <Fab v-for="color in colors" :key="color" :color>
       <IconSquare />
     </Fab>
   </StorybookStory>

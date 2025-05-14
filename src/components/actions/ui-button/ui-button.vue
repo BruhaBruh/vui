@@ -102,6 +102,10 @@ const borderRadius = computed(() => {
             marginRight: buttonIconMargin[size],
           }"
           :exit="{ width: 0, height: 0, marginRight: 0 }"
+          :transition="{
+            duration: materialDuration.asMotion('medium-1'),
+            ease: materialEasing.standard,
+          }"
         >
           <Slot
             :class="buttonVariants.icon({ ...variants, position: 'leading' })"
@@ -126,6 +130,10 @@ const borderRadius = computed(() => {
             marginLeft: buttonIconMargin[size],
           }"
           :exit="{ width: 0, height: 0, marginLeft: 0 }"
+          :transition="{
+            duration: materialDuration.asMotion('medium-1'),
+            ease: materialEasing.standard,
+          }"
         >
           <Slot
             :class="buttonVariants.icon({ ...variants, position: 'trailing' })"

@@ -71,6 +71,10 @@ const variants = computed(() => ({
             marginRight: extendedFabIconMargin[size],
           }"
           :exit="{ width: 0, height: 0, marginRight: 0 }"
+          :transition="{
+            duration: materialDuration.asMotion('medium-1'),
+            ease: materialEasing.standard,
+          }"
         >
           <Slot :class="extendedFabVariants.icon(variants)" v-tw-merge>
             <slot name="icon" />

@@ -87,7 +87,7 @@ function onChange({ icon, size, variant, color }: UnknownRecord) {
           <IconSquare v-if="icon === 'square'" />
           <IconCircle v-else />
         </template>
-        A
+        ExtendedFab
       </ExtendedFab>
     </template>
   </StorybookPlayground>

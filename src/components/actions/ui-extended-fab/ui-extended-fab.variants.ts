@@ -14,7 +14,7 @@ const variants = cva(
       'relative',
       'overflow-hidden',
       'cursor-pointer',
-      'transition duration-medium-1 easing-standard',
+      'transition-box duration-medium-1 easing-standard',
       ['ripple-wrapper:inset-0 ripple:bg-current'],
       [
         'state-current',
