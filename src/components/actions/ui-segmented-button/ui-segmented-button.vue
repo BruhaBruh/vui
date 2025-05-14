@@ -7,9 +7,10 @@ import {
   type SegmentedButtonVariants,
   segmentedButtonVariants,
 } from './ui-segmented-button.variants';
-import { AnimatePresence, motion } from 'motion-v';
+import { AnimatePresence, Motion } from 'motion-v';
 import { materialDuration, materialEasing } from '@/config';
 import { IconCheck } from '@tabler/icons-vue';
+import { Slot } from '@/components/utility';
 
 export type SegmentedButtonProps = PropsPolymorphic & {
   value: string | number;
@@ -59,87 +60,93 @@ const extraProps = computed(() => ({
 </script>
 
 <template>
-  <component
-    :is="as"
-    ref="segmented-button"
-    tabindex="0"
-    :aria-checked="checked"
-    v-bind="extraProps"
-    :class="
-      segmentedButtonVariants({
-        color,
-        isSelected: isSelected,
-      })
-    "
-    v-tw-merge
+  <Motion
+    as-child
+    :transition="{
+      duration: materialDuration.asMotion('medium-1'),
+      ease: materialEasing.standard,
+    }"
   >
-    <AnimatePresence mode="wait">
-      <motion.span
-        :key="iconKey"
-        v-if="!isSelected"
-        :initial="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
-        :exit="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
-        :animate="{
-          width: 'var(--spacing-4h)',
-          height: 'var(--spacing-2h)',
-          marginRight: 'var(--spacing-2xs)',
-        }"
-        :transition="{
-          duration: materialDuration.asMotion('medium-1'),
-          ease: materialEasing.standard,
-        }"
-        aria-hidden
-        class="pointer-events-none"
-        v-tw-merge
-      />
-    </AnimatePresence>
-    <AnimatePresence mode="wait">
-      <motion.span
-        :key="iconKey"
-        v-if="isSelected"
-        :initial="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
-        :exit="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
-        :animate="{
-          width: 'var(--spacing-4h)',
-          height: 'var(--spacing-4h)',
-          marginRight: 'var(--spacing-2xs)',
-          opacity: 1,
-        }"
-        :transition="{
-          duration: materialDuration.asMotion('medium-1'),
-          ease: materialEasing.standard,
-        }"
-        :class="segmentedButtonVariants.icon()"
-        v-tw-merge
-      >
-        <slot name="icon">
-          <IconCheck />
-        </slot>
-      </motion.span>
-    </AnimatePresence>
-    <span :class="segmentedButtonVariants.label()" v-tw-merge>
-      <slot />
-    </span>
-    <AnimatePresence mode="wait">
-      <motion.span
-        :key="iconKey"
-        v-if="!isSelected"
-        :initial="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
-        :exit="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
-        :animate="{
-          width: 'var(--spacing-4h)',
-          height: 'var(--spacing-4h)',
-          marginLeft: 'var(--spacing-2xs)',
-          opacity: 1,
-        }"
-        :transition="{
-          duration: materialDuration.asMotion('medium-1'),
-          ease: materialEasing.standard,
-        }"
-        aria-hidden
-        class="pointer-events-none"
-        v-tw-merge
-      />
-    </AnimatePresence>
-  </component>
+    <component
+      :is="as"
+      ref="segmented-button"
+      tabindex="0"
+      :aria-checked="checked"
+      v-bind="extraProps"
+      :class="
+        segmentedButtonVariants({
+          color,
+          isSelected: isSelected,
+        })
+      "
+      v-tw-merge
+    >
+      <AnimatePresence mode="wait">
+        <Motion
+          v-if="!isSelected"
+          aria-hidden
+          :key="iconKey"
+          :initial="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
+          :exit="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
+          :animate="{
+            width: 'var(--spacing-2e)',
+            height: 'var(--spacing-2e)',
+            marginRight: 'var(--spacing-3xs)',
+            opacity: 1,
+          }"
+          :transition="{
+            duration: materialDuration.asMotion('medium-1'),
+            ease: materialEasing.standard,
+          }"
+        />
+      </AnimatePresence>
+      <AnimatePresence mode="wait">
+        <Motion
+          v-if="isSelected"
+          as-child
+          :key="iconKey"
+          :initial="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
+          :exit="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
+          :animate="{
+            width: 'var(--spacing-4h)',
+            height: 'var(--spacing-4h)',
+            marginRight: 'var(--spacing-2xs)',
+            opacity: 1,
+          }"
+          :transition="{
+            duration: materialDuration.asMotion('medium-1'),
+            ease: materialEasing.standard,
+          }"
+        >
+          <Slot :class="segmentedButtonVariants.icon()" v-tw-merge>
+            <slot name="icon">
+              <IconCheck />
+            </slot>
+          </Slot>
+        </Motion>
+      </AnimatePresence>
+      <span :class="segmentedButtonVariants.label()" v-tw-merge>
+        <slot />
+      </span>
+      <AnimatePresence mode="wait">
+        <Motion
+          v-if="!isSelected"
+          aria-hidden
+          :key="iconKey"
+          :initial="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
+          :exit="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
+          :animate="{
+            width: 'var(--spacing-2e)',
+            height: 'var(--spacing-2e)',
+            marginLeft: 'var(--spacing-3xs)',
+            opacity: 1,
+          }"
+          :transition="{
+            duration: materialDuration.asMotion('medium-1'),
+            ease: materialEasing.standard,
+          }"
+        />
+      </AnimatePresence>
+    </component>
+  </Motion>
 </template>

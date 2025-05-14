@@ -10,6 +10,8 @@ import {
   segmentedButtonVariants,
 } from './ui-segmented-button.variants';
 import { computed } from 'vue';
+import { Motion } from 'motion-v';
+import { materialDuration, materialEasing } from '@/config';
 
 export type SegmentedButtonGroupProps = PropsPolymorphic & {
   density?: SegmentedButtonGroupVariants['density'];
@@ -44,13 +46,21 @@ const extraProps = computed(() => ({
 </script>
 
 <template>
-  <component
-    :is="as"
-    aria-orientation="horizontal"
-    v-bind="extraProps"
-    :class="segmentedButtonVariants.group({ density })"
-    v-tw-merge
+  <Motion
+    as-child
+    :transition="{
+      duration: materialDuration.asMotion('medium-1'),
+      ease: materialEasing.standard,
+    }"
   >
-    <slot />
-  </component>
+    <component
+      :is="as"
+      aria-orientation="horizontal"
+      v-bind="extraProps"
+      :class="segmentedButtonVariants.group({ density })"
+      v-tw-merge
+    >
+      <slot />
+    </component>
+  </Motion>
 </template>

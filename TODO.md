@@ -3,7 +3,6 @@
 - [ ] Material Desing Update
 
   - [ ] IconButton
-  - [ ] SegmentedButton
   - [ ] Badge
   - [ ] Tooltip
   - [ ] Card
