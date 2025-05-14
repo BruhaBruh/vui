@@ -34,7 +34,7 @@ const variants = cva(
       'overflow-hidden',
       'cursor-pointer',
       'transition-box duration-medium-1 easing-standard',
-      ['ripple-wrapper:-inset-0.25 ripple:bg-current'],
+      ['ripple-wrapper:inset-0 ripple:bg-current'],
       [
         'state-current',
         'is-hovered:state-hover',

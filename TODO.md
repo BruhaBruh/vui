@@ -2,9 +2,6 @@
 
 - [ ] Material Desing Update
 
-  - [ ] IconButton
-  - [ ] Badge
-  - [ ] Tooltip
   - [ ] Card
   - [ ] Carousel
   - [ ] Container

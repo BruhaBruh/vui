@@ -38,6 +38,7 @@ watchEffect(() => {
       <IconButton
         @click="next()"
         color="secondary"
+        variant="standard"
         :icon-key="mode"
         :aria-label="`Toggle theme. Current is ${mode}`"
       >

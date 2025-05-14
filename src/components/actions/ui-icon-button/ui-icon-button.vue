@@ -2,79 +2,118 @@
 import { useRipple, useToggleButton } from '@/composables';
 import type { PropsPolymorphic } from '@/types';
 import { computed, useTemplateRef } from 'vue';
-import { AnimatePresence, motion } from 'motion-v';
+import { AnimatePresence, Motion } from 'motion-v';
 import { materialDuration, materialEasing } from '@/config';
 import {
   type IconButtonVariants,
   iconButtonVariants,
 } from './ui-icon-button.variants';
+import { Slot } from '@/components/utility';
+import {
+  iconButtonBorderRadius,
+  iconButtonBorderRadiusAlt,
+  iconButtonIconSize,
+} from './ui-icon-button.options';
 
 export type IconButtonProps = PropsPolymorphic & {
+  size?: IconButtonVariants['size'];
+  shape?: IconButtonVariants['shape'];
   variant?: IconButtonVariants['variant'];
   color?: IconButtonVariants['color'];
-  ignoreSelectBehavior?: boolean;
+  width?: IconButtonVariants['width'];
+  toggleable?: boolean;
+  selected?: boolean;
   iconKey?: string;
 };
 
 const {
-  variant = 'standard',
+  size = 'sm',
+  shape = 'rounded',
+  variant = 'filled',
   color = 'primary',
-  ignoreSelectBehavior = false,
+  width = 'default',
+  toggleable,
+  selected,
   as = 'button',
   iconKey,
 } = defineProps<IconButtonProps>();
 
-const toggleable = defineModel<boolean>('toggleable', { default: false });
-const selected = defineModel<boolean>('selected', { default: false });
+const emit = defineEmits<{
+  select: [];
+}>();
 
-const element = useTemplateRef<HTMLElement>('icon-button');
+const elementRef = useTemplateRef<HTMLElement>('icon-button');
 
-useToggleButton(element, {
-  isToggleable: toggleable,
-  isSelected: selected,
+const { isPressed } = useToggleButton(elementRef, {
+  isToggleable: () => toggleable,
+  isSelected: () => selected,
   onClick: () => {
-    if (toggleable.value && !ignoreSelectBehavior) {
-      selected.value = !selected.value;
-    }
+    if (!toggleable) return;
+    emit('select');
   },
   elementType: as === 'button' ? 'button' : '',
 });
-useRipple(element);
+useRipple(elementRef);
 
-const state = computed<IconButtonVariants['state']>(() => {
-  if (toggleable.value && selected.value) return 'toggleable-selected';
-  if (toggleable.value) return 'toggleable-not-selected';
-  return 'default';
+const variants = computed(() => ({
+  size,
+  shape,
+  variant,
+  color,
+  width,
+}));
+
+const borderRadius = computed(() => {
+  if (toggleable) {
+    return selected
+      ? iconButtonBorderRadiusAlt[shape][size]
+      : iconButtonBorderRadius[shape][size];
+  }
+  if (shape === 'rounded' && isPressed.value) {
+    return iconButtonBorderRadiusAlt[shape][size];
+  }
+  return iconButtonBorderRadius[shape][size];
 });
 </script>
 
 <template>
-  <component
-    :is="as"
-    ref="icon-button"
-    tabindex="0"
-    :class="iconButtonVariants({ variant, color, state })"
-    v-tw-merge
+  <Motion
+    as-child
+    :initial="{ borderRadius }"
+    :animate="{ borderRadius }"
+    :transition="{
+      duration: materialDuration.asMotion('medium-1'),
+      ease: materialEasing.standard,
+    }"
   >
-    <AnimatePresence mode="wait">
-      <motion.span
-        :key="iconKey"
-        :initial="{ width: 0, height: 0, opacity: 0 }"
-        :exit="{ width: 0, height: 0, opacity: 0 }"
-        :animate="{
-          width: 'var(--spacing-6)',
-          height: 'var(--spacing-6)',
-          opacity: 1,
-        }"
-        :transition="{
-          duration: materialDuration.asMotion('medium-1'),
-          ease: materialEasing.standard,
-        }"
-        :class="iconButtonVariants.icon()"
-        v-tw-merge
-      >
-        <slot />
-      </motion.span>
-    </AnimatePresence>
-  </component>
+    <component
+      :is="as"
+      ref="icon-button"
+      tabindex="0"
+      :class="iconButtonVariants(variants)"
+      v-tw-merge
+    >
+      <AnimatePresence mode="wait">
+        <Motion
+          as-child
+          :key="iconKey"
+          :initial="{ width: 0, height: 0, opacity: 0 }"
+          :animate="{
+            width: iconButtonIconSize[size],
+            height: iconButtonIconSize[size],
+            opacity: 1,
+          }"
+          :exit="{ width: 0, height: 0, opacity: 0 }"
+          :transition="{
+            duration: materialDuration.asMotion('medium-1'),
+            ease: materialEasing.standard,
+          }"
+        >
+          <Slot :class="iconButtonVariants.icon(variants)" v-tw-merge>
+            <slot />
+          </Slot>
+        </Motion>
+      </AnimatePresence>
+    </component>
+  </Motion>
 </template>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { IconButton } from '@/components';
-import type { IconButtonProps } from '@/components';
+import { IconButton, type IconButtonVariants } from '@/components';
 import {
   StorybookCode,
   StorybookPlayground,
@@ -11,6 +10,25 @@ import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
+const icons = ['square', 'circle'];
+
+const sizes = [
+  'xs',
+  'sm',
+  'md',
+  'lg',
+  'xl',
+] satisfies IconButtonVariants['size'][];
+
+const shapes = ['rounded', 'square'] satisfies IconButtonVariants['shape'][];
+
+const variants = [
+  'filled',
+  'tonal',
+  'outlined',
+  'standard',
+] satisfies IconButtonVariants['variant'][];
+
 const colors = [
   'primary',
   'secondary',
@@ -18,49 +36,90 @@ const colors = [
   'success',
   'caution',
   'critical',
-] satisfies IconButtonProps['color'][];
-const variants = [
-  'standard',
-  'filled',
-  'tonal',
-  'outlined',
-] satisfies IconButtonProps['variant'][];
-const icons = ['circle', 'square'];
+] satisfies IconButtonVariants['color'][];
+
+const widths = [
+  'default',
+  'narrow',
+  'wide',
+] satisfies IconButtonVariants['width'][];
 
 const code = ref('');
 
-const onChange = ({
-  color,
+function onChange({
+  leading,
+  trailing,
+  size,
+  shape,
   variant,
+  color,
   toggleable,
   selected,
   disabled,
-  icon,
-}: UnknownRecord) => {
-  let displayIcon = '';
-  if (icon === 'square') {
-    displayIcon = '<IconSquare />';
-  } else if (icon === 'circle') {
-    displayIcon = '<IconCircle />';
+}: UnknownRecord) {
+  let displayLeadingIcon = '';
+  if (leading === 'square') {
+    displayLeadingIcon = '<IconSquare />';
+  } else if (leading === 'circle') {
+    displayLeadingIcon = '<IconCircle />';
+  }
+  let displayTrailingIcon = '';
+  if (trailing === 'square') {
+    displayTrailingIcon = '<IconSquare />';
+  } else if (leading === 'circle') {
+    displayTrailingIcon = '<IconCircle />';
   }
   code.value = `
-<IconButton
-  color="${color}"
+<Button
+  size="${size}"
+  shape="${shape}"
   variant="${variant}"
+  color="${color}"
   :toggleable="${toggleable}"
   :selected="${selected}"
   :disabled="${disabled}"
+  @select="console.log('on select')"
 >
-  ${displayIcon}
-</IconButton>
+  ${displayLeadingIcon}
+  Button
+  ${displayTrailingIcon}
+</Button>
 `;
-};
+}
 </script>
 
 <template>
   <StorybookPlayground
     @change="onChange"
     :arguments="{
+      icon: {
+        type: 'select',
+        label: 'Icon',
+        description: 'Icon of IconButton',
+        defaultValue: 'square',
+        options: icons,
+      },
+      size: {
+        type: 'select',
+        label: 'Size',
+        description: 'Size of IconButton',
+        defaultValue: 'sm',
+        options: sizes,
+      },
+      shape: {
+        type: 'select',
+        label: 'Shape',
+        description: 'Shapes of IconButton',
+        defaultValue: 'rounded',
+        options: shapes,
+      },
+      variant: {
+        type: 'select',
+        label: 'Variant',
+        description: 'Variant of IconButton',
+        defaultValue: 'filled',
+        options: variants,
+      },
       color: {
         type: 'select',
         label: 'Color',
@@ -68,12 +127,12 @@ const onChange = ({
         defaultValue: 'primary',
         options: colors,
       },
-      variant: {
+      width: {
         type: 'select',
-        label: 'Variant',
-        description: 'Variant of IconButton',
-        defaultValue: 'standard',
-        options: variants,
+        label: 'Width',
+        description: 'Width of IconButton',
+        defaultValue: 'default',
+        options: widths,
       },
       toggleable: {
         type: 'switch',
@@ -93,42 +152,60 @@ const onChange = ({
         description: 'Disabled state of IconButton',
         defaultValue: false,
       },
-      icon: {
-        type: 'select',
-        label: 'Icon',
-        description: 'Icon component of Button',
-        defaultValue: 'square',
-        options: icons,
-      },
     }"
   >
-    <template #default="{ values: { icon, selected, ...values } }">
+    <template #default="{ values: { icon, ...values }, set }">
       <IconButton
         v-bind="values"
-        v-model:selected="selected as boolean"
         :icon-key="icon as string"
+        @select="set({ selected: !values.selected })"
       >
         <IconSquare v-if="icon === 'square'" />
-        <IconCircle v-else-if="icon === 'circle'" />
+        <IconCircle v-else />
       </IconButton>
     </template>
   </StorybookPlayground>
   <StorybookCode name="IconButton" :code />
-  <StorybookStory name="As Link">
+  <StorybookStory name="As link">
     <IconButton :as="RouterLink" to="#">
       <IconSquare />
     </IconButton>
   </StorybookStory>
-  <StorybookStory name="Colors">
-    <IconButton v-for="color in colors" :key="color" :color="color">
+  <StorybookStory name="Sizes">
+    <IconButton v-for="size in sizes" :key="size" :size>
       <IconSquare />
     </IconButton>
-    <IconButton disabled>
+  </StorybookStory>
+  <StorybookStory name="Widths">
+    <IconButton v-for="width in widths" :key="width" :width>
+      <IconSquare />
+    </IconButton>
+  </StorybookStory>
+  <StorybookStory name="Sizes & Widths">
+    <div class="flex flex-col items-center gap-md">
+      <div
+        class="flex items-center gap-md"
+        v-for="width in widths"
+        :key="width"
+      >
+        <IconButton v-for="size in sizes" :key="size" :width :size>
+          <IconSquare />
+        </IconButton>
+      </div>
+    </div>
+  </StorybookStory>
+  <StorybookStory name="Shapes">
+    <IconButton v-for="shape in shapes" :key="shape" :shape>
       <IconSquare />
     </IconButton>
   </StorybookStory>
   <StorybookStory name="Variants">
-    <IconButton v-for="variant in variants" :key="variant" :variant="variant">
+    <IconButton v-for="variant in variants" :key="variant" :variant>
+      <IconSquare />
+    </IconButton>
+  </StorybookStory>
+  <StorybookStory name="Colors">
+    <IconButton v-for="color in colors" :key="color" :color>
       <IconSquare />
     </IconButton>
   </StorybookStory>
