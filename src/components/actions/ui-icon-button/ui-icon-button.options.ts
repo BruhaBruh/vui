@@ -1,5 +1,36 @@
 import type { IconButtonVariants } from './ui-icon-button.variants';
 
+export const iconButtonWidth = {
+  xs: {
+    default: 'var(--spacing-8)',
+    narrow: 'var(--spacing-7)',
+    wide: 'var(--spacing-10)',
+  },
+  sm: {
+    default: 'var(--spacing-10)',
+    narrow: 'var(--spacing-8)',
+    wide: 'var(--spacing-13)',
+  },
+  md: {
+    default: 'var(--spacing-14)',
+    narrow: 'var(--spacing-12)',
+    wide: 'var(--spacing-18)',
+  },
+  lg: {
+    default: 'var(--spacing-24)',
+    narrow: 'var(--spacing-16)',
+    wide: 'var(--spacing-32)',
+  },
+  xl: {
+    default: 'var(--spacing-34)',
+    narrow: 'var(--spacing-26)',
+    wide: 'var(--spacing-46)',
+  },
+} satisfies Record<
+  NonNullable<IconButtonVariants['size']>,
+  Record<NonNullable<IconButtonVariants['width']>, string>
+>;
+
 export const iconButtonBorderRadius = {
   rounded: {
     xs: 'var(--spacing-4)',

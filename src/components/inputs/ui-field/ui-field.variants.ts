@@ -11,7 +11,7 @@ const inputVariants = cva(
     'transition easing-standard duration-medium-1',
     'border-2 border-transparent outline-none',
     'overflow-hidden',
-    'bg-surface-container group-is-disabled/field:bg-on-surface/8',
+    'bg-surface-container-high group-is-disabled/field:bg-on-surface/8',
     'whitespace-nowrap text-on-surface',
     'state-primary',
     'group-is-disabled/field:state-transparent',

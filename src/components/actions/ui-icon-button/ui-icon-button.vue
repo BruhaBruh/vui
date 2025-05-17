@@ -14,6 +14,7 @@ import {
   iconButtonBorderRadius,
   iconButtonBorderRadiusAlt,
   iconButtonIconSize,
+  iconButtonWidth,
 } from './ui-icon-button.options';
 
 export type IconButtonProps = Omit<MotionComponentProps, 'asChild'> & {
@@ -79,6 +80,10 @@ const borderRadius = computed(() => {
   return iconButtonBorderRadius[shape][size];
 });
 
+const buttonWidth = computed(() => {
+  return iconButtonWidth[size][width];
+});
+
 const initialObject = computed(() => {
   if (typeof initial !== 'object') return {};
   if (Array.isArray(initial)) return {};
@@ -98,8 +103,8 @@ const animateObject = computed(() => {
     :as
     tabindex="0"
     v-bind="motionProps"
-    :initial="{ ...initialObject, borderRadius }"
-    :animate="{ ...animateObject, borderRadius }"
+    :initial="{ ...initialObject, width: buttonWidth, borderRadius }"
+    :animate="{ ...animateObject, width: buttonWidth, borderRadius }"
     :class="iconButtonVariants(variants)"
   >
     <AnimatePresence mode="wait">
