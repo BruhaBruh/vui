@@ -5,7 +5,7 @@ const variants = cva(
     'card group/card',
     'transition duration-medium-1 easing-standard',
     'relative',
-    'rounded-xs',
+    'rounded-md',
     'overflow-hidden',
     'outline-none border-transparent',
     ['ripple-wrapper:inset-0', 'ripple-wrapper:rounded-xs'],

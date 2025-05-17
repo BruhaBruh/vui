@@ -2,13 +2,6 @@
 
 - [ ] Material Desing Update
 
-  - [ ] Card
-  - [ ] Carousel
-  - [ ] Container
-  - [ ] Dialog
-  - [ ] Divider
-  - [ ] Modal
-  - [ ] Popover
   - [ ] MaskField
   - [ ] NumberField
   - [ ] TextField

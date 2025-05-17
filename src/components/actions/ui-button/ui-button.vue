@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { useRipple, useToggleButton } from '@/composables';
-import type { MotionPropsPolymorphic } from '@/types';
 import { computed, useTemplateRef } from 'vue';
 import { type ButtonVariants, buttonVariants } from './ui-button.variants';
-import { AnimatePresence, Motion } from 'motion-v';
-import { materialDuration, materialEasing } from '@/config';
+import { AnimatePresence } from 'motion-v';
 import {
   buttonBorderRadius,
   buttonBorderRadiusAlt,
   buttonIconMargin,
   buttonIconSize,
 } from './ui-button.options';
-import { Slot } from '@/components/utility';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
 
-export type ButtonProps = MotionPropsPolymorphic & {
+export type ButtonProps = Omit<MotionComponentProps, 'asChild'> & {
   size?: ButtonVariants['size'];
   shape?: ButtonVariants['shape'];
   variant?: ButtonVariants['variant'];
@@ -34,6 +35,7 @@ const {
   as = 'button',
   leadingKey,
   trailingKey,
+  ...motionProps
 } = defineProps<ButtonProps>();
 
 const emit = defineEmits<{
@@ -74,75 +76,51 @@ const borderRadius = computed(() => {
 </script>
 
 <template>
-  <Motion
-    as-child
+  <MotionComponent
+    ref="button"
+    :as
+    tabindex="0"
+    v-bind="motionProps"
     :initial="{ borderRadius }"
     :animate="{ borderRadius }"
-    :transition="{
-      duration: materialDuration.asMotion('medium-1'),
-      ease: materialEasing.standard,
-    }"
+    :class="buttonVariants(variants)"
   >
-    <component
-      :is="as"
-      ref="button"
-      tabindex="0"
-      :class="buttonVariants(variants)"
-      v-tw-merge
-    >
-      <AnimatePresence mode="wait">
-        <Motion
-          as-child
-          v-if="$slots.leading"
-          :key="leadingKey"
-          :initial="{ width: 0, height: 0, marginRight: 0 }"
-          :animate="{
-            width: buttonIconSize[size],
-            height: buttonIconSize[size],
-            marginRight: buttonIconMargin[size],
-          }"
-          :exit="{ width: 0, height: 0, marginRight: 0 }"
-          :transition="{
-            duration: materialDuration.asMotion('medium-1'),
-            ease: materialEasing.standard,
-          }"
-        >
-          <Slot
-            :class="buttonVariants.icon({ ...variants, position: 'leading' })"
-            v-tw-merge
-          >
-            <slot name="leading" />
-          </Slot>
-        </Motion>
-      </AnimatePresence>
-      <span :class="buttonVariants.label(variants)" v-tw-merge>
-        <slot />
-      </span>
-      <AnimatePresence mode="wait">
-        <Motion
-          as-child
-          v-if="$slots.trailing"
-          :key="trailingKey"
-          :initial="{ width: 0, height: 0, marginLeft: 0 }"
-          :animate="{
-            width: buttonIconSize[size],
-            height: buttonIconSize[size],
-            marginLeft: buttonIconMargin[size],
-          }"
-          :exit="{ width: 0, height: 0, marginLeft: 0 }"
-          :transition="{
-            duration: materialDuration.asMotion('medium-1'),
-            ease: materialEasing.standard,
-          }"
-        >
-          <Slot
-            :class="buttonVariants.icon({ ...variants, position: 'trailing' })"
-            v-tw-merge
-          >
-            <slot name="trailing" />
-          </Slot>
-        </Motion>
-      </AnimatePresence>
-    </component>
-  </Motion>
+    <AnimatePresence mode="wait">
+      <MotionComponent
+        as-child
+        v-if="$slots.leading"
+        :key="leadingKey"
+        :initial="{ width: 0, height: 0, marginRight: 0 }"
+        :animate="{
+          width: buttonIconSize[size],
+          height: buttonIconSize[size],
+          marginRight: buttonIconMargin[size],
+        }"
+        :exit="{ width: 0, height: 0, marginRight: 0 }"
+        :class="buttonVariants.icon({ ...variants, position: 'leading' })"
+      >
+        <slot name="leading" />
+      </MotionComponent>
+    </AnimatePresence>
+    <span :class="buttonVariants.label(variants)" v-tw-merge>
+      <slot />
+    </span>
+    <AnimatePresence mode="wait">
+      <MotionComponent
+        as-child
+        v-if="$slots.trailing"
+        :key="trailingKey"
+        :initial="{ width: 0, height: 0, marginLeft: 0 }"
+        :animate="{
+          width: buttonIconSize[size],
+          height: buttonIconSize[size],
+          marginLeft: buttonIconMargin[size],
+        }"
+        :exit="{ width: 0, height: 0, marginLeft: 0 }"
+        :class="buttonVariants.icon({ ...variants, position: 'trailing' })"
+      >
+        <slot name="trailing" />
+      </MotionComponent>
+    </AnimatePresence>
+  </MotionComponent>
 </template>

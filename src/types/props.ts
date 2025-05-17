@@ -1,5 +1,5 @@
-import type { Options } from 'motion-v';
+import type { AsTag } from 'motion-v';
 
-export type PropsPolymorphic = Pick<Options, 'as'>;
-
-export type MotionPropsPolymorphic = Options
+export type PropsPolymorphic = {
+  as?: AsTag;
+};

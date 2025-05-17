@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { useButton, useRipple } from '@/composables';
-import { materialDuration, materialEasing } from '@/config';
-import type { MotionPropsPolymorphic } from '@/types';
-import { AnimatePresence, Motion } from 'motion-v';
+import { AnimatePresence } from 'motion-v';
 import { computed, useTemplateRef } from 'vue';
 import { type FabVariants, fabVariants } from './ui-fab.variants';
 import { fabIconSize } from './ui-fab.options';
-import { Slot } from '@/components/utility';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
 
-export type FabProps = MotionPropsPolymorphic & {
+export type FabProps = Omit<MotionComponentProps, 'asChild'> & {
   size?: FabVariants['size'];
   variant?: FabVariants['variant'];
   color?: FabVariants['color'];
@@ -21,6 +22,7 @@ const {
   color = 'primary',
   as = 'button',
   iconKey,
+  ...motionProps
 } = defineProps<FabProps>();
 
 const elementRef = useTemplateRef<HTMLElement>('fab');
@@ -39,40 +41,27 @@ const variants = computed(() => ({
 </script>
 
 <template>
-  <Motion
-    as-child
-    :transition="{
-      duration: materialDuration.asMotion('medium-1'),
-      ease: materialEasing.standard,
-    }"
+  <MotionComponent
+    ref="fab"
+    :as
+    tabindex="0"
+    v-bind="motionProps"
+    :class="fabVariants(variants)"
   >
-    <component
-      :is="as"
-      ref="fab"
-      tabindex="0"
-      :class="fabVariants(variants)"
-      v-tw-merge
-    >
-      <AnimatePresence mode="wait">
-        <Motion
-          as-child
-          :key="iconKey"
-          :initial="{ width: 0, height: 0 }"
-          :animate="{
-            width: fabIconSize[size],
-            height: fabIconSize[size],
-          }"
-          :exit="{ width: 0, height: 0 }"
-          :transition="{
-            duration: materialDuration.asMotion('medium-1'),
-            ease: materialEasing.standard,
-          }"
-        >
-          <Slot :class="fabVariants.icon(variants)" v-tw-merge>
-            <slot />
-          </Slot>
-        </Motion>
-      </AnimatePresence>
-    </component>
-  </Motion>
+    <AnimatePresence mode="wait">
+      <MotionComponent
+        as-child
+        :key="iconKey"
+        :initial="{ width: 0, height: 0 }"
+        :animate="{
+          width: fabIconSize[size],
+          height: fabIconSize[size],
+        }"
+        :exit="{ width: 0, height: 0 }"
+        :class="fabVariants.icon(variants)"
+      >
+        <slot />
+      </MotionComponent>
+    </AnimatePresence>
+  </MotionComponent>
 </template>

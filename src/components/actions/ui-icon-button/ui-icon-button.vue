@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import { useRipple, useToggleButton } from '@/composables';
-import type { PropsPolymorphic } from '@/types';
 import { computed, useTemplateRef } from 'vue';
-import { AnimatePresence, Motion } from 'motion-v';
-import { materialDuration, materialEasing } from '@/config';
+import { AnimatePresence } from 'motion-v';
 import {
   type IconButtonVariants,
   iconButtonVariants,
 } from './ui-icon-button.variants';
-import { Slot } from '@/components/utility';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
 import {
   iconButtonBorderRadius,
   iconButtonBorderRadiusAlt,
   iconButtonIconSize,
 } from './ui-icon-button.options';
 
-export type IconButtonProps = PropsPolymorphic & {
+export type IconButtonProps = Omit<MotionComponentProps, 'asChild'> & {
   size?: IconButtonVariants['size'];
   shape?: IconButtonVariants['shape'];
   variant?: IconButtonVariants['variant'];
@@ -36,6 +37,7 @@ const {
   selected,
   as = 'button',
   iconKey,
+  ...motionProps
 } = defineProps<IconButtonProps>();
 
 const emit = defineEmits<{
@@ -77,43 +79,29 @@ const borderRadius = computed(() => {
 </script>
 
 <template>
-  <Motion
-    as-child
+  <MotionComponent
+    ref="icon-button"
+    :as
+    tabindex="0"
+    v-bind="motionProps"
     :initial="{ borderRadius }"
     :animate="{ borderRadius }"
-    :transition="{
-      duration: materialDuration.asMotion('medium-1'),
-      ease: materialEasing.standard,
-    }"
+    :class="iconButtonVariants(variants)"
   >
-    <component
-      :is="as"
-      ref="icon-button"
-      tabindex="0"
-      :class="iconButtonVariants(variants)"
-      v-tw-merge
-    >
-      <AnimatePresence mode="wait">
-        <Motion
-          as-child
-          :key="iconKey"
-          :initial="{ width: 0, height: 0, opacity: 0 }"
-          :animate="{
-            width: iconButtonIconSize[size],
-            height: iconButtonIconSize[size],
-            opacity: 1,
-          }"
-          :exit="{ width: 0, height: 0, opacity: 0 }"
-          :transition="{
-            duration: materialDuration.asMotion('medium-1'),
-            ease: materialEasing.standard,
-          }"
-        >
-          <Slot :class="iconButtonVariants.icon(variants)" v-tw-merge>
-            <slot />
-          </Slot>
-        </Motion>
-      </AnimatePresence>
-    </component>
-  </Motion>
+    <AnimatePresence mode="wait">
+      <MotionComponent
+        as-child
+        :key="iconKey"
+        :initial="{ width: 0, height: 0 }"
+        :animate="{
+          width: iconButtonIconSize[size],
+          height: iconButtonIconSize[size],
+        }"
+        :exit="{ width: 0, height: 0 }"
+        :class="iconButtonVariants.icon(variants)"
+      >
+        <slot />
+      </MotionComponent>
+    </AnimatePresence>
+  </MotionComponent>
 </template>

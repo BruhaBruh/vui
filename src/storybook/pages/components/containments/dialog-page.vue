@@ -42,8 +42,8 @@ const code = `
     </template>
     <template #actions="{ close }">
       <DialogActions>
-        <Button variant="text" @click="close">Cancel</Button>
         <Button variant="text" @click="close">Accept</Button>
+        <Button variant="text" @click="close">Cancel</Button>
       </DialogActions>
     </template>
   </DialogContent>
@@ -81,8 +81,8 @@ const code = `
         </template>
         <template #actions="{ close }">
           <DialogActions>
-            <Button variant="text" @click="close">Cancel</Button>
             <Button variant="text" @click="close">Accept</Button>
+            <Button variant="text" @click="close">Cancel</Button>
           </DialogActions>
         </template>
       </DialogContent>

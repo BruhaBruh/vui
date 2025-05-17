@@ -5,7 +5,7 @@ const variants = cva([
   'min-w-72 max-w-72 sm:max-w-[calc(var(--spacing-96)+var(--spacing-44))]',
   'inline-flex flex-col',
   'p-lg',
-  'rounded-2xl',
+  'rounded-xl',
   'bg-surface-container-high text-on-surface',
   'elevation-3',
 ]);

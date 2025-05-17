@@ -9,6 +9,7 @@ const groupVariants = cva(
       '[&>*:first-child]:ml-0 [&>*]:-ml-0.25',
       '[&>*:first-child]:rounded-l-full [&>*:last-child]:rounded-r-full',
     ],
+    'transition-box duration-medium-1 easing-standard',
   ],
   {
     variants: {

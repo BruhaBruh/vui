@@ -76,10 +76,11 @@ const highlightedCode = computedAsync(async () => {
       <TooltipTrigger>
         <IconButton
           :class="[
-            'absolute top-3xl right-xs in-focus-visible:opacity-100',
+            'absolute! top-3xl right-xs in-focus-visible:opacity-100',
             isCopyButtonVisible ? 'opacity-100' : 'opacity-0',
           ]"
           color="secondary"
+          variant="tonal"
           :aria-label="`Copy code of ${name} example`"
           @mouseenter="isCopyButtonVisible = true"
           @click="copy(code)"

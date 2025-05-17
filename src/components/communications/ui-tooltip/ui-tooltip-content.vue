@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useTooltipState } from './ui-tooltip.context';
-import type { PropsPolymorphic } from '@/types';
 import { type TooltipVariants, tooltipVariants } from './ui-tooltip.variants';
 import {
   autoUpdate,
@@ -13,13 +12,16 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Teleport, type TeleportProps, computed } from 'vue';
 import { AnimatePresence, motion } from 'motion-v';
-import { materialDuration, materialEasing } from '@/config';
 import {
   floatingPlacementToVariantPlacement,
   variantPlacementToFloatingPlacement,
 } from './ui-tooltip.utility';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
 
-export type TooltipContentProps = PropsPolymorphic & {
+export type TooltipContentProps = Omit<MotionComponentProps, 'asChild'> & {
   variant?: TooltipVariants['variant'];
   placement?: TooltipVariants['placement'];
   teleportTo?: TeleportProps['to'];
@@ -34,6 +36,7 @@ const {
   teleportTo = 'body',
   teleportDisabled,
   teleportDefer,
+  ...motionProps
 } = defineProps<TooltipContentProps>();
 
 defineOptions({
@@ -83,23 +86,18 @@ const finalPlacement = computed(() =>
     :defer="teleportDefer"
   >
     <AnimatePresence mode="wait">
-      <component
-        :is="as"
-        ref="tooltip"
+      <MotionComponent
         v-if="open"
+        :as
+        ref="tooltip"
+        :id
+        role="tooltip"
+        v-bind="{ ...motionProps, ...$attrs }"
         :initial="{ opacity: 0, scale: 0 }"
         :animate="{ opacity: 1, scale: 1 }"
         :exit="{ opacity: 0, scale: 0 }"
-        :transition="{
-          duration: materialDuration.asMotion('medium-1'),
-          ease: materialEasing.standard,
-        }"
-        :id
-        role="tooltip"
         :style="floatingStyles"
         :class="tooltipVariants({ variant, placement: finalPlacement })"
-        v-bind="$attrs"
-        v-tw-merge
       >
         <p
           v-if="variant === 'rich' && $slots.subhead"
@@ -118,7 +116,7 @@ const finalPlacement = computed(() =>
         >
           <slot name="actions" />
         </p>
-      </component>
+      </MotionComponent>
     </AnimatePresence>
   </Teleport>
 </template>

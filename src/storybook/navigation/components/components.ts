@@ -1,6 +1,7 @@
 import type { NavigationNode } from '../navigation.types';
 import { actions } from './actions';
 import { communications } from './communcations';
+import { containments } from './containments';
 
 export const components: NavigationNode = {
   type: 'folder',
@@ -9,7 +10,7 @@ export const components: NavigationNode = {
   children: [
     actions,
     communications,
-    // containments,
+    containments,
     // inputs,
     // navigations,
     // selections,

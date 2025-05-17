@@ -20,7 +20,7 @@ const variants = cva(
           'bg-inverse-surface',
           'inline-flex items-center',
           'px-xs py-2xs',
-          'rounded-3xs',
+          'rounded-xs',
           'select-none',
         ],
         rich: [
@@ -29,7 +29,7 @@ const variants = cva(
           'inline-flex flex-col',
           'px-md pb-xs pt-sm',
           'elevation-2',
-          'rounded-sm',
+          'rounded-md',
         ],
       },
     },

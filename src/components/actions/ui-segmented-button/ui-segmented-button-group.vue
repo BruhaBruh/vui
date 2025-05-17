@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { PropsPolymorphic } from '@/types';
 import { provideSegmentedButtonState } from './ui-segmented-button.context';
 import type {
   SegmentedButtonGroupStateOptions,
@@ -10,10 +9,12 @@ import {
   segmentedButtonVariants,
 } from './ui-segmented-button.variants';
 import { computed } from 'vue';
-import { Motion } from 'motion-v';
-import { materialDuration, materialEasing } from '@/config';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
 
-export type SegmentedButtonGroupProps = PropsPolymorphic & {
+export type SegmentedButtonGroupProps = MotionComponentProps & {
   density?: SegmentedButtonGroupVariants['density'];
   color?: SegmentedButtonGroupStateOptions['color'];
   selectionMode?: SegmentedButtonGroupStateOptions['mode'];
@@ -26,6 +27,7 @@ const {
   selectionMode = 'single',
   disabled = false,
   as = 'div',
+  ...motionProps
 } = defineProps<SegmentedButtonGroupProps>();
 
 const selected = defineModel<SegmentedButtonSelectedValue[]>('selected', {
@@ -40,27 +42,19 @@ const state = provideSegmentedButtonState({
 });
 
 const extraProps = computed(() => ({
+  ...motionProps,
   role: state.mode.value === 'single' ? 'radiogroup' : 'toolbar',
   'aria-disabled': state.disabled.value || disabled ? 'true' : undefined,
 }));
 </script>
 
 <template>
-  <Motion
-    as-child
-    :transition="{
-      duration: materialDuration.asMotion('medium-1'),
-      ease: materialEasing.standard,
-    }"
+  <MotionComponent
+    :as
+    aria-orientation="horizontal"
+    v-bind="extraProps"
+    :class="segmentedButtonVariants.group({ density })"
   >
-    <component
-      :is="as"
-      aria-orientation="horizontal"
-      v-bind="extraProps"
-      :class="segmentedButtonVariants.group({ density })"
-      v-tw-merge
-    >
-      <slot />
-    </component>
-  </Motion>
+    <slot />
+  </MotionComponent>
 </template>

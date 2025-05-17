@@ -12,7 +12,6 @@ const variants = cva(
     [
       'inline-flex items-center justify-center',
       'relative',
-      'overflow-hidden',
       'cursor-pointer',
       'transition-box duration-medium-1 easing-standard',
       ['ripple-wrapper:inset-0 ripple:bg-current'],
