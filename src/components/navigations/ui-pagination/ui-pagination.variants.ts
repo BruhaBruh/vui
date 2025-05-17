@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva([
   'pagination group/pagination',
@@ -18,12 +19,12 @@ export const paginationVariants = Object.assign(variants, {
   buttonText: buttonTextVariants,
 });
 
-export type PaginationVariants = VariantProps<typeof paginationVariants>;
+export type PaginationVariants = Variants<typeof paginationVariants>;
 
-export type PaginationButtonVariants = VariantProps<
+export type PaginationButtonVariants = Variants<
   typeof paginationVariants.button
 >;
 
-export type PaginationButtonTextVariants = VariantProps<
+export type PaginationButtonTextVariants = Variants<
   typeof paginationVariants.buttonText
 >;

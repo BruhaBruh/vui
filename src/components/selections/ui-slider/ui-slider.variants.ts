@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva([
   'slider group/slider',
@@ -157,18 +158,18 @@ export const sliderVariants = Object.assign(variants, {
   tooltip: tooltipVariants,
 });
 
-export type SliderVariants = VariantProps<typeof sliderVariants>;
+export type SliderVariants = Variants<typeof sliderVariants>;
 
-export type SliderThumbVariants = VariantProps<typeof sliderVariants.thumb>;
+export type SliderThumbVariants = Variants<typeof sliderVariants.thumb>;
 
-export type SliderTrackVariants = VariantProps<typeof sliderVariants.track>;
+export type SliderTrackVariants = Variants<typeof sliderVariants.track>;
 
-export type SliderActiveTrackVariants = VariantProps<
+export type SliderActiveTrackVariants = Variants<
   typeof sliderVariants.activeTrack
 >;
 
-export type SliderInactiveTrackVariants = VariantProps<
+export type SliderInactiveTrackVariants = Variants<
   typeof sliderVariants.inactiveTrack
 >;
 
-export type SliderTooltipVariants = VariantProps<typeof sliderVariants.tooltip>;
+export type SliderTooltipVariants = Variants<typeof sliderVariants.tooltip>;

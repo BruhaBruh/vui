@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva(['number-field group/number-field']);
 
@@ -31,8 +32,8 @@ export const numberFieldVariants = Object.assign(variants, {
   spinButton: spinButtonVariants,
 });
 
-export type NumberFieldVariants = VariantProps<typeof numberFieldVariants>;
+export type NumberFieldVariants = Variants<typeof numberFieldVariants>;
 
-export type NumberFieldSpinButtonVariants = VariantProps<
+export type NumberFieldSpinButtonVariants = Variants<
   typeof numberFieldVariants.spinButton
 >;

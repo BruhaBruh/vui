@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva(['breadcrumbs group/breadcrumbs', 'flex items-baseline'], {
   variants: {
@@ -24,7 +25,9 @@ const itemVariants = cva(
     variants: {
       isActive: {
         true: ['text-on-surface'],
-        false: ['text-on-surface-variant hover:text-primary focus-visible:text-primary cursor-pointer'],
+        false: [
+          'text-on-surface-variant hover:text-primary focus-visible:text-primary cursor-pointer',
+        ],
       },
       size: {
         lg: ['typography-title-large'],
@@ -57,12 +60,8 @@ export const breadcrumbsVariants = Object.assign(variants, {
   icon: iconVariants,
 });
 
-export type BreadcrumbsVariants = VariantProps<typeof breadcrumbsVariants>;
+export type BreadcrumbsVariants = Variants<typeof breadcrumbsVariants>;
 
-export type BreadcrumbsItemVariants = VariantProps<
-  typeof breadcrumbsVariants.item
->;
+export type BreadcrumbsItemVariants = Variants<typeof breadcrumbsVariants.item>;
 
-export type BreadcrumbsIconVariants = VariantProps<
-  typeof breadcrumbsVariants.icon
->;
+export type BreadcrumbsIconVariants = Variants<typeof breadcrumbsVariants.icon>;

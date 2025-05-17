@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva(['carousel group/carousel', 'grid gap-2xs']);
 
@@ -75,30 +76,30 @@ export const carouselVariants = Object.assign(variants, {
   dot: dotVariants,
 });
 
-export type CarouselVariants = VariantProps<typeof carouselVariants>;
+export type CarouselVariants = Variants<typeof carouselVariants>;
 
-export type CarouselContainerVariants = VariantProps<
+export type CarouselContainerVariants = Variants<
   typeof carouselVariants.container
 >;
 
-export type CarouselViewVariants = VariantProps<typeof carouselVariants.view>;
+export type CarouselViewVariants = Variants<typeof carouselVariants.view>;
 
-export type CarouselViewContainerVariants = VariantProps<
+export type CarouselViewContainerVariants = Variants<
   typeof carouselVariants.viewContainer
 >;
 
-export type CarouselSlideVariants = VariantProps<typeof carouselVariants.slide>;
+export type CarouselSlideVariants = Variants<typeof carouselVariants.slide>;
 
-export type CarouselSlideContentVariants = VariantProps<
+export type CarouselSlideContentVariants = Variants<
   typeof carouselVariants.slideContent
 >;
 
-export type CarouselArrowButtonVariants = VariantProps<
+export type CarouselArrowButtonVariants = Variants<
   typeof carouselVariants.arrowButton
 >;
 
-export type CarouselDotsContainerVariants = VariantProps<
+export type CarouselDotsContainerVariants = Variants<
   typeof carouselVariants.dotsContainer
 >;
 
-export type CarouselDotVariants = VariantProps<typeof carouselVariants.dot>;
+export type CarouselDotVariants = Variants<typeof carouselVariants.dot>;

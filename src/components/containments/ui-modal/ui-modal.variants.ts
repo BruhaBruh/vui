@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva(['modal group/modal', 'p-md']);
 
@@ -16,6 +17,6 @@ export const modalVariants = Object.assign(variants, {
   underlay: underlayVariants,
 });
 
-export type ModalVariants = VariantProps<typeof modalVariants>;
+export type ModalVariants = Variants<typeof modalVariants>;
 
-export type ModalUnderlayVariants = VariantProps<typeof modalVariants.underlay>;
+export type ModalUnderlayVariants = Variants<typeof modalVariants.underlay>;

@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva(['field group/field', 'inline-grid gap-2xs']);
 
@@ -136,24 +137,22 @@ export const fieldVariants = Object.assign(variants, {
   icon: iconVariants,
 });
 
-export type FieldVariants = VariantProps<typeof fieldVariants>;
+export type FieldVariants = Variants<typeof fieldVariants>;
 
-export type FieldInputVariants = VariantProps<typeof fieldVariants.input>;
+export type FieldInputVariants = Variants<typeof fieldVariants.input>;
 
-export type FieldInputContentVariants = VariantProps<
+export type FieldInputContentVariants = Variants<
   typeof fieldVariants.inputContent
 >;
 
-export type FieldInputFieldVariants = VariantProps<
-  typeof fieldVariants.inputField
->;
+export type FieldInputFieldVariants = Variants<typeof fieldVariants.inputField>;
 
-export type FieldLabelVariants = VariantProps<typeof fieldVariants.label>;
+export type FieldLabelVariants = Variants<typeof fieldVariants.label>;
 
-export type FieldDescriptionVariants = VariantProps<
+export type FieldDescriptionVariants = Variants<
   typeof fieldVariants.description
 >;
 
-export type FieldErrorVariants = VariantProps<typeof fieldVariants.error>;
+export type FieldErrorVariants = Variants<typeof fieldVariants.error>;
 
-export type FieldIconVariants = VariantProps<typeof fieldVariants.icon>;
+export type FieldIconVariants = Variants<typeof fieldVariants.icon>;

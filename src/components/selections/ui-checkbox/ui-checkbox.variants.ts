@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva(
   [
@@ -120,8 +121,8 @@ export const checkboxVariants = Object.assign(variants, {
   icon: iconVariants,
 });
 
-export type CheckboxVariants = VariantProps<typeof checkboxVariants>;
+export type CheckboxVariants = Variants<typeof checkboxVariants>;
 
-export type CheckboxMarkVariants = VariantProps<typeof checkboxVariants.mark>;
+export type CheckboxMarkVariants = Variants<typeof checkboxVariants.mark>;
 
-export type CheckboxIconVariants = VariantProps<typeof checkboxVariants.icon>;
+export type CheckboxIconVariants = Variants<typeof checkboxVariants.icon>;

@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva(
   [
@@ -239,12 +240,12 @@ export const switchVariants = Object.assign(variants, {
   icon: iconVariants,
 });
 
-export type SwitchVariants = VariantProps<typeof switchVariants>;
+export type SwitchVariants = Variants<typeof switchVariants>;
 
-export type SwitchThumbWrapperVariants = VariantProps<
+export type SwitchThumbWrapperVariants = Variants<
   typeof switchVariants.thumbWrapper
 >;
 
-export type SwitchThumbVariants = VariantProps<typeof switchVariants.thumb>;
+export type SwitchThumbVariants = Variants<typeof switchVariants.thumb>;
 
-export type SwitchIconVariants = VariantProps<typeof switchVariants.icon>;
+export type SwitchIconVariants = Variants<typeof switchVariants.icon>;

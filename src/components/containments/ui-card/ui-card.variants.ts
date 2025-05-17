@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva(
   [
@@ -132,4 +133,4 @@ const variants = cva(
 
 export const cardVariants = Object.assign(variants, {});
 
-export type CardVariants = VariantProps<typeof cardVariants>;
+export type CardVariants = Variants<typeof cardVariants>;

@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva([
   'menu group/menu',
@@ -99,14 +100,14 @@ export const menuVariants = Object.assign(variants, {
   label: labelVariants,
 });
 
-export type MenuVariants = VariantProps<typeof menuVariants>;
+export type MenuVariants = Variants<typeof menuVariants>;
 
-export type MenuListVariants = VariantProps<typeof menuVariants.list>;
+export type MenuListVariants = Variants<typeof menuVariants.list>;
 
-export type MenuItemVariants = VariantProps<typeof menuVariants.item>;
+export type MenuItemVariants = Variants<typeof menuVariants.item>;
 
-export type MenuDividerVariants = VariantProps<typeof menuVariants.divider>;
+export type MenuDividerVariants = Variants<typeof menuVariants.divider>;
 
-export type MenuIconVariants = VariantProps<typeof menuVariants.icon>;
+export type MenuIconVariants = Variants<typeof menuVariants.icon>;
 
-export type MenuLabelVariants = VariantProps<typeof menuVariants.label>;
+export type MenuLabelVariants = Variants<typeof menuVariants.label>;

@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva(
   [
@@ -96,8 +97,8 @@ export const radioVariants = Object.assign(variants, {
   icon: iconVariants,
 });
 
-export type RadioVariants = VariantProps<typeof radioVariants>;
+export type RadioVariants = Variants<typeof radioVariants>;
 
-export type RadioMarkVariants = VariantProps<typeof radioVariants.mark>;
+export type RadioMarkVariants = Variants<typeof radioVariants.mark>;
 
-export type RadioIconVariants = VariantProps<typeof radioVariants.icon>;
+export type RadioIconVariants = Variants<typeof radioVariants.icon>;

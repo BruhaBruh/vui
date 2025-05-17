@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva(
   ['popover group/popover', 'overflow-hidden', 'relative', 'z-20'],
@@ -27,4 +28,4 @@ const variants = cva(
 
 export const popoverVariants = Object.assign(variants, {});
 
-export type PopoverVariants = VariantProps<typeof popoverVariants>;
+export type PopoverVariants = Variants<typeof popoverVariants>;

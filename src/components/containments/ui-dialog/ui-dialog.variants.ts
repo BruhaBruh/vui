@@ -1,4 +1,5 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { Variants } from '@/types';
+import { cva } from 'class-variance-authority';
 
 const variants = cva([
   'dialog group/dialog',
@@ -59,14 +60,14 @@ export const dialogVariants = Object.assign(variants, {
   actions: actionsVariants,
 });
 
-export type DialogVariants = VariantProps<typeof dialogVariants>;
+export type DialogVariants = Variants<typeof dialogVariants>;
 
-export type DialogIconVariants = VariantProps<typeof dialogVariants.icon>;
+export type DialogIconVariants = Variants<typeof dialogVariants.icon>;
 
-export type DialogSubheadVariants = VariantProps<typeof dialogVariants.subhead>;
+export type DialogSubheadVariants = Variants<typeof dialogVariants.subhead>;
 
-export type DialogTextVariants = VariantProps<typeof dialogVariants.text>;
+export type DialogTextVariants = Variants<typeof dialogVariants.text>;
 
-export type DialogDividerVariants = VariantProps<typeof dialogVariants.divider>;
+export type DialogDividerVariants = Variants<typeof dialogVariants.divider>;
 
-export type DialogActionsVariants = VariantProps<typeof dialogVariants.actions>;
+export type DialogActionsVariants = Variants<typeof dialogVariants.actions>;

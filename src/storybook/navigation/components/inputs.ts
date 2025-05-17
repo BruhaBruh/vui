@@ -1,8 +1,9 @@
 import {
-    MaskFieldPage,
-    NumberFieldPage,
-    TextAreaFieldPage,
-    TextFieldPage,
+  MaskFieldPage,
+  NumberFieldPage,
+  SearchBarPage,
+  TextAreaFieldPage,
+  TextFieldPage,
 } from '@/storybook/pages';
 import { IconForms } from '@tabler/icons-vue';
 import type { NavigationNode } from '../navigation.types';
@@ -36,6 +37,12 @@ export const inputs: NavigationNode = {
       name: 'MaskField',
       path: '/mask-field',
       page: MaskFieldPage,
+    },
+    {
+      type: 'link',
+      name: 'SearchBar',
+      path: '/search-bar',
+      page: SearchBarPage,
     },
   ],
 };
