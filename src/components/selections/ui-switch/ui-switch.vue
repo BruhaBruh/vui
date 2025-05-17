@@ -7,6 +7,7 @@ import { useTemplateRef } from 'vue';
 import { useInteractions } from '@/composables';
 import { AnimatePresence, motion } from 'motion-v';
 import { materialDuration, materialEasing } from '@/config';
+import { MotionComponent } from '@/components/utility';
 
 export type SwitchProps = PropsPolymorphic & {
   color?: SwitchVariants['color'];
@@ -107,8 +108,9 @@ const { isPressed } = useInteractions(elementRef, {
         v-tw-merge
       >
         <AnimatePresence mode="wait">
-          <motion.span
-            v-if="checked"
+          <MotionComponent
+            as-child
+            v-if="checked && $slots.checked"
             :key="`checked-${checked}`"
             :initial="{ width: 0, height: 0 }"
             :exit="{ width: 0, height: 0 }"
@@ -121,12 +123,12 @@ const { isPressed } = useInteractions(elementRef, {
               ease: materialEasing.standard,
             }"
             :class="switchVariants.icon()"
-            v-tw-merge
           >
             <slot name="checked" />
-          </motion.span>
-          <motion.span
-            v-else
+          </MotionComponent>
+          <MotionComponent
+            as-child
+            v-else-if="!checked && $slots.unchecked"
             :key="`unchecked-${checked}`"
             :initial="{ width: 0, height: 0 }"
             :exit="{ width: 0, height: 0 }"
@@ -139,10 +141,9 @@ const { isPressed } = useInteractions(elementRef, {
               ease: materialEasing.standard,
             }"
             :class="switchVariants.icon()"
-            v-tw-merge
           >
             <slot name="unchecked" />
-          </motion.span>
+          </MotionComponent>
         </AnimatePresence>
       </motion.span>
     </span>

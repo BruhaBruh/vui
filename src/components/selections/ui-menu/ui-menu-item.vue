@@ -3,9 +3,10 @@ import { computed, onUnmounted, useId, useTemplateRef } from 'vue';
 import { useMenuState } from './ui-menu.context';
 import { menuVariants } from './ui-menu.variants';
 import { useInteractions, useRipple } from '@/composables';
-import { AnimatePresence, motion } from 'motion-v';
+import { AnimatePresence } from 'motion-v';
 import { materialDuration, materialEasing } from '@/config';
 import { IconCheck } from '@tabler/icons-vue';
+import { MotionComponent } from '@/components/utility';
 
 export type MenuItemProps = {
   value: string;
@@ -66,9 +67,10 @@ useRipple(elementRef);
     v-tw-merge
   >
     <AnimatePresence mode="sync">
-      <motion.span
-        :key="`${leftKey}-${emptyLeftIcon}-${isSelected}`"
+      <MotionComponent
+        as-child
         v-if="emptyLeftIcon || $slots.left || isSelected"
+        :key="`${leftKey}-${emptyLeftIcon}-${isSelected}`"
         :initial="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
         :exit="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
         :animate="{
@@ -77,24 +79,22 @@ useRipple(elementRef);
           opacity: 1,
           marginRight: 'var(--spacing-sm)',
         }"
-        :transition="{
-          duration: materialDuration.asMotion('medium-1'),
-          ease: materialEasing.standard,
-        }"
         :class="[menuVariants.icon({ position: 'left' }), 'menu--left-icon']"
-        v-tw-merge
       >
         <IconCheck v-if="isSelected" />
-        <slot name="left" v-else />
-      </motion.span>
+        <slot name="left" v-else>
+          <div aria-hidden />
+        </slot>
+      </MotionComponent>
     </AnimatePresence>
     <span :class="menuVariants.label()" v-tw-merge>
       <slot />
     </span>
     <AnimatePresence mode="sync">
-      <motion.span
-        :key="rightKey"
+      <MotionComponent
+        as-child
         v-if="$slots.right"
+        :key="rightKey"
         :initial="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
         :exit="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
         :animate="{
@@ -108,10 +108,9 @@ useRipple(elementRef);
           ease: materialEasing.standard,
         }"
         :class="[menuVariants.icon({ position: 'right' }), 'menu--right-icon']"
-        v-tw-merge
       >
         <slot name="right" />
-      </motion.span>
+      </MotionComponent>
     </AnimatePresence>
   </li>
 </template>

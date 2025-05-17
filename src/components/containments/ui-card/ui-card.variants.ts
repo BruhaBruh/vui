@@ -8,7 +8,7 @@ const variants = cva(
     'rounded-md',
     'overflow-hidden',
     'outline-none border-transparent',
-    ['ripple-wrapper:inset-0', 'ripple-wrapper:rounded-xs'],
+    ['ripple-wrapper:inset-0'],
   ],
   {
     variants: {

@@ -5,7 +5,7 @@ const variants = cva([
   'relative',
   'bg-surface-container',
   'elevation-2',
-  'rounded-3xs',
+  'rounded-xs',
   'py-xs',
   'overflow-y-auto overflow-x-hidden',
   'inline-grid min-w-28 max-w-72',
@@ -74,7 +74,6 @@ const iconVariants = cva(
     ],
     'relative inline-block',
     'size-6',
-    '[&>*]:absolute [&>*]:inset-0 [&>*]:size-full',
   ],
   {
     variants: {

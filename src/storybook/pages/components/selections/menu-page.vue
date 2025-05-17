@@ -88,6 +88,7 @@ function onChange({ selectionMode }: UnknownRecord) {
         </MenuTrigger>
         <MenuContent
           v-bind="values"
+          :disabled-values="['item-3']"
           @change="(v) => (values.selectedValues = v)"
         >
           <MenuSection label="first pair of items">

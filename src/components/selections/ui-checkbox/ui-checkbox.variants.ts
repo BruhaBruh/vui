@@ -14,7 +14,7 @@ const variants = cva(
       'in-focus-within:state-focus',
       'is-pressed:state-press',
     ],
-    ['ripple-wrapper:inset-0', 'ripple-wrapper:rounded-full'],
+    ['ripple-wrapper:inset-0'],
   ],
   {
     variants: {
@@ -39,7 +39,7 @@ const markVariants = cva(
     'relative',
     'inline-flex items-center justify-center',
     'transition easing-standard duration-medium-1',
-    'size-4.5 rounded-3xs',
+    'size-4.5 rounded-xs',
     'overflow-hidden',
     'border-2',
   ],
@@ -112,9 +112,7 @@ const markVariants = cva(
 const iconVariants = cva([
   'checkbox--icon',
   'absolute inline-block size-4',
-  'transition easing-standard duration-medium-1',
-  'overflow-hidden',
-  '[&>*]:absolute [&>*]:inset-0 [&>*]:size-full',
+  'transition easing-standard duration-short-2',
 ]);
 
 export const checkboxVariants = Object.assign(variants, {
