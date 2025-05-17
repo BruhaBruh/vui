@@ -14,7 +14,7 @@ const variants = cva(
       'in-focus-within:state-focus',
       'is-pressed:state-press',
     ],
-    ['ripple-wrapper:inset-0', 'ripple-wrapper:rounded-full'],
+    ['ripple-wrapper:inset-0'],
   ],
   {
     variants: {

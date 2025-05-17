@@ -95,22 +95,22 @@ function onChange({ color, value, maxValue }: UnknownRecord) {
   </StorybookStory>
   <StorybookStory name="On IconButton">
     <section class="flex items-center gap-xl">
-      <IconButton>
+      <IconButton variant="tonal">
         <Badge placement="icon">
           <IconMail />
         </Badge>
       </IconButton>
-      <IconButton>
+      <IconButton variant="tonal">
         <Badge placement="icon" :value="1">
           <IconMessage />
         </Badge>
       </IconButton>
-      <IconButton>
+      <IconButton variant="tonal">
         <Badge placement="icon" :value="500">
           <IconUsers />
         </Badge>
       </IconButton>
-      <IconButton>
+      <IconButton variant="tonal">
         <Badge placement="icon" :value="1000">
           <IconVideo />
         </Badge>
@@ -118,29 +118,29 @@ function onChange({ color, value, maxValue }: UnknownRecord) {
     </section>
   </StorybookStory>
   <StorybookStory name="On Fab">
-    <Fab>
+    <Fab variant="tonal">
       <Badge placement="icon">
         <IconMail />
       </Badge>
     </Fab>
-    <Fab>
+    <Fab variant="tonal">
       <Badge placement="icon" :value="1">
         <IconMessage />
       </Badge>
     </Fab>
-    <Fab>
+    <Fab variant="tonal">
       <Badge placement="icon" :value="500">
         <IconUsers />
       </Badge>
     </Fab>
-    <Fab>
+    <Fab variant="tonal">
       <Badge placement="icon" :value="1000">
         <IconVideo />
       </Badge>
     </Fab>
   </StorybookStory>
   <StorybookStory name="On ExtendedFab">
-    <ExtendedFab>
+    <ExtendedFab variant="tonal">
       <template #icon>
         <Badge placement="icon">
           <IconMail />
@@ -148,7 +148,7 @@ function onChange({ color, value, maxValue }: UnknownRecord) {
       </template>
       Extended Fab
     </ExtendedFab>
-    <ExtendedFab>
+    <ExtendedFab variant="tonal">
       <template #icon>
         <Badge placement="icon" :value="1">
           <IconMessage />
@@ -156,7 +156,7 @@ function onChange({ color, value, maxValue }: UnknownRecord) {
       </template>
       Extended Fab
     </ExtendedFab>
-    <ExtendedFab>
+    <ExtendedFab variant="tonal">
       <template #icon>
         <Badge placement="icon" :value="500">
           <IconUsers />
@@ -164,7 +164,7 @@ function onChange({ color, value, maxValue }: UnknownRecord) {
       </template>
       Extended Fab
     </ExtendedFab>
-    <ExtendedFab>
+    <ExtendedFab variant="tonal">
       <template #icon>
         <Badge placement="icon" :value="1000">
           <IconVideo />

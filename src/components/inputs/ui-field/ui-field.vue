@@ -3,23 +3,23 @@ import { useInteractions } from '@/composables';
 import type { PropsPolymorphic } from '@/types';
 import { computed, useId, useTemplateRef } from 'vue';
 import { type FieldInputVariants, fieldVariants } from './ui-field.variants';
-import { AnimatePresence, motion } from 'motion-v';
-import { materialDuration, materialEasing } from '@/config';
+import { AnimatePresence } from 'motion-v';
+import { MotionComponent } from '@/components/utility';
 
 export type FieldProps = PropsPolymorphic & {
   size?: FieldInputVariants['size'];
   alwaysShowLabel?: boolean;
   invalid?: boolean;
-  leftKey?: string;
-  rightKey?: string;
+  leadingKey?: string;
+  trailingKey?: string;
 };
 
 const {
   size = 'lg',
   alwaysShowLabel = false,
   invalid = false,
-  leftKey,
-  rightKey,
+  leadingKey,
+  trailingKey,
   as = 'div',
 } = defineProps<FieldProps>();
 
@@ -66,15 +66,16 @@ const { isDisabled } = useInteractions(elementRef, {
     ref="field"
     :class="fieldVariants()"
     :data-invalid="Boolean($slots.error) || invalid ? true : undefined"
-    @click="focusInput()"
     v-bind="$attrs"
     v-tw-merge
+    @click="focusInput()"
   >
     <div :class="fieldVariants.input({ size })" v-tw-merge>
       <AnimatePresence mode="wait">
-        <motion.span
-          :key="leftKey"
-          v-if="$slots.left"
+        <MotionComponent
+          as-child
+          v-if="$slots.leading"
+          :key="leadingKey"
           :initial="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
           :exit="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
           :animate="{
@@ -83,23 +84,18 @@ const { isDisabled } = useInteractions(elementRef, {
             opacity: 1,
             marginRight: iconMargin,
           }"
-          :transition="{
-            duration: materialDuration.asMotion('medium-1'),
-            ease: materialEasing.standard,
-          }"
           :class="[
             fieldVariants.icon({ size }),
-            'field--left-icon',
+            'field--leading-icon',
             {
               sm: 'mr-2xs',
               md: 'mr-xs',
               lg: 'mr-2xs',
             }[size ?? 'lg'],
           ]"
-          v-tw-merge
         >
-          <slot name="left" />
-        </motion.span>
+          <slot name="leading" />
+        </MotionComponent>
       </AnimatePresence>
       <div :class="fieldVariants.inputContent()">
         <slot
@@ -121,9 +117,10 @@ const { isDisabled } = useInteractions(elementRef, {
         />
       </div>
       <AnimatePresence mode="wait">
-        <motion.span
-          :key="rightKey"
-          v-if="$slots.right"
+        <MotionComponent
+          as-child
+          v-if="$slots.trailing"
+          :key="trailingKey"
           :initial="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
           :exit="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
           :animate="{
@@ -132,23 +129,18 @@ const { isDisabled } = useInteractions(elementRef, {
             opacity: 1,
             marginLeft: iconMargin,
           }"
-          :transition="{
-            duration: materialDuration.asMotion('medium-1'),
-            ease: materialEasing.standard,
-          }"
           :class="[
             fieldVariants.icon({ size }),
-            'field--right-icon',
+            'field--trailing-icon',
             {
               sm: 'ml-2xs',
               md: 'ml-xs',
               lg: 'ml-2xs',
             }[size ?? 'lg'],
           ]"
-          v-tw-merge
         >
-          <slot name="right" />
-        </motion.span>
+          <slot name="trailing" />
+        </MotionComponent>
       </AnimatePresence>
     </div>
     <slot

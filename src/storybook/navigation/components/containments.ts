@@ -1,11 +1,11 @@
 import {
-    CardPage,
-    CarouselPage,
-    ContainerPage,
-    DialogPage,
-    DividerPage,
-    ModalPage,
-    PopoverPage,
+  CardPage,
+  CarouselPage,
+  ContainerPage,
+  DialogPage,
+  DividerPage,
+  ModalPage,
+  PopoverPage,
 } from '@/storybook/pages';
 import { IconSquare } from '@tabler/icons-vue';
 import type { NavigationNode } from '../navigation.types';

@@ -3,7 +3,7 @@ import type { PropsPolymorphic } from '@/types';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { computed, useTemplateRef } from 'vue';
 import { useInteractions, useRipple } from '@/composables';
-import { AnimatePresence, motion } from 'motion-v';
+import { AnimatePresence } from 'motion-v';
 import { materialDuration, materialEasing } from '@/config';
 import { checkboxVariants } from './ui-checkbox.variants';
 import type {
@@ -11,6 +11,7 @@ import type {
   CheckboxVariants,
 } from './ui-checkbox.variants';
 import { IconCheck, IconMinus } from '@tabler/icons-vue';
+import { MotionComponent } from '@/components/utility';
 
 export type CheckboxProps = PropsPolymorphic & {
   value: string | number;
@@ -110,9 +111,10 @@ useRipple(elementRef);
       v-tw-merge
     >
       <AnimatePresence mode="wait">
-        <motion.span
-          :key="state"
+        <MotionComponent
+          as-child
           v-if="state !== 'unchecked'"
+          :key="state"
           :initial="{ scale: 0, opacity: 0 }"
           :exit="{ scale: 0, opacity: 0 }"
           :animate="{
@@ -124,11 +126,10 @@ useRipple(elementRef);
             ease: materialEasing.standard,
           }"
           :class="checkboxVariants.icon()"
-          v-tw-merge
         >
           <IconCheck v-if="state === 'checked'" />
           <IconMinus v-else-if="state === 'indeterminate'" />
-        </motion.span>
+        </MotionComponent>
       </AnimatePresence>
     </span>
   </component>

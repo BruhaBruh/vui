@@ -1,19 +1,26 @@
 <script setup lang="ts">
-import type { PropsPolymorphic } from '@/types';
 import {
   type ContainerVariants,
   containerVariants,
 } from './ui-container.variants';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
 
-export type ContainerProps = PropsPolymorphic & {
+export type ContainerProps = MotionComponentProps & {
   color?: ContainerVariants['color'];
 };
 
-const { color, as = 'div' } = defineProps<ContainerProps>();
+const { color, as = 'div', ...motionProps } = defineProps<ContainerProps>();
 </script>
 
 <template>
-  <component :is="as" :class="containerVariants({ color })" v-tw-merge>
+  <MotionComponent
+    :as
+    v-bind="motionProps"
+    :class="containerVariants({ color })"
+  >
     <slot />
-  </component>
+  </MotionComponent>
 </template>

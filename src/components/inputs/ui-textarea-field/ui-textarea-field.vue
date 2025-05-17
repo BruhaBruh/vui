@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { AnimatePresence, motion } from 'motion-v';
+import { AnimatePresence } from 'motion-v';
 import { Field, type FieldProps } from '../ui-field';
 import { materialDuration, materialEasing } from '@/config';
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, ref, useTemplateRef, watch } from 'vue';
 import { useFocus } from '@vueuse/core';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
+import { MotionComponent } from '@/components/utility';
 
 export type TextAreaFieldProps = FieldProps & {
   placeholder?: string;
@@ -17,8 +18,8 @@ const {
   size,
   alwaysShowLabel,
   invalid,
-  leftKey,
-  rightKey,
+  leadingKey,
+  trailingKey,
   as,
 } = defineProps<TextAreaFieldProps>();
 
@@ -40,14 +41,14 @@ const isExpanded = computed(() => {
   return value.value.length > 0;
 });
 
-async function onInput(e: Event) {
-  const target = e.target as HTMLTextAreaElement;
-  value.value = target.value;
+watch(value, () => {
+  const target = elementRef.value;
+  if (!target) return;
   const currentHeight = target.style.height;
   target.style.height = 'auto';
   height.value = `${target.scrollHeight}px`;
   target.style.height = currentHeight;
-}
+});
 
 function attrsWithoutClass(attrs: UnknownRecord) {
   const newAttrs = { ...attrs };
@@ -62,19 +63,19 @@ function attrsWithoutClass(attrs: UnknownRecord) {
     :size
     :always-show-label
     :invalid
-    :left-key
-    :right-key
+    :leading-key
+    :trailing-key
     :aria-disabled="disabled"
     :class="$attrs.class"
   >
     <template #before="props" v-if="$slots.before">
       <slot name="before" v-bind="props" />
     </template>
-    <template #left="props" v-if="$slots.left">
-      <slot name="left" v-bind="props" />
+    <template #leading="props" v-if="$slots.leading">
+      <slot name="leading" v-bind="props" />
     </template>
-    <template #right="props" v-if="$slots.right">
-      <slot name="right" v-bind="props" />
+    <template #trailing="props" v-if="$slots.trailing">
+      <slot name="trailing" v-bind="props" />
     </template>
     <template #label="props" v-if="$slots.label">
       <label v-bind="props" v-tw-merge>
@@ -83,23 +84,27 @@ function attrsWithoutClass(attrs: UnknownRecord) {
     </template>
     <template #default="{ class: className, ...props }">
       <AnimatePresence mode="wait">
-        <motion.textarea
-          ref="input"
-          :placeholder
+        <MotionComponent
+          as-child
           :animate="
             isExpanded ? { opacity: 1, height } : { opacity: 0, height: 0 }
           "
           :transition="{
-            duration: materialDuration.asMotion('medium-1'),
+            duration: materialDuration.asMotion('short-2'),
             ease: materialEasing.standard,
           }"
-          :value
-          @input="onInput"
-          rows="1"
-          :class="[className, 'resize-none overflow-y-scroll']"
-          v-bind="{ ...attrsWithoutClass($attrs), ...props }"
-          v-tw-merge
-        />
+        >
+          <textarea
+            ref="input"
+            type="text"
+            :placeholder
+            rows="1"
+            v-model="value"
+            v-bind="{ ...attrsWithoutClass($attrs), ...props }"
+            :class="[className, 'resize-none overflow-y-scroll']"
+            v-tw-merge
+          />
+        </MotionComponent>
       </AnimatePresence>
     </template>
     <template #description="props" v-if="$slots.description">

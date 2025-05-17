@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import type { PropsPolymorphic } from '@/types';
 import { type CardVariants, cardVariants } from './ui-card.variants';
 import { useButton, useRipple } from '@/composables';
 import { computed, useTemplateRef } from 'vue';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
 
-export type CardProps = PropsPolymorphic & {
+export type CardProps = MotionComponentProps & {
   color?: CardVariants['color'];
   variant?: CardVariants['variant'];
   interactable?: boolean;
@@ -17,6 +20,7 @@ const {
   interactable,
   disabled,
   as = 'div',
+  ...motionProps
 } = defineProps<CardProps>();
 
 const elementRef = useTemplateRef<HTMLElement>('card');
@@ -36,6 +40,7 @@ const computedDisabled = computed(() => {
 });
 
 const extraProps = computed(() => ({
+  ...motionProps,
   tabindex: interactable ? 0 : undefined,
   'aria-disabled': as === 'button' ? undefined : computedDisabled.value,
   disabled: as === 'button' ? computedDisabled.value : undefined,
@@ -43,13 +48,12 @@ const extraProps = computed(() => ({
 </script>
 
 <template>
-  <component
-    :is="as"
+  <MotionComponent
+    :as
     ref="card"
     v-bind="extraProps"
     :class="cardVariants({ color, variant, interactable })"
-    v-tw-merge
   >
     <slot />
-  </component>
+  </MotionComponent>
 </template>

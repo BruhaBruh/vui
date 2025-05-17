@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Button } from '@/components';
-import type { ButtonProps } from '@/components';
+import { Button, type ButtonVariants } from '@/components';
 import {
   StorybookCode,
   StorybookPlayground,
@@ -11,6 +10,20 @@ import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
+const icons = ['square', 'circle', 'none'];
+
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] satisfies ButtonVariants['size'][];
+
+const shapes = ['rounded', 'square'] satisfies ButtonVariants['shape'][];
+
+const variants = [
+  'elevated',
+  'filled',
+  'tonal',
+  'outlined',
+  'text',
+] satisfies ButtonVariants['variant'][];
+
 const colors = [
   'primary',
   'secondary',
@@ -18,61 +31,47 @@ const colors = [
   'success',
   'caution',
   'critical',
-] satisfies ButtonProps['color'][];
-const variants = [
-  'elevated',
-  'filled',
-  'tonal',
-  'outlined',
-  'text',
-] satisfies ButtonProps['variant'][];
-const icons = ['none', 'circle', 'square'];
+] satisfies ButtonVariants['color'][];
 
 const code = ref('');
 
 function onChange({
-  label,
-  color,
+  leading,
+  trailing,
+  size,
+  shape,
   variant,
+  color,
+  toggleable,
+  selected,
   disabled,
-  left,
-  right,
 }: UnknownRecord) {
-  let leftIcon = '';
-  if (left === 'square') {
-    leftIcon = '<IconSquare />';
-  } else if (left === 'circle') {
-    leftIcon = '<IconCircle />';
+  let displayLeadingIcon = '';
+  if (leading === 'square') {
+    displayLeadingIcon = '<IconSquare />';
+  } else if (leading === 'circle') {
+    displayLeadingIcon = '<IconCircle />';
   }
-  let rightIcon = '';
-  if (right === 'square') {
-    rightIcon = '<IconSquare />';
-  } else if (right === 'circle') {
-    rightIcon = '<IconCircle />';
+  let displayTrailingIcon = '';
+  if (trailing === 'square') {
+    displayTrailingIcon = '<IconSquare />';
+  } else if (leading === 'circle') {
+    displayTrailingIcon = '<IconCircle />';
   }
   code.value = `
 <Button
-  color="${color}"
+  size="${size}"
+  shape="${shape}"
   variant="${variant}"
+  color="${color}"
+  :toggleable="${toggleable}"
+  :selected="${selected}"
   :disabled="${disabled}"
+  @select="console.log('on select')"
 >
-  ${
-    leftIcon
-      ? `
-  <template #left>
-    ${leftIcon}
-  </template>`
-      : ''
-  }
-  ${label}
-  ${
-    rightIcon
-      ? `
-  <template #right>
-    ${rightIcon}
-  </template>`
-      : ''
-  }
+  ${displayLeadingIcon}
+  Button
+  ${displayTrailingIcon}
 </Button>
 `;
 }
@@ -80,13 +79,42 @@ function onChange({
 
 <template>
   <StorybookPlayground
-    @change="(e) => onChange(e)"
+    @change="onChange"
     :arguments="{
-      label: {
-        type: 'text',
-        label: 'Label',
-        description: 'Label of Button',
-        defaultValue: 'Button',
+      leading: {
+        type: 'select',
+        label: 'Leading Icon',
+        description: 'Leading Icon of Button',
+        defaultValue: 'none',
+        options: icons,
+      },
+      trailing: {
+        type: 'select',
+        label: 'Trailing Icon',
+        description: 'Trailing Icon of Button',
+        defaultValue: 'none',
+        options: icons,
+      },
+      size: {
+        type: 'select',
+        label: 'Size',
+        description: 'Size of Button',
+        defaultValue: 'sm',
+        options: sizes,
+      },
+      shape: {
+        type: 'select',
+        label: 'Shape',
+        description: 'Shapes of Button',
+        defaultValue: 'rounded',
+        options: shapes,
+      },
+      variant: {
+        type: 'select',
+        label: 'Variant',
+        description: 'Variant of Button',
+        defaultValue: 'filled',
+        options: variants,
       },
       color: {
         type: 'select',
@@ -95,12 +123,17 @@ function onChange({
         defaultValue: 'primary',
         options: colors,
       },
-      variant: {
-        type: 'select',
-        label: 'Variant',
-        description: 'Variant of Button',
-        defaultValue: 'elevated',
-        options: variants,
+      toggleable: {
+        type: 'switch',
+        label: 'Toggleable',
+        description: 'Toggleable state of Button',
+        defaultValue: false,
+      },
+      selected: {
+        type: 'switch',
+        label: 'Selected',
+        description: 'Selected state of IconButton',
+        defaultValue: false,
       },
       disabled: {
         type: 'switch',
@@ -108,79 +141,53 @@ function onChange({
         description: 'Disabled state of Button',
         defaultValue: false,
       },
-      left: {
-        type: 'select',
-        label: 'Left',
-        description: 'Left component of Button',
-        defaultValue: 'none',
-        options: icons,
-      },
-      right: {
-        type: 'select',
-        label: 'Right',
-        description: 'Right component of Button',
-        defaultValue: 'none',
-        options: icons,
-      },
     }"
   >
-    <template #default="{ values: { label, left, right, ...values } }">
+    <template #default="{ values: { leading, trailing, ...values }, set }">
       <Button
         v-bind="values"
-        :left-key="left as string"
-        :right-key="right as string"
+        :leading-key="leading as string"
+        :trailing-key="trailing as string"
+        @select="set({ selected: !values.selected })"
       >
-        <template #left v-if="left !== 'none'">
-          <IconSquare v-if="left === 'square'" />
-          <IconCircle v-else-if="left === 'circle'" />
+        <template v-if="leading !== 'none'" #leading>
+          <IconSquare v-if="leading === 'square'" />
+          <IconCircle v-else />
         </template>
-        {{ label }}
-        <template #right v-if="right !== 'none'">
-          <IconSquare v-if="right === 'square'" />
-          <IconCircle v-else-if="right === 'circle'" />
+        Button
+        <template v-if="trailing !== 'none'" #trailing>
+          <IconSquare v-if="trailing === 'square'" />
+          <IconCircle v-else />
         </template>
       </Button>
     </template>
   </StorybookPlayground>
   <StorybookCode name="Button" :code />
-  <StorybookStory name="As Link">
-    <Button :as="RouterLink" to="#">Button</Button>
-  </StorybookStory>
-  <StorybookStory name="Colors">
-    <Button v-for="color in colors" :key="color" :color="color">
-      Button
+  <StorybookStory name="As link">
+    <Button :as="RouterLink" to="#">
+      <template #leading>
+        <IconSquare />
+      </template>
+      Link
+      <template #trailing>
+        <IconSquare />
+      </template>
     </Button>
-    <Button disabled>Button</Button>
+  </StorybookStory>
+  <StorybookStory name="Sizes">
+    <div class="flex flex-col items-center gap-md">
+      <Button v-for="size in sizes" :key="size" :size> Button </Button>
+    </div>
+  </StorybookStory>
+  <StorybookStory name="Shapes">
+    <Button v-for="shape in shapes" :key="shape" :shape> Button </Button>
   </StorybookStory>
   <StorybookStory name="Variants">
-    <Button v-for="variant in variants" :key="variant" :variant="variant">
+    <Button v-for="variant in variants" :key="variant" :variant>
       Button
     </Button>
   </StorybookStory>
-  <StorybookStory name="Icons">
-    <section
-      v-for="variant in ['left', 'both', 'right'] as const"
-      :key="variant"
-      class="flex flex-col items-center gap-md"
-    >
-      <Button>
-        <template v-if="['left', 'both'].includes(variant)" #left>
-          <IconSquare />
-        </template>
-        Button
-        <template v-if="['right', 'both'].includes(variant)" #right>
-          <IconSquare />
-        </template>
-      </Button>
-      <Button class="w-64">
-        <template v-if="['left', 'both'].includes(variant)" #left>
-          <IconSquare />
-        </template>
-        Button
-        <template v-if="['right', 'both'].includes(variant)" #right>
-          <IconSquare />
-        </template>
-      </Button>
-    </section>
+  <StorybookStory name="Colors">
+    <Button v-for="color in colors" :key="color" :color> Button </Button>
   </StorybookStory>
 </template>

@@ -230,9 +230,7 @@ const iconVariants = cva([
   'switch--icon',
   'relative inline-block',
   'size-4',
-  'overflow-hidden',
   'transition easing-standard duration-short-2',
-  '[&>*]:absolute [&>*]:inset-0 [&>*]:size-full',
 ]);
 
 export const switchVariants = Object.assign(variants, {

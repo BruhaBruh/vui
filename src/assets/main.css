@@ -11,13 +11,12 @@
 @import '../tailwind/index.css';
 
 body {
-  @apply bg-surface text-on-surface overflow-x-hidden typography-body-large;
+  @apply bg-surface text-on-surface overflow-x-hidden typography-body-large min-h-screen;
 }
 
-* {
-  @apply outline-primary;
-}
-
-*:focus-visible {
-  @apply outline-solid! outline-[3px] outline-offset-[3px];
+@layer utilities {
+  * {
+    outline-color: var(--color-outline);
+    outline-style: none;
+  }
 }

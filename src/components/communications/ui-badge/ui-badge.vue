@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import type { PropsPolymorphic } from '@/types';
 import { computed } from 'vue';
 import { type BadgeVariants, badgeVariants } from './ui-badge.variants';
-import { AnimatePresence, motion } from 'motion-v';
+import { AnimatePresence } from 'motion-v';
 import { materialDuration, materialEasing } from '@/config';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
 
-export type BadgeProps = PropsPolymorphic & {
+export type BadgeProps = MotionComponentProps & {
   color?: BadgeVariants['color'];
   placement?: BadgeVariants['placement'];
   value?: number;
@@ -18,6 +21,7 @@ const {
   value = 0,
   maxValue = 999,
   as = 'div',
+  ...motionProps
 } = defineProps<BadgeProps>();
 
 const displayValue = computed(() => {
@@ -28,11 +32,12 @@ const displayValue = computed(() => {
 </script>
 
 <template>
-  <component :is="as" :class="badgeVariants.wrapper()" v-tw-merge>
+  <MotionComponent :as v-bind="motionProps" :class="badgeVariants.wrapper()">
     <slot />
     <AnimatePresence mode="wait">
-      <motion.span
+      <MotionComponent
         v-if="value >= 0"
+        as="span"
         :data-one-digit="value < 10"
         :initial="{ opacity: 0, scale: 0 }"
         :animate="{
@@ -40,10 +45,6 @@ const displayValue = computed(() => {
           scale: 1,
         }"
         :exit="{ opacity: 0, scale: 0 }"
-        :transition="{
-          duration: materialDuration.asMotion('medium-1'),
-          ease: materialEasing.standard,
-        }"
         :class="
           badgeVariants({
             size: value < 1 ? 'small' : 'large',
@@ -51,11 +52,11 @@ const displayValue = computed(() => {
             placement,
           })
         "
-        v-tw-merge
       >
         <AnimatePresence mode="popLayout">
-          <motion.span
+          <MotionComponent
             v-for="(char, i) in displayValue.split('')"
+            as="span"
             :key="char + i"
             :initial="{ y: -20, opacity: 0 }"
             :animate="{ y: 0, opacity: 1 }"
@@ -66,9 +67,9 @@ const displayValue = computed(() => {
             }"
           >
             {{ char }}
-          </motion.span>
+          </MotionComponent>
         </AnimatePresence>
-      </motion.span>
+      </MotionComponent>
     </AnimatePresence>
-  </component>
+  </MotionComponent>
 </template>

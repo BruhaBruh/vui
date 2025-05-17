@@ -1,24 +1,28 @@
 <script setup lang="ts">
 import { useButton, useRipple } from '@/composables';
-import { materialDuration, materialEasing } from '@/config';
-import type { PropsPolymorphic } from '@/types';
-import { AnimatePresence, motion } from 'motion-v';
-import { useTemplateRef } from 'vue';
+import { AnimatePresence } from 'motion-v';
+import { computed, useTemplateRef } from 'vue';
 import { type FabVariants, fabVariants } from './ui-fab.variants';
+import { fabIconSize } from './ui-fab.options';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
 
-export type FabProps = PropsPolymorphic & {
-  color?: FabVariants['color'];
+export type FabProps = Omit<MotionComponentProps, 'asChild'> & {
   size?: FabVariants['size'];
-  lowered?: FabVariants['lowered'];
+  variant?: FabVariants['variant'];
+  color?: FabVariants['color'];
   iconKey?: string;
 };
 
 const {
-  color,
-  size,
-  lowered,
-  iconKey,
+  size = 'sm',
+  variant = 'filled',
+  color = 'primary',
   as = 'button',
+  iconKey,
+  ...motionProps
 } = defineProps<FabProps>();
 
 const elementRef = useTemplateRef<HTMLElement>('fab');
@@ -28,43 +32,36 @@ useButton(elementRef, {
   interaction: { disabled: false },
 });
 useRipple(elementRef);
+
+const variants = computed(() => ({
+  size,
+  variant,
+  color,
+}));
 </script>
 
 <template>
-  <component
-    :is="as"
+  <MotionComponent
     ref="fab"
+    :as
     tabindex="0"
-    :class="fabVariants({ color, size, lowered })"
-    v-tw-merge
+    v-bind="motionProps"
+    :class="fabVariants(variants)"
   >
     <AnimatePresence mode="wait">
-      <motion.span
+      <MotionComponent
+        as-child
         :key="iconKey"
-        :initial="{ width: 0, height: 0, opacity: 0 }"
-        :exit="{ width: 0, height: 0, opacity: 0 }"
+        :initial="{ width: 0, height: 0 }"
         :animate="{
-          width: {
-            sm: 'var(--spacing-6)',
-            md: 'var(--spacing-6)',
-            lg: 'var(--spacing-9)',
-          }[size ?? 'md'],
-          height: {
-            sm: 'var(--spacing-6)',
-            md: 'var(--spacing-6)',
-            lg: 'var(--spacing-9)',
-          }[size ?? 'md'],
-          opacity: 1,
+          width: fabIconSize[size],
+          height: fabIconSize[size],
         }"
-        :transition="{
-          duration: materialDuration.asMotion('medium-1'),
-          ease: materialEasing.standard,
-        }"
-        :class="fabVariants.icon({ size })"
-        v-tw-merge
+        :exit="{ width: 0, height: 0 }"
+        :class="fabVariants.icon(variants)"
       >
         <slot />
-      </motion.span>
+      </MotionComponent>
     </AnimatePresence>
-  </component>
+  </MotionComponent>
 </template>

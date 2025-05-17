@@ -14,7 +14,7 @@ export class BasicRegistryCollector {
       'embla-carousel-vue': '^8.3.0',
       'focus-trap': '^7.6.4',
       'motion-v': '^1.0.1',
-      'tailwind-merge-vue-directive': '^2.0.5',
+      'tailwind-merge': '^3.3.0',
       '@bruhabruh/type-safe': '^1.2.3',
       '@tailwindcss/vite': '^4.1.5',
       tailwindcss: '^4.1.5',
@@ -28,7 +28,7 @@ export class BasicRegistryCollector {
       'embla-carousel-vue',
       'focus-trap',
       'motion-v',
-      'tailwind-merge-vue-directive',
+      'tailwind-merge',
     ],
     devDependencies: [
       '@bruhabruh/type-safe',

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { AnimatePresence, motion } from 'motion-v';
 import { Field, type FieldProps } from '../ui-field';
-import { materialDuration, materialEasing } from '@/config';
 import { computed, useTemplateRef } from 'vue';
 import { useFocus } from '@vueuse/core';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
+import { MotionComponent } from '@/components/utility';
+import { AnimatePresence } from 'motion-v';
 
 export type TextFieldProps = FieldProps & {
   placeholder?: string;
@@ -17,8 +17,8 @@ const {
   size,
   alwaysShowLabel,
   invalid,
-  leftKey,
-  rightKey,
+  leadingKey,
+  trailingKey,
   as,
 } = defineProps<TextFieldProps>();
 
@@ -38,11 +38,6 @@ const isExpanded = computed(() => {
   return value.value.length > 0;
 });
 
-function onInput(e: Event) {
-  const target = e.target as HTMLInputElement;
-  value.value = target.value;
-}
-
 function attrsWithoutClass(attrs: UnknownRecord) {
   const newAttrs = { ...attrs };
   if ('class' in newAttrs) delete newAttrs.class;
@@ -56,19 +51,19 @@ function attrsWithoutClass(attrs: UnknownRecord) {
     :size
     :always-show-label
     :invalid
-    :left-key
-    :right-key
+    :leading-key
+    :trailing-key
     :aria-disabled="disabled"
     :class="$attrs.class"
   >
     <template #before="props" v-if="$slots.before">
       <slot name="before" v-bind="props" />
     </template>
-    <template #left="props" v-if="$slots.left">
-      <slot name="left" v-bind="props" />
+    <template #leading="props" v-if="$slots.leading">
+      <slot name="leading" v-bind="props" />
     </template>
-    <template #right="props" v-if="$slots.right">
-      <slot name="right" v-bind="props" />
+    <template #trailing="props" v-if="$slots.trailing">
+      <slot name="trailing" v-bind="props" />
     </template>
     <template #label="props" v-if="$slots.label">
       <label v-bind="props" v-tw-merge>
@@ -77,24 +72,23 @@ function attrsWithoutClass(attrs: UnknownRecord) {
     </template>
     <template #default="props">
       <AnimatePresence mode="wait">
-        <motion.input
-          ref="input"
-          type="text"
-          :placeholder
+        <MotionComponent
+          as-child
           :variants="{
             hidden: { opacity: 0, height: 0 },
             expanded: { opacity: 1, height: 'auto' },
           }"
           :animate="isExpanded ? 'expanded' : 'hidden'"
-          :transition="{
-            duration: materialDuration.asMotion('medium-1'),
-            ease: materialEasing.standard,
-          }"
-          :value
-          @input="onInput"
-          v-bind="{ ...attrsWithoutClass($attrs), ...props }"
-          v-tw-merge
-        />
+        >
+          <input
+            ref="input"
+            type="text"
+            :placeholder
+            v-model="value"
+            v-bind="{ ...attrsWithoutClass($attrs), ...props }"
+            v-tw-merge
+          />
+        </MotionComponent>
       </AnimatePresence>
     </template>
     <template #description="props" v-if="$slots.description">

@@ -28,11 +28,9 @@ watchEffect(() => {
   <motion.header
     :initial="{ height: 'max-content' }"
     :animate="{ height: 'max-content' }"
-    class="w-64 max-h-[calc(100vh-(var(--spacing-md)*2))] fixed left-md my-md flex flex-col bg-surface-container text-on-surface border border-outline-variant rounded-sm"
+    class="w-64 max-h-[calc(100vh-(var(--spacing-md)*2))] fixed left-md my-md flex flex-col bg-surface-container text-on-surface border border-outline-variant rounded-md"
   >
-    <section
-      class="p-md border-b border-outline-variant flex items-center gap-ssm"
-    >
+    <div class="p-md border-b border-outline-variant flex items-center gap-sm">
       <RouterLink to="/" class="inline-flex flex-col flex-1">
         <span class="typography-title-medium">@bruhabruh/vui</span>
         <span class="typography-label-small text-secondary">v1.0.0</span>
@@ -40,13 +38,14 @@ watchEffect(() => {
       <IconButton
         @click="next()"
         color="secondary"
+        variant="standard"
         :icon-key="mode"
         :aria-label="`Toggle theme. Current is ${mode}`"
       >
         <IconMoon v-if="mode === 'dark'" />
         <IconSun v-else-if="mode === 'light'" />
       </IconButton>
-    </section>
+    </div>
     <nav class="p-md flex-1 overflow-y-auto">
       <SidebarNavigation :navigation="navigation" />
     </nav>

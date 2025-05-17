@@ -22,15 +22,15 @@ export const actions: NavigationNode = {
     },
     {
       type: 'link',
-      name: 'Fab',
-      path: '/fab',
-      page: FabPage,
-    },
-    {
-      type: 'link',
       name: 'ExtendedFab',
       path: '/extended-fab',
       page: ExtendedFabPage,
+    },
+    {
+      type: 'link',
+      name: 'Fab',
+      path: '/fab',
+      page: FabPage,
     },
     {
       type: 'link',

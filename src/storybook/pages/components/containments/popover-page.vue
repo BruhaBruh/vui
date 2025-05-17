@@ -69,7 +69,7 @@ function onChange({ placement }: UnknownRecord) {
         </PopoverTrigger>
         <PopoverContent
           v-bind="values"
-          class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-2xs"
+          class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-xs"
         >
           <motion.div
             :initial="{ opacity: 0, scale: 0 }"
@@ -101,7 +101,7 @@ function onChange({ placement }: UnknownRecord) {
       </PopoverTrigger>
       <PopoverContent
         :placement="placement"
-        class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-2xs"
+        class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-xs"
       >
         <motion.div
           :initial="{ opacity: 0, scale: 0 }"
@@ -131,7 +131,7 @@ function onChange({ placement }: UnknownRecord) {
       </PopoverTrigger>
       <PopoverContent
         :placement="placement"
-        class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-2xs"
+        class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-xs"
       >
         <motion.div
           :initial="{ opacity: 0, scale: 0 }"
@@ -161,7 +161,7 @@ function onChange({ placement }: UnknownRecord) {
       </PopoverTrigger>
       <PopoverContent
         :placement="placement"
-        class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-2xs"
+        class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-xs"
       >
         <motion.div
           :initial="{ opacity: 0, scale: 0 }"
@@ -191,7 +191,7 @@ function onChange({ placement }: UnknownRecord) {
       </PopoverTrigger>
       <PopoverContent
         :placement="placement"
-        class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-2xs"
+        class="bg-inverse-surface text-inverse-on-surface typography-label-large px-xs py-2xs rounded-xs"
       >
         <motion.div
           :initial="{ opacity: 0, scale: 0 }"

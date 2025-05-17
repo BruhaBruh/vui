@@ -5,12 +5,12 @@ const { name } = defineProps<{
 </script>
 
 <template>
-  <section class="flex flex-col gap-sm mb-md last:mb-3xl overflow-hidden">
+  <div class="flex flex-col gap-sm mb-md last:mb-3xl overflow-hidden">
     <h2 class="typography-title-large">{{ name }}</h2>
-    <section
+    <div
       class="relative flex min-h-64 items-center justify-center gap-md rounded-lg border p-lg border-outline-variant"
     >
       <slot />
-    </section>
-  </section>
+    </div>
+  </div>
 </template>

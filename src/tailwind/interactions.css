@@ -4,3 +4,6 @@
 @custom-variant is-hovered (&[data-is-hovered=true]);
 @custom-variant is-pressed (&[data-is-pressed=true]);
 @custom-variant is-disabled (&[data-is-disabled=true]);
+
+@custom-variant aria-pressed (&[aria-pressed=true], &[aria-checked=true]);
+@custom-variant aria-not-pressed (&[aria-pressed=false], &[aria-checked=false]);

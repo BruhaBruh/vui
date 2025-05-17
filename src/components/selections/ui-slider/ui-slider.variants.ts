@@ -58,7 +58,7 @@ const trackVariants = cva(
     variants: {
       position: {
         left: [
-          'before:rounded-l-3xl rounded-r-3xs before:left-0',
+          'before:rounded-l-full rounded-r-xs before:left-0',
           [
             'after:absolute',
             'after:left-1.5',
@@ -66,9 +66,9 @@ const trackVariants = cva(
             'after:rounded-full',
           ],
         ],
-        center: ['rounded-3xs'],
+        center: ['rounded-xs'],
         right: [
-          'rounded-l-3xs before:rounded-r-3xl before:right-0',
+          'rounded-l-xs before:rounded-r-full before:right-0',
           [
             'after:absolute',
             'after:right-1.5',

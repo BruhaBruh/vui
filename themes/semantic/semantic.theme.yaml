@@ -7,15 +7,14 @@ selectors: []
 
 radius:
   - base: 1rem
-  - 3xs: '{radius.base} - 12px'
-  - 2xs: '{radius.base} - 8px'
-  - xs: '{radius.base} - 4px'
-  - sm: '{radius.base} - 2px'
-  - md: '{radius.base} + 2px'
-  - lg: '{radius.base} + 4px'
-  - xl: '{radius.base} + 8px'
-  - 2xl: '{radius.base} + 12px'
-  - 3xl: '{radius.base} + 20px'
+  - xs: '{radius.base} - 12px'
+  - sm: '{radius.base} - 8px'
+  - md: '{radius.base} - 4px'
+  - lg: '{radius.base}'
+  - lg-inc: '{radius.base} + 4px'
+  - xl: '{radius.base} + 12px'
+  - xl-inc: '{radius.base} + 16px'
+  - 2xl: '{radius.base} * 3'
 
 spacing:
   - 3xs: '{spacing.0.5}'

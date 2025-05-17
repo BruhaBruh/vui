@@ -7,8 +7,11 @@ import { IconButton, type IconButtonProps } from '@/components/actions';
 
 export type CarouselPrevButtonProps = IconButtonProps;
 
-const { color = 'secondary', ...props } =
-  defineProps<CarouselPrevButtonProps>();
+const {
+  color = 'secondary',
+  variant = 'standard',
+  ...props
+} = defineProps<CarouselPrevButtonProps>();
 
 const { api } = useCarouselState();
 
@@ -33,12 +36,12 @@ watchEffect(() => {
 <template>
   <IconButton
     :color
+    :variant
     :disabled
-    @click="onClick()"
     aria-label="Previous slide"
     v-bind="props"
     :class="carouselVariants.arrowButton()"
-    v-tw-merge
+    @click="onClick()"
   >
     <slot>
       <IconChevronLeft />

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ExtendedFab, type ExtendedFabProps } from '@/components';
+import { ExtendedFab, type ExtendedFabVariants } from '@/components';
 import {
   StorybookCode,
   StorybookPlayground,
@@ -10,21 +10,24 @@ import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
+const icons = ['square', 'circle', 'none'];
+
+const sizes = ['sm', 'md', 'lg'] satisfies ExtendedFabVariants['size'][];
+
+const variants = ['filled', 'tonal'] satisfies ExtendedFabVariants['variant'][];
+
 const colors = [
-  'surface',
   'primary',
   'secondary',
   'info',
   'success',
   'caution',
   'critical',
-] satisfies ExtendedFabProps['color'][];
-const loweredStates = [false, true] satisfies ExtendedFabProps['lowered'][];
-const icons = ['none', 'circle', 'square'];
+] satisfies ExtendedFabVariants['color'][];
 
 const code = ref('');
 
-function onChange({ label, color, lowered, icon }: UnknownRecord) {
+function onChange({ icon, size, variant, color }: UnknownRecord) {
   let displayIcon = '';
   if (icon === 'square') {
     displayIcon = '<IconSquare />';
@@ -33,18 +36,12 @@ function onChange({ label, color, lowered, icon }: UnknownRecord) {
   }
   code.value = `
 <ExtendedFab
-  color="${color}"
-  :lowered="${lowered}"
+  size="${size}"
+  variant="${variant}"
+  color=${color}
 >
-  ${
-    displayIcon
-      ? `
-  <template #icon>
-    ${displayIcon}
-  </template>`
-      : ''
-  }
-  ${label}
+  ${displayIcon}
+  ExtendedFab
 </ExtendedFab>
 `;
 }
@@ -54,53 +51,67 @@ function onChange({ label, color, lowered, icon }: UnknownRecord) {
   <StorybookPlayground
     @change="onChange"
     :arguments="{
-      label: {
-        type: 'text',
-        label: 'Label',
-        description: 'Label of ExtendedFab',
-        defaultValue: 'ExtendedFab',
+      icon: {
+        type: 'select',
+        label: 'Icon',
+        description: 'Icon of ExtendedFab',
+        defaultValue: 'none',
+        options: icons,
+      },
+      size: {
+        type: 'select',
+        label: 'Size',
+        description: 'Size of ExtendedFab',
+        defaultValue: 'sm',
+        options: sizes,
+      },
+      variant: {
+        type: 'select',
+        label: 'Variant',
+        description: 'Variant of ExtendedFab',
+        defaultValue: 'filled',
+        options: variants,
       },
       color: {
         type: 'select',
         label: 'Color',
         description: 'Color of ExtendedFab',
-        defaultValue: 'surface',
+        defaultValue: 'primary',
         options: colors,
-      },
-      lowered: {
-        type: 'switch',
-        label: 'Lowered',
-        description: 'Lowered state of ExtendedFab',
-        defaultValue: false,
-      },
-      icon: {
-        type: 'select',
-        label: 'Icon',
-        description: 'icon component of Button',
-        defaultValue: 'none',
-        options: icons,
       },
     }"
   >
-    <template #default="{ values: { label, icon, ...values } }">
-      <ExtendedFab
-        v-bind="values"
-        :icon-key="icon as string"
-        :slot-key="label as string"
-      >
-        <template #icon v-if="icon !== 'none'">
+    <template #default="{ values: { icon, ...values } }">
+      <ExtendedFab v-bind="values" :icon-key="icon as string">
+        <template v-if="icon !== 'none'" #icon>
           <IconSquare v-if="icon === 'square'" />
-          <IconCircle v-else-if="icon === 'circle'" />
+          <IconCircle v-else />
         </template>
-        <template #default v-if="label">
-          {{ label }}
-        </template>
+        ExtendedFab
       </ExtendedFab>
     </template>
   </StorybookPlayground>
   <StorybookCode name="ExtendedFab" :code />
-  <StorybookStory name="As Link">
+  <StorybookStory name="As link">
     <ExtendedFab :as="RouterLink" to="#">
+      <template #icon>
+        <IconSquare />
+      </template>
+      Link
+    </ExtendedFab>
+  </StorybookStory>
+  <StorybookStory name="Sizes">
+    <div class="flex flex-col items-center gap-md">
+      <ExtendedFab v-for="size in sizes" :key="size" :size>
+        <template #icon>
+          <IconSquare />
+        </template>
+        ExtendedFab
+      </ExtendedFab>
+    </div>
+  </StorybookStory>
+  <StorybookStory name="Variants">
+    <ExtendedFab v-for="variant in variants" :key="variant" :variant>
       <template #icon>
         <IconSquare />
       </template>
@@ -108,37 +119,13 @@ function onChange({ label, color, lowered, icon }: UnknownRecord) {
     </ExtendedFab>
   </StorybookStory>
   <StorybookStory name="Colors">
-    <ExtendedFab v-for="color in colors" :key="color" :color="color">
-      <template #icon>
-        <IconSquare />
-      </template>
-      ExtendedFab
-    </ExtendedFab>
-  </StorybookStory>
-  <StorybookStory name="Variants">
-    <ExtendedFab>
-      <template #icon>
-        <IconSquare />
-      </template>
-    </ExtendedFab>
-    <ExtendedFab>
-      <template #icon>
-        <IconSquare />
-      </template>
-      ExtendedFab
-    </ExtendedFab>
-    <ExtendedFab>ExtendedFab</ExtendedFab>
-  </StorybookStory>
-  <StorybookStory name="Lowered">
-    <ExtendedFab
-      v-for="lowered in loweredStates"
-      :key="`${lowered}`"
-      :lowered="lowered"
-    >
-      <template #icon>
-        <IconSquare />
-      </template>
-      ExtendedFab
-    </ExtendedFab>
+    <div class="flex flex-col gap-md">
+      <ExtendedFab v-for="color in colors" :key="color" :color>
+        <template #icon>
+          <IconSquare />
+        </template>
+        ExtendedFab
+      </ExtendedFab>
+    </div>
   </StorybookStory>
 </template>

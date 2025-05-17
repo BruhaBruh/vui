@@ -1,13 +1,13 @@
 import './assets/main.css';
 
-import twMergeDirective from 'tailwind-merge-vue-directive';
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
+import { mergeDirective } from './tailwind';
 
 const app = createApp(App);
 
 app.use(router);
-app.use(twMergeDirective);
+app.use(mergeDirective);
 
 app.mount('#app');

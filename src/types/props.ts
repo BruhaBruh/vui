@@ -1,5 +1,5 @@
-import type { Component, IntrinsicElementAttributes } from 'vue';
+import type { AsTag } from 'motion-v';
 
 export type PropsPolymorphic = {
-  as?: keyof IntrinsicElementAttributes | (string & {}) | Component;
+  as?: AsTag;
 };
