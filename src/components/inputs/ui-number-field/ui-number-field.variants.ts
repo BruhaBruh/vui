@@ -16,9 +16,9 @@ const spinButtonVariants = cva(
   {
     variants: {
       size: {
-        sm: ['w-4.5 rounded-3xs', '[&>*]:size-3'],
-        md: ['w-5 rounded-3xs', '[&>*]:size-3.5'],
-        lg: ['w-6 rounded-3xs', '[&>*]:size-4'],
+        sm: ['w-4.5 rounded-xs', '[&>*]:size-3'],
+        md: ['w-5 rounded-xs', '[&>*]:size-3.5'],
+        lg: ['w-6 rounded-xs', '[&>*]:size-4'],
       },
     },
     defaultVariants: {

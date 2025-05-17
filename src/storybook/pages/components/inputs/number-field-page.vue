@@ -18,7 +18,7 @@ function onChange({
   label,
   description,
   error,
-  left,
+  leading,
   placeholder,
   size,
   invalid,
@@ -39,10 +39,10 @@ function onChange({
   :invalid="${invalid}"
   :disabled="${disabled}"
 >
-  ${left === 'none' ? '' : '<template #left>'}
-    ${left === 'square' ? '<IconSquare />' : ''}
-    ${left === 'circle' ? '<IconCircle />' : ''}
-  ${left === 'none' ? '' : '</template>'}
+  ${leading === 'none' ? '' : '<template #leading>'}
+    ${leading === 'square' ? '<IconSquare />' : ''}
+    ${leading === 'circle' ? '<IconCircle />' : ''}
+  ${leading === 'none' ? '' : '</template>'}
   ${(label as string).length > 0 ? '<template #label>' : ''}
     ${label}
   ${(label as string).length > 0 ? '</template>' : ''}
@@ -104,10 +104,10 @@ function onChange({
         description: 'Disabled state of TextField',
         defaultValue: false,
       },
-      left: {
+      leading: {
         type: 'select',
-        label: 'Left',
-        description: 'Left component of TextField',
+        label: 'Leading',
+        description: 'Leading component of TextField',
         defaultValue: 'none',
         options: icons,
       },
@@ -138,18 +138,12 @@ function onChange({
     }"
   >
     <template
-      #default="{
-        values: { label, description, error, left, right, ...values },
-      }"
+      #default="{ values: { label, description, error, leading, ...values } }"
     >
-      <NumberField
-        :left-key="left as string"
-        :right-key="right as string"
-        v-bind="values"
-      >
-        <template #left v-if="left !== 'none'">
-          <IconSquare v-if="left === 'square'" />
-          <IconCircle v-else-if="left === 'circle'" />
+      <NumberField :leading-key="leading as string" v-bind="values">
+        <template #leading v-if="leading !== 'none'">
+          <IconSquare v-if="leading === 'square'" />
+          <IconCircle v-else-if="leading === 'circle'" />
         </template>
         <template #label v-if="(label as string).length > 0">
           {{ label }}

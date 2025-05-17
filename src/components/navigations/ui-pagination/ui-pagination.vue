@@ -106,7 +106,7 @@ useEventListener('keydown', async (e) => {
     <slot
       v-for="p in pages"
       :key="p"
-      :id="`pagination-page-${p}`"
+      :id="`${id}-page-${p}`"
       :selected="page === p"
       :page="p"
       @click="selectPage(p)"
@@ -115,7 +115,6 @@ useEventListener('keydown', async (e) => {
         :id="`${id}-p-${p}`"
         variant="tonal"
         toggleable
-        ignore-select-behavior
         :selected="page === p"
         role="radio"
         :aria-checked="page === p"

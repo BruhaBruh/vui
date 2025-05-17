@@ -2,13 +2,6 @@
 
 - [ ] Material Desing Update
 
-  - [ ] MaskField
-  - [ ] NumberField
-  - [ ] TextField
-  - [ ] TextAreaField
-  - [ ] SearchField
-  - [ ] Breadcrumbs
-  - [ ] Pagination
   - [ ] Checkbox
   - [ ] Menu
   - [ ] Radio

@@ -35,6 +35,8 @@ const {
   as = 'button',
   leadingKey,
   trailingKey,
+  initial,
+  animate,
   ...motionProps
 } = defineProps<ButtonProps>();
 
@@ -73,6 +75,18 @@ const borderRadius = computed(() => {
   }
   return buttonBorderRadius[shape][size];
 });
+
+const initialObject = computed(() => {
+  if (typeof initial !== 'object') return {};
+  if (Array.isArray(initial)) return {};
+  return initial;
+});
+
+const animateObject = computed(() => {
+  if (typeof animate !== 'object') return {};
+  if (Array.isArray(animate)) return {};
+  return animate;
+});
 </script>
 
 <template>
@@ -81,8 +95,8 @@ const borderRadius = computed(() => {
     :as
     tabindex="0"
     v-bind="motionProps"
-    :initial="{ borderRadius }"
-    :animate="{ borderRadius }"
+    :initial="{ ...initialObject, borderRadius }"
+    :animate="{ ...animateObject, borderRadius }"
     :class="buttonVariants(variants)"
   >
     <AnimatePresence mode="wait">

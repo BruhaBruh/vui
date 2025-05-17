@@ -18,8 +18,8 @@ function onChange({
   label,
   description,
   error,
-  left,
-  right,
+  leading,
+  trailing,
   placeholder,
   size,
   invalid,
@@ -32,17 +32,17 @@ function onChange({
   :invalid="${invalid}"
   :disabled="${disabled}"
 >
-  ${left === 'none' ? '' : '<template #left>'}
-    ${left === 'square' ? '<IconSquare />' : ''}
-    ${left === 'circle' ? '<IconCircle />' : ''}
-  ${left === 'none' ? '' : '</template>'}
+  ${leading === 'none' ? '' : '<template #leading>'}
+    ${leading === 'square' ? '<IconSquare />' : ''}
+    ${leading === 'circle' ? '<IconCircle />' : ''}
+  ${leading === 'none' ? '' : '</template>'}
   ${(label as string).length > 0 ? '<template #label>' : ''}
     ${label}
   ${(label as string).length > 0 ? '</template>' : ''}
-  ${right === 'none' ? '' : '<template right>'}
-    ${right === 'square' ? '<IconSquare />' : ''}
-    ${right === 'circle' ? '<IconCircle />' : ''}
-  ${right === 'none' ? '' : '</template>'}
+  ${trailing === 'none' ? '' : '<template trailing>'}
+    ${trailing === 'square' ? '<IconSquare />' : ''}
+    ${trailing === 'circle' ? '<IconCircle />' : ''}
+  ${trailing === 'none' ? '' : '</template>'}
   ${(description as string).length > 0 ? '<template #description>' : ''}
     ${description}
   ${(description as string).length > 0 ? '</template>' : ''}
@@ -101,17 +101,17 @@ function onChange({
         description: 'Disabled state of TextField',
         defaultValue: false,
       },
-      left: {
+      leading: {
         type: 'select',
-        label: 'Left',
-        description: 'Left component of TextField',
+        label: 'Leading',
+        description: 'Leading component of TextField',
         defaultValue: 'none',
         options: icons,
       },
-      right: {
+      trailing: {
         type: 'select',
-        label: 'Right',
-        description: 'Right component of TextField',
+        label: 'Trailing',
+        description: 'Trailing component of TextField',
         defaultValue: 'none',
         options: icons,
       },
@@ -119,25 +119,25 @@ function onChange({
   >
     <template
       #default="{
-        values: { label, description, error, left, right, ...values },
+        values: { label, description, error, leading, trailing, ...values },
       }"
     >
       <TextAreaField
-        :left-key="left as string"
-        :right-key="right as string"
+        :leading-key="leading as string"
+        :trailing-key="trailing as string"
         class="[&_.field--input-field]:max-h-32"
         v-bind="values"
       >
-        <template #left v-if="left !== 'none'">
-          <IconSquare v-if="left === 'square'" />
-          <IconCircle v-else-if="left === 'circle'" />
+        <template #leading v-if="leading !== 'none'">
+          <IconSquare v-if="leading === 'square'" />
+          <IconCircle v-else-if="leading === 'circle'" />
         </template>
         <template #label v-if="(label as string).length > 0">
           {{ label }}
         </template>
-        <template #right v-if="right !== 'none'">
-          <IconSquare v-if="right === 'square'" />
-          <IconCircle v-else-if="right === 'circle'" />
+        <template #trailing v-if="trailing !== 'none'">
+          <IconSquare v-if="trailing === 'square'" />
+          <IconCircle v-else-if="trailing === 'circle'" />
         </template>
         <template #description v-if="(description as string).length > 0">
           {{ description }}

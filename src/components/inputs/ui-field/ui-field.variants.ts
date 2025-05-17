@@ -24,9 +24,9 @@ const inputVariants = cva(
   {
     variants: {
       size: {
-        sm: 'min-h-10 rounded-xs px-xs',
-        md: 'min-h-12 rounded-sm px-sm',
-        lg: 'min-h-14 rounded-md px-md',
+        sm: 'min-h-10 rounded-md px-xs',
+        md: 'min-h-12 rounded-lg px-sm',
+        lg: 'min-h-14 rounded-lg px-md',
       },
     },
     defaultVariants: {
@@ -111,8 +111,6 @@ const iconVariants = cva(
   [
     'field--icon',
     'text-on-surface-variant group-is-disabled/field:text-on-surface/38',
-    'relative inline-block',
-    '[&>*]:absolute [&>*]:inset-0 [&>*]:size-full',
   ],
   {
     variants: {

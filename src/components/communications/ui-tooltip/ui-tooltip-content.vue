@@ -36,6 +36,9 @@ const {
   teleportTo = 'body',
   teleportDisabled,
   teleportDefer,
+  initial,
+  animate,
+  exit,
   ...motionProps
 } = defineProps<TooltipContentProps>();
 
@@ -77,6 +80,24 @@ const { floatingStyles, placement: floatingPlacement } = useFloating(
 const finalPlacement = computed(() =>
   floatingPlacementToVariantPlacement(floatingPlacement.value),
 );
+
+const initialObject = computed(() => {
+  if (typeof initial !== 'object') return {};
+  if (Array.isArray(initial)) return {};
+  return initial;
+});
+
+const animateObject = computed(() => {
+  if (typeof animate !== 'object') return {};
+  if (Array.isArray(animate)) return {};
+  return animate;
+});
+
+const exitObject = computed(() => {
+  if (typeof exit !== 'object') return {};
+  if (Array.isArray(exit)) return {};
+  return exit;
+});
 </script>
 
 <template>
@@ -93,9 +114,9 @@ const finalPlacement = computed(() =>
         :id
         role="tooltip"
         v-bind="{ ...motionProps, ...$attrs }"
-        :initial="{ opacity: 0, scale: 0 }"
-        :animate="{ opacity: 1, scale: 1 }"
-        :exit="{ opacity: 0, scale: 0 }"
+        :initial="{ ...initialObject, opacity: 0, scale: 0 }"
+        :animate="{ ...animateObject, opacity: 1, scale: 1 }"
+        :exit="{ ...exitObject, opacity: 0, scale: 0 }"
         :style="floatingStyles"
         :class="tooltipVariants({ variant, placement: finalPlacement })"
       >

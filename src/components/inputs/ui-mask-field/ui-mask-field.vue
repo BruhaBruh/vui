@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { AnimatePresence, motion } from 'motion-v';
+import { AnimatePresence } from 'motion-v';
 import { Field, type FieldProps } from '../ui-field';
-import { materialDuration, materialEasing } from '@/config';
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, nextTick, ref, useTemplateRef, watchEffect } from 'vue';
 import { useFocus } from '@vueuse/core';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
+import { MotionComponent } from '@/components/utility';
 
 export type MaskFieldProps = FieldProps & {
   mask: string;
@@ -21,8 +21,8 @@ const {
   size,
   alwaysShowLabel,
   invalid,
-  leftKey,
-  rightKey,
+  leadingKey,
+  trailingKey,
   as,
 } = defineProps<MaskFieldProps>();
 
@@ -47,6 +47,19 @@ const isExpanded = computed(() => {
   if (placeholder) return true;
   if (focused.value) return true;
   return value.value.length > 0;
+});
+
+watchEffect(() => {
+  if (formattedValue.value === '') {
+    return;
+  }
+  const val = formatToPlain(formattedValue.value);
+  const newValue = format(val);
+  value.value = formatToPlain(newValue);
+  formattedValue.value = newValue;
+  nextTick(() => {
+    setCursor(newValue);
+  });
 });
 
 function format(val: string) {
@@ -81,16 +94,6 @@ function setCursor(val: string) {
   if (index === -1) return;
   element.value.selectionStart = index;
   element.value.selectionEnd = index;
-}
-
-function onInput(e: Event) {
-  const input = e.target as HTMLInputElement;
-  const val = formatToPlain(input.value);
-  const newValue = format(val);
-  value.value = formatToPlain(newValue);
-  formattedValue.value = newValue;
-  input.value = newValue;
-  setCursor(newValue);
 }
 
 function onKeyDown(e: KeyboardEvent) {
@@ -139,19 +142,19 @@ function attrsWithoutClass(attrs: UnknownRecord) {
     :size
     :always-show-label
     :invalid
-    :left-key
-    :right-key
+    :leading-key
+    :trailing-key
     :aria-disabled="disabled"
     :class="$attrs.class"
   >
     <template #before="props" v-if="$slots.before">
       <slot name="before" v-bind="props" />
     </template>
-    <template #left="props" v-if="$slots.left">
-      <slot name="left" v-bind="props" />
+    <template #leading="props" v-if="$slots.leading">
+      <slot name="leading" v-bind="props" />
     </template>
-    <template #right="props" v-if="$slots.right">
-      <slot name="right" v-bind="props" />
+    <template #trailing="props" v-if="$slots.trailing">
+      <slot name="trailing" v-bind="props" />
     </template>
     <template #label="props" v-if="$slots.label">
       <label v-bind="props" v-tw-merge>
@@ -160,25 +163,25 @@ function attrsWithoutClass(attrs: UnknownRecord) {
     </template>
     <template #default="props">
       <AnimatePresence mode="wait">
-        <motion.input
-          ref="input"
-          type="text"
-          :placeholder
+        <MotionComponent
+          as-child
           :variants="{
             hidden: { opacity: 0, height: 0 },
             expanded: { opacity: 1, height: 'auto' },
           }"
           :animate="isExpanded ? 'expanded' : 'hidden'"
-          :transition="{
-            duration: materialDuration.asMotion('medium-1'),
-            ease: materialEasing.standard,
-          }"
-          :value="formattedValue"
-          @input="onInput"
-          @keydown="onKeyDown"
-          v-bind="{ ...attrsWithoutClass($attrs), ...props }"
-          v-tw-merge
-        />
+        >
+          <input
+            ref="input"
+            type="text"
+            inputmode="decimal"
+            :placeholder
+            v-model="formattedValue"
+            v-bind="{ ...attrsWithoutClass($attrs), ...props }"
+            v-tw-merge
+            @keydown="onKeyDown"
+          />
+        </MotionComponent>
       </AnimatePresence>
     </template>
     <template #description="props" v-if="$slots.description">
