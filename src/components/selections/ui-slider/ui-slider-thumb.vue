@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, useTemplateRef } from 'vue';
 import { AnimatePresence, motion } from 'motion-v';
-import { materialDuration, materialEasing } from '@/config';
+import { materialDuration, materialEasing, transitionConfig } from '@/config';
 import { type SliderThumbVariants, sliderVariants } from './ui-slider.variants';
 import {
   autoUpdate,
@@ -118,24 +118,34 @@ useEventListener('keydown', (e) => {
     :animate="{
       left: `${percent}%`,
       width: dragging && !disabled ? 'var(--spacing-0h)' : 'var(--spacing-1)',
+      transition: transitionConfig.preset.short.beginEnd.asMotion(),
     }"
-    :transition="{
-      duration: materialDuration.asMotion('short-2'),
-      ease: materialEasing.standard,
-    }"
+    @animationiteration="update()"
     @animation-complete="update()"
     :class="sliderVariants.thumb({ color })"
     v-bind="$attrs"
     v-tw-merge
   />
   <Teleport to="body">
-    <AnimatePresence mode="wait">
+    <AnimatePresence>
       <motion.div
         ref="slider-thumb-tooltip"
         v-if="(dragging || inFocus) && !disabled"
-        :initial="{ opacity: 0, scale: 0 }"
-        :animate="{ opacity: 1, scale: 1 }"
-        :exit="{ opacity: 0, scale: 0 }"
+        :initial="{
+          opacity: 0,
+          scale: 0,
+          transition: transitionConfig.preset.short.enter.asMotion(),
+        }"
+        :animate="{
+          opacity: 1,
+          scale: 1,
+          transition: transitionConfig.preset.short.beginEnd.asMotion(),
+        }"
+        :exit="{
+          opacity: 0,
+          scale: 0,
+          transition: transitionConfig.preset.short.exit.asMotion(),
+        }"
         :transition="{
           duration: materialDuration.asMotion('short-2'),
           ease: materialEasing['emphasized-decelerate'],

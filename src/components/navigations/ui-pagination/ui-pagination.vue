@@ -2,12 +2,17 @@
 import { paginationVariants } from './ui-pagination.variants';
 import { computed, nextTick, useId, useTemplateRef, watchEffect } from 'vue';
 import { IconButton } from '@/components/actions';
-import type { PropsPolymorphic } from '@/types';
 import { useEventListener, useFocusWithin } from '@vueuse/core';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-vue';
 import { calculatePages } from './ui-pagination.utility';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
+import { computedVariants } from '@/composables';
+import { transitionConfig } from '@/config';
 
-export type PaginationProps = PropsPolymorphic & {
+export type PaginationProps = MotionComponentProps & {
   pageAmount?: number;
   pagesToView?: number;
 };
@@ -16,6 +21,10 @@ const {
   pageAmount = 1,
   pagesToView = 5,
   as = 'div',
+  initial,
+  animate,
+  exit,
+  ...motionProps
 } = defineProps<PaginationProps>();
 
 const elementRef = useTemplateRef<HTMLElement>('pagination');
@@ -83,15 +92,37 @@ useEventListener('keydown', async (e) => {
   ) as HTMLElement | null;
   currentPageButton?.focus();
 });
+
+const {
+  initial: initialObject,
+  animate: animateObject,
+  exit: exitObject,
+} = computedVariants(() => ({
+  initial,
+  animate,
+  exit,
+}));
 </script>
 
 <template>
-  <component
-    :is="as"
+  <MotionComponent
+    :as
     ref="pagination"
     role="radiogroup"
+    v-bind="motionProps"
+    :initial="{
+      transition: transitionConfig.preset.short.enter.asMotion(),
+      ...initialObject,
+    }"
+    :animate="{
+      transition: transitionConfig.preset.short.beginEnd.asMotion(),
+      ...animateObject,
+    }"
+    :exit="{
+      transition: transitionConfig.preset.short.exit.asMotion(),
+      ...exitObject,
+    }"
     :class="paginationVariants()"
-    v-tw-merge
   >
     <slot name="previous" :disabled="!hasPrevious" @click="previousPage()">
       <IconButton
@@ -136,5 +167,5 @@ useEventListener('keydown', async (e) => {
         <IconChevronRight />
       </IconButton>
     </slot>
-  </component>
+  </MotionComponent>
 </template>

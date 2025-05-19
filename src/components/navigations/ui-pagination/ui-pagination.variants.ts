@@ -4,7 +4,7 @@ import { cva } from 'class-variance-authority';
 const variants = cva([
   'pagination group/pagination',
   'inline-flex items-center justify-center',
-  'gap-sm',
+  'gap-xs',
 ]);
 
 const buttonVariants = cva(['pagination--button', 'typography-label-large']);

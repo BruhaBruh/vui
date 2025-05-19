@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useButton, useRipple } from '@/composables';
+import { computedVariants, useButton, useRipple } from '@/composables';
 import { AnimatePresence } from 'motion-v';
 import { computed, useTemplateRef } from 'vue';
 import { type FabVariants, fabVariants } from './ui-fab.variants';
@@ -8,6 +8,7 @@ import {
   MotionComponent,
   type MotionComponentProps,
 } from '@/components/utility';
+import { transitionConfig } from '@/config';
 
 export type FabProps = Omit<MotionComponentProps, 'asChild'> & {
   size?: FabVariants['size'];
@@ -22,6 +23,9 @@ const {
   color = 'primary',
   as = 'button',
   iconKey,
+  initial,
+  animate,
+  exit,
   ...motionProps
 } = defineProps<FabProps>();
 
@@ -38,6 +42,16 @@ const variants = computed(() => ({
   variant,
   color,
 }));
+
+const {
+  initial: initialObject,
+  animate: animateObject,
+  exit: exitObject,
+} = computedVariants(() => ({
+  initial,
+  animate,
+  exit,
+}));
 </script>
 
 <template>
@@ -46,18 +60,39 @@ const variants = computed(() => ({
     :as
     tabindex="0"
     v-bind="motionProps"
+    :initial="{
+      transition: transitionConfig.preset.short.enter.asMotion(),
+      ...initialObject,
+    }"
+    :animate="{
+      transition: transitionConfig.preset.short.beginEnd.asMotion(),
+      ...animateObject,
+    }"
+    :exit="{
+      transition: transitionConfig.preset.short.exit.asMotion(),
+      ...exitObject,
+    }"
     :class="fabVariants(variants)"
   >
     <AnimatePresence mode="wait">
       <MotionComponent
         as-child
         :key="iconKey"
-        :initial="{ width: 0, height: 0 }"
+        :initial="{
+          width: 0,
+          height: 0,
+          transition: transitionConfig.preset.short.enter.asMotion(),
+        }"
         :animate="{
           width: fabIconSize[size],
           height: fabIconSize[size],
+          transition: transitionConfig.preset.short.beginEnd.asMotion(),
         }"
-        :exit="{ width: 0, height: 0 }"
+        :exit="{
+          width: 0,
+          height: 0,
+          transition: transitionConfig.preset.short.exit.asMotion(),
+        }"
         :class="fabVariants.icon(variants)"
       >
         <slot />

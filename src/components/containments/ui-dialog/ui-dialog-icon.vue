@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AnimatePresence } from 'motion-v';
-import { materialDuration, materialEasing } from '@/config';
+import { transitionConfig } from '@/config';
 import { dialogVariants } from './ui-dialog.variants';
 import { MotionComponent } from '@/components/utility';
 
@@ -20,16 +20,23 @@ defineOptions({
     <MotionComponent
       as-child
       :key="iconKey"
-      :initial="{ width: 0, height: 0, opacity: 0 }"
-      :exit="{ width: 0, height: 0, opacity: 0 }"
+      :initial="{
+        width: 0,
+        height: 0,
+        opacity: 0,
+        transition: transitionConfig.preset.short.enter.asMotion(),
+      }"
       :animate="{
         width: 'var(--spacing-6)',
         height: 'var(--spacing-6)',
         opacity: 1,
+        transition: transitionConfig.preset.short.beginEnd.asMotion(),
       }"
-      :transition="{
-        duration: materialDuration.asMotion('medium-1'),
-        ease: materialEasing.standard,
+      :exit="{
+        width: 0,
+        height: 0,
+        opacity: 0,
+        transition: transitionConfig.preset.short.exit.asMotion(),
       }"
       v-bind="$attrs"
       :class="dialogVariants.icon()"

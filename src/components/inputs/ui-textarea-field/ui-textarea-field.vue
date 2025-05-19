@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AnimatePresence } from 'motion-v';
 import { Field, type FieldProps } from '../ui-field';
-import { materialDuration, materialEasing } from '@/config';
+import { transitionConfig } from '@/config';
 import { computed, ref, useTemplateRef, watch } from 'vue';
 import { useFocus } from '@vueuse/core';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
@@ -89,10 +89,7 @@ function attrsWithoutClass(attrs: UnknownRecord) {
           :animate="
             isExpanded ? { opacity: 1, height } : { opacity: 0, height: 0 }
           "
-          :transition="{
-            duration: materialDuration.asMotion('short-2'),
-            ease: materialEasing.standard,
-          }"
+          :transition="transitionConfig.preset.short.beginEnd.asMotion()"
         >
           <textarea
             ref="input"

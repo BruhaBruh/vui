@@ -5,6 +5,7 @@ import { useFocus } from '@vueuse/core';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { MotionComponent } from '@/components/utility';
 import { AnimatePresence } from 'motion-v';
+import { transitionConfig } from '@/config';
 
 export type TextFieldProps = FieldProps & {
   placeholder?: string;
@@ -79,6 +80,7 @@ function attrsWithoutClass(attrs: UnknownRecord) {
             expanded: { opacity: 1, height: 'auto' },
           }"
           :animate="isExpanded ? 'expanded' : 'hidden'"
+          :transition="transitionConfig.preset.short.beginEnd.asMotion()"
         >
           <input
             ref="input"

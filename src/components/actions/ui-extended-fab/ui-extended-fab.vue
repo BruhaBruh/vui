@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useButton, useRipple } from '@/composables';
+import { computedVariants, useButton, useRipple } from '@/composables';
 import { AnimatePresence } from 'motion-v';
 import { computed, useTemplateRef } from 'vue';
 import {
@@ -14,6 +14,7 @@ import {
   extendedFabIconMargin,
   extendedFabIconSize,
 } from './ui-extended-fab.options';
+import { transitionConfig } from '@/config';
 
 export type ExtendedFabProps = Omit<MotionComponentProps, 'asChild'> & {
   size?: ExtendedFabVariants['size'];
@@ -28,6 +29,9 @@ const {
   color = 'primary',
   as = 'button',
   iconKey,
+  initial,
+  animate,
+  exit,
   ...motionProps
 } = defineProps<ExtendedFabProps>();
 
@@ -44,6 +48,16 @@ const variants = computed(() => ({
   variant,
   color,
 }));
+
+const {
+  initial: initialObject,
+  animate: animateObject,
+  exit: exitObject,
+} = computedVariants(() => ({
+  initial,
+  animate,
+  exit,
+}));
 </script>
 
 <template>
@@ -52,6 +66,18 @@ const variants = computed(() => ({
     :as
     tabindex="0"
     v-bind="motionProps"
+    :initial="{
+      transition: transitionConfig.preset.short.enter.asMotion(),
+      ...initialObject,
+    }"
+    :animate="{
+      transition: transitionConfig.preset.short.beginEnd.asMotion(),
+      ...animateObject,
+    }"
+    :exit="{
+      transition: transitionConfig.preset.short.exit.asMotion(),
+      ...exitObject,
+    }"
     :class="extendedFabVariants(variants)"
   >
     <AnimatePresence mode="wait">
@@ -59,13 +85,24 @@ const variants = computed(() => ({
         as-child
         v-if="$slots.icon"
         :key="iconKey"
-        :initial="{ width: 0, height: 0, marginRight: 0 }"
+        :initial="{
+          width: 0,
+          height: 0,
+          marginRight: 0,
+          transition: transitionConfig.preset.short.enter.asMotion(),
+        }"
         :animate="{
           width: extendedFabIconSize[size],
           height: extendedFabIconSize[size],
           marginRight: extendedFabIconMargin[size],
+          transition: transitionConfig.preset.short.beginEnd.asMotion(),
         }"
-        :exit="{ width: 0, height: 0, marginRight: 0 }"
+        :exit="{
+          width: 0,
+          height: 0,
+          marginRight: 0,
+          transition: transitionConfig.preset.short.exit.asMotion(),
+        }"
         :class="extendedFabVariants.icon(variants)"
       >
         <slot name="icon" />
@@ -73,12 +110,26 @@ const variants = computed(() => ({
     </AnimatePresence>
     <MotionComponent
       as="span"
-      :initial="{ width: 0, opacity: 0 }"
-      :exit="{ width: 0, opacity: 0 }"
-      :animate="{
-        width: 'max-content',
-        opacity: 1,
+      :variants="{
+        enter: {
+          width: 0,
+          opacity: 0,
+          transition: transitionConfig.preset.short.enter.asMotion(),
+        },
+        default: {
+          width: 'max-content',
+          opacity: 1,
+          transition: transitionConfig.preset.short.beginEnd.asMotion(),
+        },
+        exit: {
+          width: 0,
+          opacity: 0,
+          transition: transitionConfig.preset.short.exit.asMotion(),
+        },
       }"
+      initial="enter"
+      animate="default"
+      exit="exit"
       :class="extendedFabVariants.label(variants)"
     >
       <slot />

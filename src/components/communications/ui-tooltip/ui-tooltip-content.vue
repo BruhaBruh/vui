@@ -20,6 +20,8 @@ import {
   MotionComponent,
   type MotionComponentProps,
 } from '@/components/utility';
+import { computedVariants } from '@/composables';
+import { transitionConfig } from '@/config';
 
 export type TooltipContentProps = Omit<MotionComponentProps, 'asChild'> & {
   variant?: TooltipVariants['variant'];
@@ -81,23 +83,15 @@ const finalPlacement = computed(() =>
   floatingPlacementToVariantPlacement(floatingPlacement.value),
 );
 
-const initialObject = computed(() => {
-  if (typeof initial !== 'object') return {};
-  if (Array.isArray(initial)) return {};
-  return initial;
-});
-
-const animateObject = computed(() => {
-  if (typeof animate !== 'object') return {};
-  if (Array.isArray(animate)) return {};
-  return animate;
-});
-
-const exitObject = computed(() => {
-  if (typeof exit !== 'object') return {};
-  if (Array.isArray(exit)) return {};
-  return exit;
-});
+const {
+  initial: initialObject,
+  animate: animateObject,
+  exit: exitObject,
+} = computedVariants(() => ({
+  initial,
+  animate,
+  exit,
+}));
 </script>
 
 <template>
@@ -114,9 +108,24 @@ const exitObject = computed(() => {
         :id
         role="tooltip"
         v-bind="{ ...motionProps, ...$attrs }"
-        :initial="{ ...initialObject, opacity: 0, scale: 0 }"
-        :animate="{ ...animateObject, opacity: 1, scale: 1 }"
-        :exit="{ ...exitObject, opacity: 0, scale: 0 }"
+        :initial="{
+          opacity: 0,
+          scale: 0,
+          transition: transitionConfig.preset.short.enter.asMotion(),
+          ...initialObject,
+        }"
+        :animate="{
+          opacity: 1,
+          scale: 1,
+          transition: transitionConfig.preset.short.beginEnd.asMotion(),
+          ...animateObject,
+        }"
+        :exit="{
+          opacity: 0,
+          scale: 0,
+          transition: transitionConfig.preset.short.exit.asMotion(),
+          ...exitObject,
+        }"
         :style="floatingStyles"
         :class="tooltipVariants({ variant, placement: finalPlacement })"
       >

@@ -5,6 +5,7 @@ import { computed, nextTick, ref, useTemplateRef, watchEffect } from 'vue';
 import { useFocus } from '@vueuse/core';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { MotionComponent } from '@/components/utility';
+import { transitionConfig } from '@/config';
 
 export type MaskFieldProps = FieldProps & {
   mask: string;
@@ -170,6 +171,7 @@ function attrsWithoutClass(attrs: UnknownRecord) {
             expanded: { opacity: 1, height: 'auto' },
           }"
           :animate="isExpanded ? 'expanded' : 'hidden'"
+          :transition="transitionConfig.preset.short.beginEnd.asMotion()"
         >
           <input
             ref="input"

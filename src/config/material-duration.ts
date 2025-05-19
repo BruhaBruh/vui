@@ -1,3 +1,5 @@
+import { type Duration, type DurationAsString, durationMapper } from './duration';
+
 export const materialDurationValues = {
   'short-1': 50,
   'short-2': 100,
@@ -15,16 +17,18 @@ export const materialDurationValues = {
   'extra-long-2': 800,
   'extra-long-3': 900,
   'extra-long-4': 1000,
-} as const;
+} satisfies Record<string, Duration>;
 
 type Registry = typeof materialDurationValues;
 
 type Key = keyof Registry;
 
-type AsString<T extends Key> = `${Registry[T]}ms`;
+export type MaterialDuration = Key;
+
+export type MaterialDurationValue<T extends Key> = Registry[T];
 
 type StringRegistry = {
-  [key in Key]: AsString<key>;
+  [K in Key]: DurationAsString<Registry[K]>;
 };
 
 export const materialDuration = {
@@ -32,17 +36,20 @@ export const materialDuration = {
   keys(): Key[] {
     return Object.keys(materialDurationValues) as Key[];
   },
-  has(key: string): key is Key {
-    return Object.keys(materialDurationValues).includes(key);
+  has(key: Key | (string & {})): key is Key {
+    return this.keys().includes(key as Key);
   },
-  asMotion(key: Key) {
-    return materialDurationValues[key] / 1000;
+  value<T extends Key>(key: T): Registry[T] {
+    return materialDurationValues[key];
   },
-  asString<T extends Key>(key: T): AsString<T> {
-    return `${materialDurationValues[key]}ms`;
+  asMotion<T extends Key>(key: T): Registry[T] {
+    return durationMapper.asMotion(materialDurationValues[key]);
+  },
+  asString<T extends Key>(key: T): DurationAsString<Registry[T]> {
+    return durationMapper.asString(materialDurationValues[key]);
   },
   toStringRegistry(): StringRegistry {
-    const result = {} as Record<Key, AsString<Key>>;
+    const result = {} as StringRegistry;
 
     this.keys().forEach((key) => {
       result[key] = this.asString(key);

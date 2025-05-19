@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { PropsPolymorphic } from '@/types';
-import { motion } from 'motion-v';
-import { materialDuration, materialEasing } from '@/config';
+import { transitionConfig } from '@/config';
 import { dialogVariants } from './ui-dialog.variants';
 import {
   ModalContent,
   ModalUnderlay,
   type ModalUnderlayProps,
 } from '../ui-modal';
+import { MotionComponent } from '@/components/utility';
 
 export type DialogContentProps = PropsPolymorphic &
   Omit<ModalUnderlayProps, 'as'> & {
@@ -15,7 +15,7 @@ export type DialogContentProps = PropsPolymorphic &
   };
 
 const {
-  as = motion.div,
+  as = 'div',
   underlayAs,
   ...underlayProps
 } = defineProps<DialogContentProps>();
@@ -29,26 +29,33 @@ defineOptions({
   <ModalUnderlay :as="underlayAs" v-bind="underlayProps">
     <ModalContent>
       <template #default="{ close }">
-        <component
-          :is="as"
-          :initial="{ opacity: 0, y: '100%', scaleX: 0 }"
-          :animate="{ opacity: 1, y: 0, scaleX: 1 }"
-          :exit="{ opacity: 0, y: '100%', scaleX: 0 }"
-          :transition="{
-            duration: materialDuration.asMotion('medium-1'),
-            ease: materialEasing.standard,
+        <MotionComponent
+          :as
+          :initial="{
+            opacity: 0,
+            y: '25vh',
+            transition: transitionConfig.preset.long.enter.asMotion(),
+          }"
+          :animate="{
+            opacity: 1,
+            y: 0,
+            transition: transitionConfig.preset.long.beginEnd.asMotion(),
+          }"
+          :exit="{
+            opacity: 0,
+            y: '25vh',
+            transition: transitionConfig.preset.long.exit.asMotion(),
           }"
           role="dialog"
           :class="dialogVariants()"
           v-bind="$attrs"
-          v-tw-merge
         >
           <slot name="icon" :close />
           <slot name="subhead" :close />
           <slot name="text" :close />
           <slot :close />
           <slot name="actions" :close />
-        </component>
+        </MotionComponent>
       </template>
     </ModalContent>
   </ModalUnderlay>

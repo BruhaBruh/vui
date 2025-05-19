@@ -13,6 +13,8 @@ import {
   MotionComponent,
   type MotionComponentProps,
 } from '@/components/utility';
+import { computedVariants } from '@/composables';
+import { transitionConfig } from '@/config';
 
 export type SegmentedButtonGroupProps = MotionComponentProps & {
   density?: SegmentedButtonGroupVariants['density'];
@@ -27,6 +29,9 @@ const {
   selectionMode = 'single',
   disabled = false,
   as = 'div',
+  initial,
+  animate,
+  exit,
   ...motionProps
 } = defineProps<SegmentedButtonGroupProps>();
 
@@ -46,6 +51,16 @@ const extraProps = computed(() => ({
   role: state.mode.value === 'single' ? 'radiogroup' : 'toolbar',
   'aria-disabled': state.disabled.value || disabled ? 'true' : undefined,
 }));
+
+const {
+  initial: initialObject,
+  animate: animateObject,
+  exit: exitObject,
+} = computedVariants(() => ({
+  initial,
+  animate,
+  exit,
+}));
 </script>
 
 <template>
@@ -53,6 +68,18 @@ const extraProps = computed(() => ({
     :as
     aria-orientation="horizontal"
     v-bind="extraProps"
+    :initial="{
+      transition: transitionConfig.preset.short.enter.asMotion(),
+      ...initialObject,
+    }"
+    :animate="{
+      transition: transitionConfig.preset.short.beginEnd.asMotion(),
+      ...animateObject,
+    }"
+    :exit="{
+      transition: transitionConfig.preset.short.exit.asMotion(),
+      ...exitObject,
+    }"
     :class="segmentedButtonVariants.group({ density })"
   >
     <slot />

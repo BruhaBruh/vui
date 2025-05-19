@@ -6,4 +6,4 @@ export type Variants<
   T = VariantProps<Component>,
 > = {
   [K in keyof T]: NonNullable<T[K]>;
-};
+} & {};

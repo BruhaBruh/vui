@@ -1,3 +1,5 @@
+import { type Easing, type EasingAsString, easingMapper } from './easing';
+
 export const materialEasingValues = {
   standard: [0.2, 0.0, 0, 1.0],
   'standard-decelerate': [0, 0, 0, 1],
@@ -5,17 +7,18 @@ export const materialEasingValues = {
   emphasized: [0.2, 0.0, 0, 1.0],
   'emphasized-decelerate': [0.05, 0.7, 0.1, 1.0],
   'emphasized-accelerate': [0.3, 0.0, 0.8, 0.15],
-} as const;
+} satisfies Record<string, Easing>;
 
 type Registry = typeof materialEasingValues;
 
 type Key = keyof Registry;
 
-type AsString<T extends Key> =
-  `cubic-bezier(${Registry[T][0]}, ${Registry[T][1]}, ${Registry[T][2]}, ${Registry[T][3]})`;
+export type MaterialEasing = Key;
+
+export type MaterialEasingValue<T extends Key> = Registry[T];
 
 type StringRegistry = {
-  [key in Key]: AsString<key>;
+  [K in Key]: EasingAsString<Registry[K]>;
 };
 
 export const materialEasing = {
@@ -23,16 +26,20 @@ export const materialEasing = {
   keys(): Key[] {
     return Object.keys(materialEasingValues) as Key[];
   },
-  has(key: string): key is Key {
-    return Object.keys(materialEasingValues).includes(key);
+  has(key: Key | (string & {})): key is Key {
+    return this.keys().includes(key as Key);
   },
-  asString<T extends Key>(key: T): AsString<T> {
-    const [p0, p1, p2, p3] = materialEasingValues[key];
-
-    return `cubic-bezier(${p0}, ${p1}, ${p2}, ${p3})` as AsString<T>;
+  value<T extends Key>(key: T): Registry[T] {
+    return materialEasingValues[key];
+  },
+  asMotion<T extends Key>(key: T): Registry[T] {
+    return easingMapper.asMotion(materialEasingValues[key]);
+  },
+  asString<T extends Key>(key: T): EasingAsString<Registry[T]> {
+    return easingMapper.asString(materialEasingValues[key]);
   },
   toStringRegistry(): StringRegistry {
-    const result = {} as Record<Key, AsString<Key>>;
+    const result = {} as StringRegistry;
 
     this.keys().forEach((key) => {
       result[key] = this.asString(key);

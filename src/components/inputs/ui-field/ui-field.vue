@@ -5,6 +5,7 @@ import { computed, useId, useTemplateRef } from 'vue';
 import { type FieldInputVariants, fieldVariants } from './ui-field.variants';
 import { AnimatePresence } from 'motion-v';
 import { MotionComponent } from '@/components/utility';
+import { transitionConfig } from '@/config';
 
 export type FieldProps = PropsPolymorphic & {
   size?: FieldInputVariants['size'];
@@ -76,13 +77,26 @@ const { isDisabled } = useInteractions(elementRef, {
           as-child
           v-if="$slots.leading"
           :key="leadingKey"
-          :initial="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
-          :exit="{ width: 0, height: 0, opacity: 0, marginRight: 0 }"
+          :initial="{
+            width: 0,
+            height: 0,
+            opacity: 0,
+            marginRight: 0,
+            transition: transitionConfig.preset.short.enter.asMotion(),
+          }"
           :animate="{
             width: iconSize,
             height: iconSize,
             opacity: 1,
             marginRight: iconMargin,
+            transition: transitionConfig.preset.short.beginEnd.asMotion(),
+          }"
+          :exit="{
+            width: 0,
+            height: 0,
+            opacity: 0,
+            marginRight: 0,
+            transition: transitionConfig.preset.short.exit.asMotion(),
           }"
           :class="[
             fieldVariants.icon({ size }),
@@ -121,13 +135,26 @@ const { isDisabled } = useInteractions(elementRef, {
           as-child
           v-if="$slots.trailing"
           :key="trailingKey"
-          :initial="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
-          :exit="{ width: 0, height: 0, opacity: 0, marginLeft: 0 }"
+          :initial="{
+            width: 0,
+            height: 0,
+            opacity: 0,
+            marginLeft: 0,
+            transition: transitionConfig.preset.short.enter.asMotion(),
+          }"
           :animate="{
             width: iconSize,
             height: iconSize,
             opacity: 1,
             marginLeft: iconMargin,
+            transition: transitionConfig.preset.short.beginEnd.asMotion(),
+          }"
+          :exit="{
+            width: 0,
+            height: 0,
+            opacity: 0,
+            marginLeft: 0,
+            transition: transitionConfig.preset.short.exit.asMotion(),
           }"
           :class="[
             fieldVariants.icon({ size }),

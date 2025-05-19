@@ -7,7 +7,8 @@ import {
 } from '@/components/utility';
 import { AnimatePresence } from 'motion-v';
 import { useTemplateRef } from 'vue';
-import { useInteractions } from '@/composables';
+import { computedVariants, useInteractions } from '@/composables';
+import { transitionConfig } from '@/config';
 
 export type SearchBarProps = Omit<MotionComponentProps, 'asChild'> & {
   leadingKey?: string;
@@ -22,6 +23,9 @@ const {
   trailingKey,
   trailingSecondKey,
   trailingAvatarKey,
+  initial,
+  animate,
+  exit,
   ...motionProps
 } = defineProps<SearchBarProps>();
 
@@ -43,6 +47,16 @@ function attrsWithoutClass(attrs: UnknownRecord) {
   if ('class' in newAttrs) delete newAttrs.class;
   return newAttrs;
 }
+
+const {
+  initial: initialObject,
+  animate: animateObject,
+  exit: exitObject,
+} = computedVariants(() => ({
+  initial,
+  animate,
+  exit,
+}));
 </script>
 
 <template>
@@ -50,6 +64,18 @@ function attrsWithoutClass(attrs: UnknownRecord) {
     ref="field"
     :as
     v-bind="motionProps"
+    :initial="{
+      transition: transitionConfig.preset.short.enter.asMotion(),
+      ...initialObject,
+    }"
+    :animate="{
+      transition: transitionConfig.preset.short.beginEnd.asMotion(),
+      ...animateObject,
+    }"
+    :exit="{
+      transition: transitionConfig.preset.short.exit.asMotion(),
+      ...exitObject,
+    }"
     :class="[searchBarVariants(), $attrs.class]"
     @click="inputElementRef?.focus()"
   >
@@ -58,13 +84,24 @@ function attrsWithoutClass(attrs: UnknownRecord) {
         as-child
         v-if="$slots.leading"
         :key="leadingKey"
-        :initial="{ width: 0, height: 0, marginRight: 0 }"
+        :initial="{
+          width: 0,
+          height: 0,
+          marginRight: 0,
+          transition: transitionConfig.preset.short.enter.asMotion(),
+        }"
         :animate="{
           width: 'var(--spacing-6)',
           height: 'var(--spacing-6)',
           marginRight: 'var(--spacing-4)',
+          transition: transitionConfig.preset.short.beginEnd.asMotion(),
         }"
-        :exit="{ width: 0, height: 0, marginRight: 0 }"
+        :exit="{
+          width: 0,
+          height: 0,
+          marginRight: 0,
+          transition: transitionConfig.preset.short.exit.asMotion(),
+        }"
         :class="searchBarVariants.icon({ position: 'leading' })"
         @click.stop
       >
@@ -83,13 +120,24 @@ function attrsWithoutClass(attrs: UnknownRecord) {
         as-child
         v-if="$slots.trailing"
         :key="trailingKey"
-        :initial="{ width: 0, height: 0, marginLeft: 0 }"
+        :initial="{
+          width: 0,
+          height: 0,
+          marginLeft: 0,
+          transition: transitionConfig.preset.short.enter.asMotion(),
+        }"
         :animate="{
           width: 'var(--spacing-6)',
           height: 'var(--spacing-6)',
           marginLeft: 'var(--spacing-4)',
+          transition: transitionConfig.preset.short.beginEnd.asMotion(),
         }"
-        :exit="{ width: 0, height: 0, marginLeft: 0 }"
+        :exit="{
+          width: 0,
+          height: 0,
+          marginLeft: 0,
+          transition: transitionConfig.preset.short.exit.asMotion(),
+        }"
         :class="searchBarVariants.icon({ position: 'trailing' })"
       >
         <slot name="trailing" />
@@ -100,13 +148,24 @@ function attrsWithoutClass(attrs: UnknownRecord) {
         as-child
         v-if="$slots['trailing-second'] && !$slots['trailing-avatar']"
         :key="`icon-${trailingSecondKey}`"
-        :initial="{ width: 0, height: 0, marginLeft: 0 }"
+        :initial="{
+          width: 0,
+          height: 0,
+          marginLeft: 0,
+          transition: transitionConfig.preset.short.enter.asMotion(),
+        }"
         :animate="{
           width: 'var(--spacing-6)',
           height: 'var(--spacing-6)',
           marginLeft: 'var(--spacing-4)',
+          transition: transitionConfig.preset.short.beginEnd.asMotion(),
         }"
-        :exit="{ width: 0, height: 0, marginLeft: 0 }"
+        :exit="{
+          width: 0,
+          height: 0,
+          marginLeft: 0,
+          transition: transitionConfig.preset.short.exit.asMotion(),
+        }"
         :class="searchBarVariants.icon({ position: 'trailing' })"
       >
         <slot name="trailing-second" />
@@ -115,13 +174,24 @@ function attrsWithoutClass(attrs: UnknownRecord) {
         as-child
         v-if="$slots['trailing-avatar']"
         :key="`avatar-${trailingAvatarKey}`"
-        :initial="{ width: 0, height: 0, marginLeft: 0 }"
+        :initial="{
+          width: 0,
+          height: 0,
+          marginLeft: 0,
+          transition: transitionConfig.preset.short.enter.asMotion(),
+        }"
         :animate="{
           width: 'var(--spacing-7h)',
           height: 'var(--spacing-7h)',
           marginLeft: 'var(--spacing-4)',
+          transition: transitionConfig.preset.short.beginEnd.asMotion(),
         }"
-        :exit="{ width: 0, height: 0, marginLeft: 0 }"
+        :exit="{
+          width: 0,
+          height: 0,
+          marginLeft: 0,
+          transition: transitionConfig.preset.short.exit.asMotion(),
+        }"
         :class="searchBarVariants.avatar()"
       >
         <slot name="trailing-avatar" />

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRipple, useToggleButton } from '@/composables';
+import { computedVariants, useRipple, useToggleButton } from '@/composables';
 import { computed, useTemplateRef } from 'vue';
 import { AnimatePresence } from 'motion-v';
 import {
@@ -16,6 +16,7 @@ import {
   iconButtonIconSize,
   iconButtonWidth,
 } from './ui-icon-button.options';
+import { transitionConfig } from '@/config';
 
 export type IconButtonProps = Omit<MotionComponentProps, 'asChild'> & {
   size?: IconButtonVariants['size'];
@@ -40,6 +41,7 @@ const {
   iconKey,
   initial,
   animate,
+  exit,
   ...motionProps
 } = defineProps<IconButtonProps>();
 
@@ -84,17 +86,15 @@ const buttonWidth = computed(() => {
   return iconButtonWidth[size][width];
 });
 
-const initialObject = computed(() => {
-  if (typeof initial !== 'object') return {};
-  if (Array.isArray(initial)) return {};
-  return initial;
-});
-
-const animateObject = computed(() => {
-  if (typeof animate !== 'object') return {};
-  if (Array.isArray(animate)) return {};
-  return animate;
-});
+const {
+  initial: initialObject,
+  animate: animateObject,
+  exit: exitObject,
+} = computedVariants(() => ({
+  initial,
+  animate,
+  exit,
+}));
 </script>
 
 <template>
@@ -103,20 +103,44 @@ const animateObject = computed(() => {
     :as
     tabindex="0"
     v-bind="motionProps"
-    :initial="{ ...initialObject, width: buttonWidth, borderRadius }"
-    :animate="{ ...animateObject, width: buttonWidth, borderRadius }"
+    :initial="{
+      width: buttonWidth,
+      borderRadius,
+      transition: transitionConfig.preset.short.enter.asMotion(),
+      ...initialObject,
+    }"
+    :animate="{
+      width: buttonWidth,
+      height: iconButtonWidth[size]['default'],
+      borderRadius,
+      transition: transitionConfig.preset.short.beginEnd.asMotion(),
+      ...animateObject,
+    }"
+    :exit="{
+      transition: transitionConfig.preset.short.exit.asMotion(),
+      ...exitObject,
+    }"
     :class="iconButtonVariants(variants)"
   >
     <AnimatePresence mode="wait">
       <MotionComponent
         as-child
         :key="iconKey"
-        :initial="{ width: 0, height: 0 }"
+        :initial="{
+          width: 0,
+          height: 0,
+          transition: transitionConfig.preset.short.enter.asMotion(),
+        }"
         :animate="{
           width: iconButtonIconSize[size],
           height: iconButtonIconSize[size],
+          transition: transitionConfig.preset.short.beginEnd.asMotion(),
         }"
-        :exit="{ width: 0, height: 0 }"
+        :exit="{
+          width: 0,
+          height: 0,
+          transition: transitionConfig.preset.short.exit.asMotion(),
+        }"
         :class="iconButtonVariants.icon(variants)"
       >
         <slot />

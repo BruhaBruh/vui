@@ -1,19 +1,21 @@
 <script setup lang="ts">
-import type { PropsPolymorphic } from '@/types';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { computed, useTemplateRef } from 'vue';
-import { useInteractions, useRipple } from '@/composables';
+import { computedVariants, useInteractions, useRipple } from '@/composables';
 import { AnimatePresence } from 'motion-v';
-import { materialDuration, materialEasing } from '@/config';
+import { materialDuration, materialEasing, transitionConfig } from '@/config';
 import { checkboxVariants } from './ui-checkbox.variants';
 import type {
   CheckboxMarkVariants,
   CheckboxVariants,
 } from './ui-checkbox.variants';
 import { IconCheck, IconMinus } from '@tabler/icons-vue';
-import { MotionComponent } from '@/components/utility';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
 
-export type CheckboxProps = PropsPolymorphic & {
+export type CheckboxProps = MotionComponentProps & {
   value: string | number;
   color?: CheckboxVariants['color'];
   checked?: boolean;
@@ -28,6 +30,10 @@ const {
   checked,
   indeterminate,
   as = 'div',
+  initial,
+  animate,
+  exit,
+  ...motionProps
 } = defineProps<CheckboxProps>();
 
 defineOptions({
@@ -83,14 +89,37 @@ useInteractions(elementRef, {
   disabled: false,
 });
 useRipple(elementRef);
+
+const {
+  initial: initialObject,
+  animate: animateObject,
+  exit: exitObject,
+} = computedVariants(() => ({
+  initial,
+  animate,
+  exit,
+}));
 </script>
 
 <template>
-  <component
-    :is="as"
+  <MotionComponent
+    :as
     ref="checkbox"
-    :class="[checkboxVariants({ color }), $attrs.class]"
+    v-bind="motionProps"
+    :initial="{
+      transition: transitionConfig.preset.short.enter.asMotion(),
+      ...initialObject,
+    }"
+    :animate="{
+      transition: transitionConfig.preset.short.beginEnd.asMotion(),
+      ...animateObject,
+    }"
+    :exit="{
+      transition: transitionConfig.preset.short.exit.asMotion(),
+      ...exitObject,
+    }"
     :data-is-disabled="disabled ? 'true' : undefined"
+    :class="[checkboxVariants({ color }), $attrs.class]"
     @click="onClick"
     v-tw-merge
   >
@@ -132,5 +161,5 @@ useRipple(elementRef);
         </MotionComponent>
       </AnimatePresence>
     </span>
-  </component>
+  </MotionComponent>
 </template>

@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import type { PropsPolymorphic } from '@/types';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
 import { useTemplateRef } from 'vue';
-import { useInteractions, useRipple } from '@/composables';
+import { computedVariants, useInteractions, useRipple } from '@/composables';
 import { AnimatePresence, motion } from 'motion-v';
-import { materialDuration, materialEasing } from '@/config';
+import { materialDuration, materialEasing, transitionConfig } from '@/config';
 import { radioVariants } from './ui-radio.variants';
 import type { RadioVariants } from './ui-radio.variants';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
 
-export type RadioProps = PropsPolymorphic & {
+export type RadioProps = MotionComponentProps & {
   value: string | number;
   color?: RadioVariants['color'];
   checked?: boolean;
@@ -21,6 +24,10 @@ const {
   checked,
   disabled,
   as = 'div',
+  initial,
+  animate,
+  exit,
+  ...motionProps
 } = defineProps<RadioProps>();
 
 defineOptions({
@@ -65,12 +72,35 @@ useInteractions(elementRef, {
   disabled: false,
 });
 useRipple(elementRef);
+
+const {
+  initial: initialObject,
+  animate: animateObject,
+  exit: exitObject,
+} = computedVariants(() => ({
+  initial,
+  animate,
+  exit,
+}));
 </script>
 
 <template>
-  <component
-    :is="as"
+  <MotionComponent
+    :as
     ref="radio"
+    v-bind="motionProps"
+    :initial="{
+      transition: transitionConfig.preset.short.enter.asMotion(),
+      ...initialObject,
+    }"
+    :animate="{
+      transition: transitionConfig.preset.short.beginEnd.asMotion(),
+      ...animateObject,
+    }"
+    :exit="{
+      transition: transitionConfig.preset.short.exit.asMotion(),
+      ...exitObject,
+    }"
     :class="[radioVariants({ color }), $attrs.class]"
     :data-is-disabled="disabled ? 'true' : undefined"
     @click="onClick"
@@ -114,5 +144,5 @@ useRipple(elementRef);
         />
       </AnimatePresence>
     </span>
-  </component>
+  </MotionComponent>
 </template>

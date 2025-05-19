@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRipple, useToggleButton } from '@/composables';
+import { computedVariants, useRipple, useToggleButton } from '@/composables';
 import { computed, useTemplateRef } from 'vue';
 import { type ButtonVariants, buttonVariants } from './ui-button.variants';
 import { AnimatePresence } from 'motion-v';
@@ -13,6 +13,7 @@ import {
   MotionComponent,
   type MotionComponentProps,
 } from '@/components/utility';
+import { transitionConfig } from '@/config';
 
 export type ButtonProps = Omit<MotionComponentProps, 'asChild'> & {
   size?: ButtonVariants['size'];
@@ -37,6 +38,7 @@ const {
   trailingKey,
   initial,
   animate,
+  exit,
   ...motionProps
 } = defineProps<ButtonProps>();
 
@@ -76,17 +78,15 @@ const borderRadius = computed(() => {
   return buttonBorderRadius[shape][size];
 });
 
-const initialObject = computed(() => {
-  if (typeof initial !== 'object') return {};
-  if (Array.isArray(initial)) return {};
-  return initial;
-});
-
-const animateObject = computed(() => {
-  if (typeof animate !== 'object') return {};
-  if (Array.isArray(animate)) return {};
-  return animate;
-});
+const {
+  initial: initialObject,
+  animate: animateObject,
+  exit: exitObject,
+} = computedVariants(() => ({
+  initial,
+  animate,
+  exit,
+}));
 </script>
 
 <template>
@@ -95,8 +95,20 @@ const animateObject = computed(() => {
     :as
     tabindex="0"
     v-bind="motionProps"
-    :initial="{ ...initialObject, borderRadius }"
-    :animate="{ ...animateObject, borderRadius }"
+    :initial="{
+      borderRadius,
+      transition: transitionConfig.preset.short.enter.asMotion(),
+      ...initialObject,
+    }"
+    :animate="{
+      borderRadius,
+      transition: transitionConfig.preset.short.beginEnd.asMotion(),
+      ...animateObject,
+    }"
+    :exit="{
+      transition: transitionConfig.preset.short.exit.asMotion(),
+      ...exitObject,
+    }"
     :class="buttonVariants(variants)"
   >
     <AnimatePresence mode="wait">
@@ -104,13 +116,24 @@ const animateObject = computed(() => {
         as-child
         v-if="$slots.leading"
         :key="leadingKey"
-        :initial="{ width: 0, height: 0, marginRight: 0 }"
+        :initial="{
+          width: 0,
+          height: 0,
+          marginRight: 0,
+          transition: transitionConfig.preset.short.enter.asMotion(),
+        }"
         :animate="{
           width: buttonIconSize[size],
           height: buttonIconSize[size],
           marginRight: buttonIconMargin[size],
+          transition: transitionConfig.preset.short.beginEnd.asMotion(),
         }"
-        :exit="{ width: 0, height: 0, marginRight: 0 }"
+        :exit="{
+          width: 0,
+          height: 0,
+          marginRight: 0,
+          transition: transitionConfig.preset.short.exit.asMotion(),
+        }"
         :class="buttonVariants.icon({ ...variants, position: 'leading' })"
       >
         <slot name="leading" />
@@ -124,13 +147,24 @@ const animateObject = computed(() => {
         as-child
         v-if="$slots.trailing"
         :key="trailingKey"
-        :initial="{ width: 0, height: 0, marginLeft: 0 }"
+        :initial="{
+          width: 0,
+          height: 0,
+          marginLeft: 0,
+          transition: transitionConfig.preset.short.enter.asMotion(),
+        }"
         :animate="{
           width: buttonIconSize[size],
           height: buttonIconSize[size],
           marginLeft: buttonIconMargin[size],
+          transition: transitionConfig.preset.short.beginEnd.asMotion(),
         }"
-        :exit="{ width: 0, height: 0, marginLeft: 0 }"
+        :exit="{
+          width: 0,
+          height: 0,
+          marginLeft: 0,
+          transition: transitionConfig.preset.short.exit.asMotion(),
+        }"
         :class="buttonVariants.icon({ ...variants, position: 'trailing' })"
       >
         <slot name="trailing" />

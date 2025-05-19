@@ -7,6 +7,7 @@ const variants = cva(
     'rounded-full',
     'z-10',
     'inline-flex items-center justify-center',
+    'overflow-hidden',
     'typography-label-small',
     'pointer-events-none select-none',
     'transition-box duration-short-2 easing-standard',

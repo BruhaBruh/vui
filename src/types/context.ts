@@ -14,6 +14,6 @@ export type Context<
   },
 > = {
   state: T;
-  options: Options & ReadonlyOptions & RawOptions;
-  provideOptions: ProvideOptions & ProvideReadonlyOptions & RawOptions;
+  options: Options & ReadonlyOptions & RawOptions & {};
+  provideOptions: ProvideOptions & ProvideReadonlyOptions & RawOptions & {};
 };

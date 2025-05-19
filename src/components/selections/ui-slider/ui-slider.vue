@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { PropsPolymorphic } from '@/types';
 import {
   computed,
   onBeforeUnmount,
@@ -8,7 +7,7 @@ import {
   useId,
   useTemplateRef,
 } from 'vue';
-import { useInteractions } from '@/composables';
+import { computedVariants, useInteractions } from '@/composables';
 import {
   type SliderThumbVariants,
   type SliderTrackVariants,
@@ -16,9 +15,13 @@ import {
 } from './ui-slider.variants';
 import { default as SliderThumb } from './ui-slider-thumb.vue';
 import { motion } from 'motion-v';
-import { materialDuration, materialEasing } from '@/config';
+import { transitionConfig } from '@/config';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
 
-export type SliderProps = PropsPolymorphic & {
+export type SliderProps = MotionComponentProps & {
   min?: number;
   max?: number;
   step?: number;
@@ -39,6 +42,10 @@ const {
   color,
   formatOptions,
   as = 'div',
+  initial,
+  animate,
+  exit,
+  ...motionProps
 } = defineProps<SliderProps>();
 
 const elementRef = useTemplateRef<HTMLElement>('slider');
@@ -282,13 +289,36 @@ function recalculate({
   setValue(thumb, clamp(minValue, newValue, maxValue));
   (document.querySelector(`#${thumb.id}`) as HTMLElement | null)?.focus();
 }
+
+const {
+  initial: initialObject,
+  animate: animateObject,
+  exit: exitObject,
+} = computedVariants(() => ({
+  initial,
+  animate,
+  exit,
+}));
 </script>
 
 <template>
-  <component
-    :is="as"
-    :id
+  <MotionComponent
+    :as
     ref="slider"
+    v-bind="motionProps"
+    :initial="{
+      transition: transitionConfig.preset.short.enter.asMotion(),
+      ...initialObject,
+    }"
+    :animate="{
+      transition: transitionConfig.preset.short.beginEnd.asMotion(),
+      ...animateObject,
+    }"
+    :exit="{
+      transition: transitionConfig.preset.short.exit.asMotion(),
+      ...exitObject,
+    }"
+    :id
     :data-is-disabled="disabled"
     @touchstart="onStart"
     @mousedown="onStart"
@@ -312,10 +342,7 @@ function recalculate({
       :animate="{
         width: track.width,
         left: track.left,
-      }"
-      :transition="{
-        duration: materialDuration.asMotion('short-2'),
-        ease: materialEasing.standard,
+        transition: transitionConfig.preset.short.beginEnd.asMotion(),
       }"
       :style="{
         '--ui-slider-before-width': `${elementRef?.clientWidth ?? 1920}px`,
@@ -328,5 +355,5 @@ function recalculate({
       ]"
       v-tw-merge
     />
-  </component>
+  </MotionComponent>
 </template>

@@ -1,21 +1,32 @@
 <script setup lang="ts">
-import type { PropsPolymorphic } from '@/types';
 import { switchVariants } from './ui-switch.variants';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
 import type { SwitchVariants } from './ui-switch.variants';
 import { useTemplateRef } from 'vue';
-import { useInteractions } from '@/composables';
+import { computedVariants, useInteractions } from '@/composables';
 import { AnimatePresence, motion } from 'motion-v';
-import { materialDuration, materialEasing } from '@/config';
-import { MotionComponent } from '@/components/utility';
+import { materialDuration, materialEasing, transitionConfig } from '@/config';
+import {
+  MotionComponent,
+  type MotionComponentProps,
+} from '@/components/utility';
 
-export type SwitchProps = PropsPolymorphic & {
+export type SwitchProps = MotionComponentProps & {
   color?: SwitchVariants['color'];
   checked?: boolean;
   disabled?: boolean;
 };
 
-const { color, checked, disabled, as = 'div' } = defineProps<SwitchProps>();
+const {
+  color,
+  checked,
+  disabled,
+  as = 'div',
+  initial,
+  animate,
+  exit,
+  ...motionProps
+} = defineProps<SwitchProps>();
 
 defineOptions({
   inheritAttrs: false,
@@ -49,12 +60,35 @@ function onChange(e: Event) {
 const { isPressed } = useInteractions(elementRef, {
   disabled: false,
 });
+
+const {
+  initial: initialObject,
+  animate: animateObject,
+  exit: exitObject,
+} = computedVariants(() => ({
+  initial,
+  animate,
+  exit,
+}));
 </script>
 
 <template>
-  <component
-    :is="as"
+  <MotionComponent
+    :as
     ref="switch"
+    v-bind="motionProps"
+    :initial="{
+      transition: transitionConfig.preset.short.enter.asMotion(),
+      ...initialObject,
+    }"
+    :animate="{
+      transition: transitionConfig.preset.short.beginEnd.asMotion(),
+      ...animateObject,
+    }"
+    :exit="{
+      transition: transitionConfig.preset.short.exit.asMotion(),
+      ...exitObject,
+    }"
     :class="[switchVariants({ color, isSelected: checked }), $attrs.class]"
     :data-is-disabled="disabled ? 'true' : undefined"
     @click="onClick"
@@ -147,5 +181,5 @@ const { isPressed } = useInteractions(elementRef, {
         </AnimatePresence>
       </motion.span>
     </span>
-  </component>
+  </MotionComponent>
 </template>
