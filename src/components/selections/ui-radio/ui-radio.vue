@@ -35,6 +35,7 @@ defineOptions({
 });
 
 const elementRef = useTemplateRef<HTMLElement>('radio');
+const inputRef = useTemplateRef<HTMLInputElement>('input');
 
 const emit = defineEmits<{
   change: [];
@@ -60,8 +61,7 @@ function update() {
 function onClick() {
   update();
   if (!elementRef.value) return;
-  const inputElement = elementRef.value.querySelector('input');
-  inputElement?.focus();
+  inputRef.value?.focus();
 }
 
 function onChange() {
@@ -107,6 +107,7 @@ const {
     v-tw-merge
   >
     <input
+      ref="input"
       type="radio"
       class="sr-only"
       :disabled

@@ -41,6 +41,7 @@ watchEffect(() => {
     aria-label="Previous slide"
     v-bind="props"
     :class="carouselVariants.arrowButton()"
+    :animate="{ height: 'auto' }"
     @click="onClick()"
   >
     <slot>

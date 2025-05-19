@@ -33,6 +33,7 @@ defineOptions({
 });
 
 const elementRef = useTemplateRef<HTMLElement>('switch');
+const inputRef = useTemplateRef<HTMLInputElement>('input');
 
 const emit = defineEmits<{
   change: [checked: boolean];
@@ -47,8 +48,7 @@ function attrsWithoutClass(attrs: UnknownRecord) {
 function onClick() {
   emit('change', !checked);
   if (!elementRef.value) return;
-  const inputElement = elementRef.value.querySelector('input');
-  inputElement?.focus();
+  inputRef.value?.focus();
 }
 
 function onChange(e: Event) {
@@ -95,6 +95,7 @@ const {
     v-tw-merge
   >
     <input
+      ref="input"
       type="checkbox"
       role="switch"
       class="sr-only"

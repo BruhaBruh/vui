@@ -41,6 +41,7 @@ defineOptions({
 });
 
 const elementRef = useTemplateRef<HTMLElement>('checkbox');
+const inputRef = useTemplateRef<HTMLInputElement>('input');
 
 const emit = defineEmits<{
   change: [checked: boolean];
@@ -75,8 +76,7 @@ function update(isChecked: boolean) {
 function onClick() {
   update(!(group.value?.includes(value) || checked));
   if (!elementRef.value) return;
-  const inputElement = elementRef.value.querySelector('input');
-  inputElement?.focus();
+  inputRef.value?.focus();
 }
 
 function onChange(e: Event) {
@@ -124,6 +124,7 @@ const {
     v-tw-merge
   >
     <input
+      ref="input"
       type="checkbox"
       class="sr-only"
       :indeterminate
