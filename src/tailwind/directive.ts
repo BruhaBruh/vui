@@ -11,23 +11,13 @@ export const mergeDirective: Plugin = (app) => {
 const twMerge = extendTailwindMerge<string, string>({
   extend: {
     classGroups: {
-      padding: [
-        'p-0',
-        'px-0',
-        'py-0',
-        'pt-0',
-        'pr-0',
-        'pb-0',
-        'pl-0',
-        'p',
-        'px',
-        'py',
-        'pt',
-        'pr',
-        'pb',
-        'pl',
-        (className: string) => /^p[trblxy]?-/.test(className),
-      ],
+      padding: [(className: string) => /^p-/.test(className)],
+      paddingX: [(className: string) => /^px-/.test(className)],
+      paddingY: [(className: string) => /^py-/.test(className)],
+      paddingT: [(className: string) => /^pt-/.test(className)],
+      paddingB: [(className: string) => /^pb-/.test(className)],
+      paddingR: [(className: string) => /^pr-/.test(className)],
+      paddingL: [(className: string) => /^pl-/.test(className)],
       stateType: [
         'state-hover',
         'state-focus',
