@@ -1,18 +1,21 @@
 import type { Variants } from '@/types';
 import { cva } from 'class-variance-authority';
 
-const variants = cva(['breadcrumbs group/breadcrumbs', 'flex items-baseline'], {
-  variants: {
-    size: {
-      lg: ['gap-xs'],
-      md: ['gap-2xs'],
-      sm: ['gap-2xs'],
+const variants = cva(
+  ['breadcrumbs group/breadcrumbs', 'flex items-baseline flex-wrap'],
+  {
+    variants: {
+      size: {
+        lg: ['gap-xs'],
+        md: ['gap-2xs'],
+        sm: ['gap-2xs'],
+      },
+    },
+    defaultVariants: {
+      size: 'md',
     },
   },
-  defaultVariants: {
-    size: 'md',
-  },
-});
+);
 
 const itemVariants = cva(
   [
