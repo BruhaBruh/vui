@@ -17,7 +17,7 @@ const contentVariants = cva([
 
 const itemContainerVariants = cva([
   'navigation-bar--item-container group/navigation-bar--item',
-  'flex-1',
+  'flex-1 inline-flex items-center justify-center-safe',
   'cursor-pointer',
 ]);
 
