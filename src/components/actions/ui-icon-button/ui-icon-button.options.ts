@@ -61,7 +61,7 @@ export const iconButtonBorderRadiusAlt = {
 
 export const iconButtonIconSize = {
   xs: 'var(--spacing-5)',
-  sm: 'var(--spacing-5)',
+  sm: 'var(--spacing-6)',
   md: 'var(--spacing-6)',
   lg: 'var(--spacing-8)',
   xl: 'var(--spacing-10)',

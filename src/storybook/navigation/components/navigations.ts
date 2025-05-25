@@ -1,4 +1,5 @@
 import {
+  AppBarPage,
   BreadcrumbsPage,
   NavigationBarPage,
   PaginationPage,
@@ -29,6 +30,12 @@ export const navigations: NavigationNode = {
       name: 'NavigationBar',
       path: '/navigation-bar',
       page: NavigationBarPage,
+    },
+    {
+      type: 'link',
+      name: 'AppBar',
+      path: '/app-bar',
+      page: AppBarPage,
     },
   ],
 };

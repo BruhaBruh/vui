@@ -5,7 +5,6 @@ const variants = cva([
   'search-bar group/search-bar',
   'bg-surface-container-high text-on-surface',
   'h-14 rounded-full px-4',
-  'elevation-3',
   [
     'inline-flex items-center justify-between',
     'relative',
@@ -46,7 +45,7 @@ const iconVariants = cva(['search-bar--icon', 'size-6'], {
         ],
         [
           '[&>*]:absolute [&>*]:inset-0 [&>*]:w-full [&>*]:h-full',
-          '[&>*]:transition-box [&>*]:duration-medium-1 [&>*]:easing-standard'
+          '[&>*]:transition-box [&>*]:duration-medium-1 [&>*]:easing-standard',
         ],
       ],
       trailing: 'ml-4 text-on-surface-variant',

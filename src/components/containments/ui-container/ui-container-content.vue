@@ -4,6 +4,7 @@ import {
   type ContainerContentVariants,
   containerVariants,
 } from './ui-container.variants';
+import { MotionComponent } from '@/components/utility';
 
 export type ContainerContentProps = PropsPolymorphic & {
   variant?: ContainerContentVariants['variant'];
@@ -15,16 +16,16 @@ const {
   variant,
   padding,
   fluid,
-  as = 'section',
+  as = 'div',
 } = defineProps<ContainerContentProps>();
 </script>
 
 <template>
-  <component
-    :is="as"
+  <MotionComponent
+    :as
     :class="containerVariants.content({ variant, padding, fluid })"
     v-tw-merge
   >
     <slot />
-  </component>
+  </MotionComponent>
 </template>

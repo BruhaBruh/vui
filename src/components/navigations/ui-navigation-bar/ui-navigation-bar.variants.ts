@@ -163,3 +163,11 @@ export type NavigationBarIconVariants = Variants<
 export type NavigationBarLabelVariants = Variants<
   typeof navigationBarVariants.label
 >;
+
+export type NavigationBarItemBackgroundVariants = Variants<
+  typeof navigationBarVariants.itemBackground
+>;
+
+export type NavigationBarIconContainerBackgroundVariants = Variants<
+  typeof navigationBarVariants.iconContainerBackground
+>;

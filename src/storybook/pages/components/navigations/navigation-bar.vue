@@ -10,7 +10,7 @@ import { ref } from 'vue';
 
 const selected = ref<'first' | 'second' | 'third' | 'fourth'>('first');
 
-const code = ref(`
+const code = `
 <NavigationBar>
   <NavigationBarItem active>
     <template #icon>
@@ -37,7 +37,7 @@ const code = ref(`
     Label
   </NavigationBarItem>
 </NavigationBar>
-`);
+`;
 </script>
 
 <template>
