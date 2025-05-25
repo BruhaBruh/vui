@@ -16,32 +16,36 @@ const variants = computed(() => ({ variant, centered }));
 
 <template>
   <MotionComponent :as :class="appBarVariants(variants)">
-    <div :class="appBarVariants.topContainer(variants)" v-tw-merge>
-      <slot name="leading" />
-      <Slot :class="appBarVariants.searchBar()">
+    <div :class="appBarVariants.top(variants)" v-tw-merge>
+      <div :class="appBarVariants.topItem({ position: 'leading' })" v-tw-merge>
+        <slot name="leading" />
+      </div>
+      <Slot :class="appBarVariants.topItem({ position: 'center' })">
         <slot v-if="variant === 'search'" name="search-bar" />
-      </Slot>
-      <div
-        v-if="variant === 'small' && $slots.title"
-        :class="appBarVariants.titleContainer(variants)"
-        v-tw-merge
-      >
-        <p :class="appBarVariants.title(variants)" v-tw-merge>
-          <slot name="title" />
-        </p>
-        <p
-          v-if="$slots.subtitle"
-          :class="appBarVariants.subtitle(variants)"
+        <div
+          v-if="variant === 'small' && $slots.title"
+          :class="appBarVariants.text(variants)"
           v-tw-merge
         >
-          <slot name="subtitle" />
-        </p>
+          <p :class="appBarVariants.title(variants)" v-tw-merge>
+            <slot name="title" />
+          </p>
+          <p
+            v-if="$slots.subtitle"
+            :class="appBarVariants.subtitle(variants)"
+            v-tw-merge
+          >
+            <slot name="subtitle" />
+          </p>
+        </div>
+      </Slot>
+      <div :class="appBarVariants.topItem({ position: 'trailing' })" v-tw-merge>
+        <slot name="trailing" />
       </div>
-      <slot name="trailing" />
     </div>
     <div
       v-if="variant === 'medium' || variant === 'large'"
-      :class="appBarVariants.bottomContainer(variants)"
+      :class="appBarVariants.text(variants)"
       v-tw-merge
     >
       <p :class="appBarVariants.title(variants)" v-tw-merge>

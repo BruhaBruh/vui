@@ -23,9 +23,9 @@ const variants = cva(
   },
 );
 
-const topContainer = cva(
+const top = cva(
   [
-    'app-bar--top-container',
+    'app-bar--top',
     'px-1',
     'w-full',
     'inline-flex items-center justify-between',
@@ -45,35 +45,45 @@ const topContainer = cva(
   },
 );
 
-const bottomContainer = cva(['app-bar--bottom-container', 'px-4', 'w-full'], {
+const topItemVariants = cva([], {
   variants: {
-    variant: {
-      search: [],
-      small: [],
-      medium: ['mt-1'],
-      large: ['mt-2'],
+    position: {
+      leading: [
+        'app-bar--top-leading',
+        'grow-1 basis-0',
+        'h-12 inline-flex items-center justify-start',
+      ],
+      center: ['app-bar--top-center', 'min-w-0 *:min-w-0'],
+      trailing: [
+        'app-bar--top-trailing',
+        'grow-1 basis-0',
+        'h-12 inline-flex items-center justify-end',
+      ],
     },
-  },
-  defaultVariants: {
-    variant: 'search',
   },
 });
 
-const searchBarVariants = cva([
-  'app-bar--search-bar',
-  'w-0 flex-1 @md/app-bar:flex-0 @md/app-bar:w-96',
+const slotVariants = cva([
+  'app-bar--slot size-12 inline-flex items-center justify-center',
 ]);
 
-const titleContainerVariants = cva(
-  ['app-bar--title-container', 'inline-flex flex-col justify-center'],
+const textVariants = cva(
+  ['app-bar--text', 'inline-flex flex-col justify-center'],
   {
     variants: {
+      variant: {
+        search: [],
+        small: [],
+        medium: ['mt-1', 'px-4 w-full'],
+        large: ['mt-2', 'px-4 w-full'],
+      },
       centered: {
         true: ['items-center'],
         false: ['w-full'],
       },
     },
     defaultVariants: {
+      variant: 'search',
       centered: false,
     },
   },
@@ -108,29 +118,23 @@ const subtitleVariants = cva(['app-bar--subtitle', 'text-on-surface-variant'], {
 });
 
 export const appBarVariants = Object.assign(variants, {
-  topContainer: topContainer,
-  bottomContainer: bottomContainer,
-  searchBar: searchBarVariants,
-  titleContainer: titleContainerVariants,
+  top: top,
+  topItem: topItemVariants,
+  slot: slotVariants,
+  text: textVariants,
   title: titleVariants,
   subtitle: subtitleVariants,
 });
 
 export type AppBarVariants = Variants<typeof appBarVariants>;
 
-export type AppBarTopContainerVariants = Variants<
-  typeof appBarVariants.topContainer
->;
+export type AppBarTopVariants = Variants<typeof appBarVariants.top>;
 
-export type AppBarBottomContainerVariants = Variants<
-  typeof appBarVariants.bottomContainer
->;
+export type AppBarTopItemVariants = Variants<typeof appBarVariants.topItem>;
 
-export type AppBarSearchBarVariants = Variants<typeof appBarVariants.searchBar>;
+export type AppBarSlotVariants = Variants<typeof appBarVariants.slot>;
 
-export type AppBarTitleContainerVariants = Variants<
-  typeof appBarVariants.titleContainer
->;
+export type AppBarTextVariants = Variants<typeof appBarVariants.text>;
 
 export type AppBarTitleVariants = Variants<typeof appBarVariants.title>;
 

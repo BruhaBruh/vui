@@ -50,13 +50,13 @@ function onChange({
   }
 
   let trailingSecondDisplay = '';
-  if (trailing === 'search') {
+  if (trailingSecond === 'search') {
     trailingSecondDisplay = `
   <template #trailing-second>
     <IconSearch />
   </template>
 `;
-  } else if (trailing === 'avatar') {
+  } else if (trailingSecond === 'avatar') {
     trailingSecondDisplay = `
   <template #trailing-avatar>
     <img src="https://placehold.co/32/6750A4/white?text=A" />
