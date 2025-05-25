@@ -5,6 +5,7 @@ const variants = cva(
   [
     'extended-fab group/extended-fab',
     'min-w-20',
+    'overflow-hidden',
     'elevation-3',
     'is-hovered:elevation-4',
     'in-focus:elevation-3',

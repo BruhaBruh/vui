@@ -1,4 +1,8 @@
-import { BreadcrumbsPage, PaginationPage } from '@/storybook/pages';
+import {
+  BreadcrumbsPage,
+  NavigationBarPage,
+  PaginationPage,
+} from '@/storybook/pages';
 import { IconNavigation } from '@tabler/icons-vue';
 import type { NavigationNode } from '../navigation.types';
 
@@ -19,6 +23,12 @@ export const navigations: NavigationNode = {
       name: 'Pagination',
       path: '/pagination',
       page: PaginationPage,
+    },
+    {
+      type: 'link',
+      name: 'NavigationBar',
+      path: '/navigation-bar',
+      page: NavigationBarPage,
     },
   ],
 };

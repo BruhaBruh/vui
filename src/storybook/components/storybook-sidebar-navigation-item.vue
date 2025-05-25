@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { IconChevronDown, IconFile, IconFolder } from '@tabler/icons-vue';
-import { ref } from 'vue';
 import StorybookNavigation from './storybook-sidebar-navigation.vue';
 import { AnimatePresence } from 'motion-v';
 import { RouterLink } from 'vue-router';
 import type { NavigationNode } from '../navigation';
+import { useLocalStorage } from '@vueuse/core';
 
 const { node } = defineProps<{ node: NavigationNode }>();
 
-const isOpen = ref(true);
+const isOpen = useLocalStorage(`navigation-${node.path}`, true);
 </script>
 
 <template>
