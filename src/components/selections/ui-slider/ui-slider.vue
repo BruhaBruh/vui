@@ -15,7 +15,7 @@ import {
 } from './ui-slider.variants';
 import { default as SliderThumb } from './ui-slider-thumb.vue';
 import { motion } from 'motion-v';
-import { transitionConfig } from '@/config';
+import { materialDuration, transitionConfig } from '@/config';
 import {
   MotionComponent,
   type MotionComponentProps,
@@ -342,7 +342,10 @@ const {
       :animate="{
         width: track.width,
         left: track.left,
-        transition: transitionConfig.preset.short.beginEnd.asMotion(),
+        transition: {
+          ...transitionConfig.preset.short.beginEnd.asMotion(),
+          duration: materialDuration.asMotion('short-2'),
+        },
       }"
       :style="{
         '--ui-slider-before-width': `${elementRef?.clientWidth ?? 1920}px`,

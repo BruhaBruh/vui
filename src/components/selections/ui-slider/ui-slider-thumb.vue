@@ -118,7 +118,10 @@ useEventListener('keydown', (e) => {
     :animate="{
       left: `${percent}%`,
       width: dragging && !disabled ? 'var(--spacing-0h)' : 'var(--spacing-1)',
-      transition: transitionConfig.preset.short.beginEnd.asMotion(),
+      transition: {
+        ...transitionConfig.preset.short.beginEnd.asMotion(),
+        duration: materialDuration.asMotion('short-2'),
+      },
     }"
     @animationiteration="update()"
     @animation-complete="update()"
