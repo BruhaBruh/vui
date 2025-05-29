@@ -5,14 +5,13 @@ import {
   IconButtonPage,
   SegmentedButtonPage,
 } from '@/storybook/pages';
-import { IconHandFinger } from '@tabler/icons-vue';
 import type { NavigationNode } from '../navigation.types';
 
 export const actions: NavigationNode = {
   type: 'folder',
   name: 'Actions',
   path: '/actions',
-  icon: IconHandFinger,
+  icon: 'tabler:hand-finger',
   children: [
     {
       type: 'link',

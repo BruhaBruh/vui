@@ -7,14 +7,13 @@ import {
   ModalPage,
   PopoverPage,
 } from '@/storybook/pages';
-import { IconSquare } from '@tabler/icons-vue';
 import type { NavigationNode } from '../navigation.types';
 
 export const containments: NavigationNode = {
   type: 'folder',
   name: 'Containments',
   path: '/containments',
-  icon: IconSquare,
+  icon: 'tabler:square-rounded',
   children: [
     {
       type: 'link',

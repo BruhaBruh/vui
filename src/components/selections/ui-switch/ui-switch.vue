@@ -7,18 +7,24 @@ import { computedVariants, useInteractions } from '@/composables';
 import { AnimatePresence, motion } from 'motion-v';
 import { materialDuration, materialEasing, transitionConfig } from '@/config';
 import {
+  Icon,
+  type IconProps,
   MotionComponent,
   type MotionComponentProps,
 } from '@/components/utility';
 
 export type SwitchProps = MotionComponentProps & {
   color?: SwitchVariants['color'];
+  checkedIcon?: IconProps['icon'];
+  uncheckedIcon?: IconProps['icon'];
   checked?: boolean;
   disabled?: boolean;
 };
 
 const {
   color,
+  checkedIcon,
+  uncheckedIcon,
   checked,
   disabled,
   as = 'div',
@@ -114,12 +120,12 @@ const {
         :animate="{
           width: isPressed
             ? 'var(--spacing-7)'
-            : checked || $slots.unchecked
+            : checked || uncheckedIcon
               ? 'var(--spacing-6)'
               : 'var(--spacing-4)',
           height: isPressed
             ? 'var(--spacing-7)'
-            : checked || $slots.unchecked
+            : checked || uncheckedIcon
               ? 'var(--spacing-6)'
               : 'var(--spacing-4)',
         }"
@@ -132,10 +138,10 @@ const {
             color,
             isSelected: checked,
             size: checked
-              ? $slots.checked
+              ? checkedIcon
                 ? 'icon'
                 : 'default'
-              : $slots.unchecked
+              : uncheckedIcon
                 ? 'icon'
                 : 'default',
           })
@@ -145,8 +151,8 @@ const {
         <AnimatePresence mode="wait">
           <MotionComponent
             as-child
-            v-if="checked && $slots.checked"
-            :key="`checked-${checked}`"
+            v-if="checked && checkedIcon"
+            :key="JSON.stringify(checkedIcon)"
             :initial="{ width: 0, height: 0 }"
             :exit="{ width: 0, height: 0 }"
             :animate="{
@@ -159,12 +165,12 @@ const {
             }"
             :class="switchVariants.icon()"
           >
-            <slot name="checked" />
+            <Icon :icon="checkedIcon" />
           </MotionComponent>
           <MotionComponent
             as-child
-            v-else-if="!checked && $slots.unchecked"
-            :key="`unchecked-${checked}`"
+            v-else-if="!checked && uncheckedIcon"
+            :key="JSON.stringify(uncheckedIcon)"
             :initial="{ width: 0, height: 0 }"
             :exit="{ width: 0, height: 0 }"
             :animate="{
@@ -177,7 +183,7 @@ const {
             }"
             :class="switchVariants.icon()"
           >
-            <slot name="unchecked" />
+            <Icon :icon="uncheckedIcon" />
           </MotionComponent>
         </AnimatePresence>
       </motion.span>

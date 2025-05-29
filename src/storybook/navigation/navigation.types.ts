@@ -1,9 +1,10 @@
+import type { IconProps } from '@/components';
 import type { Component } from 'vue';
 
 export type NavigationNode = {
   name: string;
   path: string;
-  icon?: Component;
+  icon?: IconProps['icon'];
   order?: number;
 } & (
   | {

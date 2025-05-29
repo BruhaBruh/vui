@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  Icon,
   SegmentedButton,
   SegmentedButtonGroup,
   type SegmentedButtonGroupProps,
@@ -10,7 +11,6 @@ import {
   StorybookStory,
 } from '@/storybook/components';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
-import { IconCoins, IconSquare } from '@tabler/icons-vue';
 import { ref } from 'vue';
 
 const selectionModes = [
@@ -133,34 +133,25 @@ const onChange = ({
   <StorybookStory name="Icon">
     <SegmentedButtonGroup selectionMode="single" :selected="['first']">
       <SegmentedButton value="first">
-        <IconCoins />
+        <Icon icon="tabler:coins" />
       </SegmentedButton>
       <SegmentedButton value="second">
-        <IconCoins />
+        <Icon icon="tabler:coins" />
       </SegmentedButton>
       <SegmentedButton value="third">
-        <IconCoins />
+        <Icon icon="tabler:coins" />
       </SegmentedButton>
     </SegmentedButtonGroup>
   </StorybookStory>
   <StorybookStory name="Check Icon">
     <SegmentedButtonGroup selectionMode="single" :selected="['a']">
-      <SegmentedButton value="a">
-        <template #icon>
-          <IconSquare />
-        </template>
+      <SegmentedButton value="a" icon="tabler:square-rounded">
         A
       </SegmentedButton>
-      <SegmentedButton value="b">
-        <template #icon>
-          <IconSquare />
-        </template>
+      <SegmentedButton value="b" icon="tabler:square-rounded">
         B
       </SegmentedButton>
-      <SegmentedButton value="c">
-        <template #icon>
-          <IconSquare />
-        </template>
+      <SegmentedButton value="c" icon="tabler:square-rounded">
         C
       </SegmentedButton>
     </SegmentedButtonGroup>

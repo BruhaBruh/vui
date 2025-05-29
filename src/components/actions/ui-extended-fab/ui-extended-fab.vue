@@ -7,6 +7,8 @@ import {
   extendedFabVariants,
 } from './ui-extended-fab.variants';
 import {
+  Icon,
+  type IconProps,
   MotionComponent,
   type MotionComponentProps,
 } from '@/components/utility';
@@ -17,18 +19,24 @@ import {
 import { transitionConfig } from '@/config';
 
 export type ExtendedFabProps = Omit<MotionComponentProps, 'asChild'> & {
+  icon?: IconProps['icon'];
+  badgeColor?: IconProps['color'];
+  badgeValue?: IconProps['value'];
+  badgeMaxValue?: IconProps['maxValue'];
   size?: ExtendedFabVariants['size'];
   variant?: ExtendedFabVariants['variant'];
   color?: ExtendedFabVariants['color'];
-  iconKey?: string;
 };
 
 const {
+  icon,
+  badgeColor,
+  badgeValue,
+  badgeMaxValue,
   size = 'sm',
   variant = 'filled',
   color = 'primary',
   as = 'button',
-  iconKey,
   initial,
   animate,
   exit,
@@ -83,8 +91,8 @@ const {
     <AnimatePresence mode="wait">
       <MotionComponent
         as-child
-        v-if="$slots.icon"
-        :key="iconKey"
+        v-if="icon"
+        :key="JSON.stringify(icon)"
         :initial="{
           width: 0,
           height: 0,
@@ -105,7 +113,13 @@ const {
         }"
         :class="extendedFabVariants.icon(variants)"
       >
-        <slot name="icon" />
+        <Icon
+          :icon
+          :badge="badgeValue !== undefined"
+          :color="badgeColor"
+          :value="badgeValue"
+          :max-value="badgeMaxValue"
+        />
       </MotionComponent>
     </AnimatePresence>
     <MotionComponent

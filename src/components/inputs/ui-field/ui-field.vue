@@ -4,23 +4,23 @@ import type { PropsPolymorphic } from '@/types';
 import { computed, useId, useTemplateRef } from 'vue';
 import { type FieldInputVariants, fieldVariants } from './ui-field.variants';
 import { AnimatePresence } from 'motion-v';
-import { MotionComponent } from '@/components/utility';
+import { Icon, type IconProps, MotionComponent } from '@/components/utility';
 import { transitionConfig } from '@/config';
 
 export type FieldProps = PropsPolymorphic & {
+  leading?: IconProps['icon'];
+  trailing?: IconProps['icon'];
   size?: FieldInputVariants['size'];
   alwaysShowLabel?: boolean;
   invalid?: boolean;
-  leadingKey?: string;
-  trailingKey?: string;
 };
 
 const {
+  leading,
+  trailing,
   size = 'lg',
   alwaysShowLabel = false,
   invalid = false,
-  leadingKey,
-  trailingKey,
   as = 'div',
 } = defineProps<FieldProps>();
 
@@ -75,8 +75,8 @@ const { isDisabled } = useInteractions(elementRef, {
       <AnimatePresence mode="wait">
         <MotionComponent
           as-child
-          v-if="$slots.leading"
-          :key="leadingKey"
+          v-if="leading || $slots.leading"
+          :key="JSON.stringify(leading)"
           :initial="{
             width: 0,
             height: 0,
@@ -108,7 +108,8 @@ const { isDisabled } = useInteractions(elementRef, {
             }[size ?? 'lg'],
           ]"
         >
-          <slot name="leading" />
+          <Icon v-if="leading" :icon="leading" />
+          <slot v-else name="leading" />
         </MotionComponent>
       </AnimatePresence>
       <div :class="fieldVariants.inputContent()">
@@ -133,8 +134,8 @@ const { isDisabled } = useInteractions(elementRef, {
       <AnimatePresence mode="wait">
         <MotionComponent
           as-child
-          v-if="$slots.trailing"
-          :key="trailingKey"
+          v-if="trailing || $slots.trailing"
+          :key="JSON.stringify(trailing)"
           :initial="{
             width: 0,
             height: 0,
@@ -166,7 +167,8 @@ const { isDisabled } = useInteractions(elementRef, {
             }[size ?? 'lg'],
           ]"
         >
-          <slot name="trailing" />
+          <Icon v-if="trailing" :icon="trailing" />
+          <slot v-else name="trailing" />
         </MotionComponent>
       </AnimatePresence>
     </div>

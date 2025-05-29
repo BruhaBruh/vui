@@ -2,13 +2,13 @@
 import { AnimatePresence } from 'motion-v';
 import { transitionConfig } from '@/config';
 import { dialogVariants } from './ui-dialog.variants';
-import { MotionComponent } from '@/components/utility';
+import { Icon, type IconProps, MotionComponent } from '@/components/utility';
 
 export type DialogIconProps = {
-  iconKey?: string;
+  icon: IconProps['icon'];
 };
 
-const { iconKey } = defineProps<DialogIconProps>();
+const { icon } = defineProps<DialogIconProps>();
 
 defineOptions({
   inheritAttrs: false,
@@ -19,7 +19,7 @@ defineOptions({
   <AnimatePresence>
     <MotionComponent
       as-child
-      :key="iconKey"
+      :key="JSON.stringify(icon)"
       :initial="{
         width: 0,
         height: 0,
@@ -41,7 +41,7 @@ defineOptions({
       v-bind="$attrs"
       :class="dialogVariants.icon()"
     >
-      <slot />
+      <Icon :icon />
     </MotionComponent>
   </AnimatePresence>
 </template>

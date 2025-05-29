@@ -6,11 +6,10 @@ import {
   StorybookStory,
 } from '@/storybook/components';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
-import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
-const icons = ['square', 'circle'];
+const icons = ['tabler:square-rounded', 'tabler:circle'];
 
 const sizes = ['sm', 'md', 'lg'] satisfies FabVariants['size'][];
 
@@ -28,21 +27,13 @@ const colors = [
 const code = ref('');
 
 function onChange({ icon, size, variant, color }: UnknownRecord) {
-  let displayIcon = '';
-  if (icon === 'square') {
-    displayIcon = '<IconSquare />';
-  } else if (icon === 'circle') {
-    displayIcon = '<IconCircle />';
-  }
   code.value = `
 <Fab
+  icon="${icon}"
   size="${size}"
   variant="${variant}"
   color=${color}
->
-  ${displayIcon}
-  Fab
-</Fab>
+/>
 `;
 }
 </script>
@@ -55,7 +46,7 @@ function onChange({ icon, size, variant, color }: UnknownRecord) {
         type: 'select',
         label: 'Icon',
         description: 'Icon of Fab',
-        defaultValue: 'square',
+        defaultValue: 'tabler:square-rounded',
         options: icons,
       },
       size: {
@@ -82,33 +73,37 @@ function onChange({ icon, size, variant, color }: UnknownRecord) {
     }"
   >
     <template #default="{ values: { icon, ...values } }">
-      <Fab v-bind="values" :icon-key="icon as string">
-        <IconSquare v-if="icon === 'square'" />
-        <IconCircle v-else />
-      </Fab>
+      <Fab v-bind="values" :icon="icon as string" />
     </template>
   </StorybookPlayground>
   <StorybookCode name="Fab" :code />
   <StorybookStory name="As link">
-    <Fab :as="RouterLink" to="#">
-      <IconSquare />
-    </Fab>
+    <Fab :as="RouterLink" to="#" icon="tabler:square-rounded" />
   </StorybookStory>
   <StorybookStory name="Sizes">
     <div class="flex flex-col items-center gap-md">
-      <Fab v-for="size in sizes" :key="size" :size>
-        <IconSquare />
-      </Fab>
+      <Fab
+        v-for="size in sizes"
+        :key="size"
+        :size
+        icon="tabler:square-rounded"
+      />
     </div>
   </StorybookStory>
   <StorybookStory name="Variants">
-    <Fab v-for="variant in variants" :key="variant" :variant>
-      <IconSquare />
-    </Fab>
+    <Fab
+      v-for="variant in variants"
+      :key="variant"
+      :variant
+      icon="tabler:square-rounded"
+    />
   </StorybookStory>
   <StorybookStory name="Colors">
-    <Fab v-for="color in colors" :key="color" :color>
-      <IconSquare />
-    </Fab>
+    <Fab
+      v-for="color in colors"
+      :key="color"
+      :color
+      icon="tabler:square-rounded"
+    />
   </StorybookStory>
 </template>

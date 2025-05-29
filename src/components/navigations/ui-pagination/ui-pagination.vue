@@ -3,7 +3,6 @@ import { paginationVariants } from './ui-pagination.variants';
 import { computed, nextTick, useId, useTemplateRef, watchEffect } from 'vue';
 import { IconButton } from '@/components/actions';
 import { useEventListener, useFocusWithin } from '@vueuse/core';
-import { IconChevronLeft, IconChevronRight } from '@tabler/icons-vue';
 import { calculatePages } from './ui-pagination.utility';
 import {
   MotionComponent,
@@ -126,13 +125,12 @@ const {
   >
     <slot name="previous" :disabled="!hasPrevious" @click="previousPage()">
       <IconButton
+        icon="tabler:chevron-left"
         aria-label="Previous page"
         variant="tonal"
         :disabled="!hasPrevious"
         @click="previousPage()"
-      >
-        <IconChevronLeft />
-      </IconButton>
+      />
     </slot>
     <slot
       v-for="p in pages"
@@ -159,13 +157,12 @@ const {
     </slot>
     <slot name="next" :disabled="!hasNext" @click="nextPage()">
       <IconButton
+        icon="tabler:chevron-right"
         aria-label="Next page"
         variant="tonal"
         :disabled="!hasNext"
         @click="nextPage()"
-      >
-        <IconChevronRight />
-      </IconButton>
+      />
     </slot>
   </MotionComponent>
 </template>

@@ -7,7 +7,6 @@ export class BasicRegistryCollector {
   #registry: BasicRegistry = {
     dependecyVersions: {
       '@floating-ui/vue': '^1.1.6',
-      '@tabler/icons-vue': '^3.31.0',
       '@vueuse/core': '^13.1.0',
       '@vueuse/integrations': '^13.1.0',
       'class-variance-authority': '^0.7.1',
@@ -18,10 +17,10 @@ export class BasicRegistryCollector {
       '@bruhabruh/type-safe': '^1.2.3',
       '@tailwindcss/vite': '^4.1.5',
       tailwindcss: '^4.1.5',
+      '@iconify/vue': '^5.0.0',
     },
     dependencies: [
       '@floating-ui/vue',
-      '@tabler/icons-vue',
       '@vueuse/core',
       '@vueuse/integrations',
       'class-variance-authority',
@@ -34,6 +33,7 @@ export class BasicRegistryCollector {
       '@bruhabruh/type-safe',
       '@tailwindcss/vite',
       'tailwindcss',
+      '@iconify/vue',
     ],
     files: [],
   };

@@ -32,7 +32,7 @@ const variants = cva(
       },
       placement: {
         default: [],
-        icon: ['absolute', '-translate-y-full translate-x-full'],
+        icon: ['absolute'],
       },
     },
     defaultVariants: {
@@ -43,18 +43,21 @@ const variants = cva(
       {
         size: 'small',
         placement: 'icon',
-        class: 'top-1.5 right-1.5',
+        class: 'top-0 right-0',
       },
       {
         size: 'large',
         placement: 'icon',
-        class: 'top-3.5 right-3',
+        class: 'left-1/2 -top-0.5',
       },
     ],
   },
 );
 
-const wrapperVariants = cva(['relative', '[&>:not(.badge)]:size-full']);
+const wrapperVariants = cva([
+  'relative inline-flex items-center justify-center',
+  '[&>:not(.badge)]:size-full!',
+]);
 
 export const badgeVariants = Object.assign(variants, {
   wrapper: wrapperVariants,

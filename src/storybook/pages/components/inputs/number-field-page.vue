@@ -6,11 +6,11 @@ import {
   StorybookStory,
 } from '@/storybook/components';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
-import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { ref } from 'vue';
 
+const icons = ['tabler:square-rounded', 'tabler:circle', 'none'];
+
 const sizes = ['sm', 'md', 'lg'] satisfies NumberFieldProps['size'][];
-const icons = ['none', 'circle', 'square'];
 
 const code = ref('');
 
@@ -19,6 +19,7 @@ function onChange({
   description,
   error,
   leading,
+  trailing,
   placeholder,
   size,
   invalid,
@@ -30,6 +31,8 @@ function onChange({
 }: UnknownRecord) {
   code.value = `
 <NumberField
+  ${leading === 'none' ? '' : `leading="${leading}"`}
+  ${trailing === 'none' ? '' : `trailing="${trailing}"`}
   size="${size}"
   :min="${min}"
   :max="${max}"
@@ -39,10 +42,6 @@ function onChange({
   :invalid="${invalid}"
   :disabled="${disabled}"
 >
-  ${leading === 'none' ? '' : '<template #leading>'}
-    ${leading === 'square' ? '<IconSquare />' : ''}
-    ${leading === 'circle' ? '<IconCircle />' : ''}
-  ${leading === 'none' ? '' : '</template>'}
   ${(label as string).length > 0 ? '<template #label>' : ''}
     ${label}
   ${(label as string).length > 0 ? '</template>' : ''}
@@ -64,87 +63,96 @@ function onChange({
       label: {
         type: 'text',
         label: 'Label',
-        description: 'Label of TextField',
+        description: 'Label of NumberField',
         defaultValue: 'Label',
       },
       description: {
         type: 'text',
         label: 'Description',
-        description: 'Description of TextField',
+        description: 'Description of NumberField',
         defaultValue: '',
       },
       error: {
         type: 'text',
         label: 'Error',
-        description: 'Error of TextField',
+        description: 'Error of NumberField',
         defaultValue: '',
       },
       placeholder: {
         type: 'text',
         label: 'Placeholder',
-        description: 'Placeholder of TextField',
+        description: 'Placeholder of NumberField',
         defaultValue: '',
       },
       size: {
         type: 'select',
         label: 'Size',
-        description: 'Size of TextField',
+        description: 'Size of NumberField',
         defaultValue: 'lg',
         options: sizes,
       },
       invalid: {
         type: 'switch',
         label: 'Invalid',
-        description: 'Invalid state of TextField',
+        description: 'Invalid state of NumberField',
         defaultValue: false,
       },
       disabled: {
         type: 'switch',
         label: 'Disabled',
-        description: 'Disabled state of TextField',
+        description: 'Disabled state of NumberField',
         defaultValue: false,
       },
       leading: {
         type: 'select',
         label: 'Leading',
-        description: 'Leading component of TextField',
+        description: 'Leading component of NumberField',
+        defaultValue: 'none',
+        options: icons,
+      },
+      trailing: {
+        type: 'select',
+        label: 'Trailing',
+        description: 'Trailing component of NumberField',
         defaultValue: 'none',
         options: icons,
       },
       min: {
         type: 'number',
         label: 'Minimum value',
-        description: 'Minimum value of TextField',
+        description: 'Minimum value of NumberField',
         defaultValue: -0b1000_0000_0000_0000_0000_0000_0000_0000,
       },
       max: {
         type: 'number',
         label: 'Maximum value',
-        description: 'Maximum value of TextField',
+        description: 'Maximum value of NumberField',
         defaultValue: 0b0111_1111_1111_1111_1111_1111_1111_1111,
       },
       step: {
         type: 'number',
         label: 'Step value',
-        description: 'Step value of TextField',
+        description: 'Step value of NumberField',
         defaultValue: 1,
       },
       stepMultiplier: {
         type: 'number',
         label: 'Step multiplier for large step',
-        description: 'Step multiplier for large step of TextField',
+        description: 'Step multiplier for large step of NumberField',
         defaultValue: 10,
       },
     }"
   >
     <template
-      #default="{ values: { label, description, error, leading, ...values } }"
+      #default="{
+        values: { label, description, error, leading, trailing, ...values },
+      }"
     >
-      <NumberField :leading-key="leading as string" v-bind="values">
-        <template #leading v-if="leading !== 'none'">
-          <IconSquare v-if="leading === 'square'" />
-          <IconCircle v-else-if="leading === 'circle'" />
-        </template>
+      <NumberField
+        :leading="leading === 'none' ? undefined : (leading as string)"
+        :trailing="trailing === 'none' ? undefined : (trailing as string)"
+        v-bind="values"
+      >
         <template #label v-if="(label as string).length > 0">
           {{ label }}
         </template>

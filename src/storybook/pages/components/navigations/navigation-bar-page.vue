@@ -5,35 +5,22 @@ import {
   StorybookPlayground,
   StorybookStory,
 } from '@/storybook/components';
-import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { ref } from 'vue';
 
 const selected = ref<'first' | 'second' | 'third' | 'fourth'>('first');
 
 const code = `
 <NavigationBar>
-  <NavigationBarItem active>
-    <template #icon>
-      <IconSquare />
-    </template>
+  <NavigationBarItem active icon="tabler:square-rounded">
     Label
   </NavigationBarItem>
-  <NavigationBarItem>
-    <template #icon>
-      <IconSquare />
-    </template>
+  <NavigationBarItem icon="tabler:square-rounded">
     Label
   </NavigationBarItem>
-  <NavigationBarItem :value="0">
-    <template #icon>
-      <IconSquare />
-    </template>
+  <NavigationBarItem :badge-value="0" icon="tabler:square-rounded">
     Label
   </NavigationBarItem>
-  <NavigationBarItem :value="3">
-    <template #icon>
-      <IconSquare />
-    </template>
+  <NavigationBarItem :badge-value="3" icon="tabler:square-rounded">
     Label
   </NavigationBarItem>
 </NavigationBar>
@@ -55,41 +42,33 @@ const code = `
     <template #default="{ values: { type } }">
       <NavigationBar :class="[type === 'mobile' && 'w-96']">
         <NavigationBarItem
+          icon="tabler:square-rounded"
           :active="selected === 'first'"
           @click="selected = 'first'"
         >
-          <template #icon>
-            <IconSquare />
-          </template>
           Label
         </NavigationBarItem>
         <NavigationBarItem
+          icon="tabler:square-rounded"
           :active="selected === 'second'"
           @click="selected = 'second'"
         >
-          <template #icon>
-            <IconSquare />
-          </template>
           Label
         </NavigationBarItem>
         <NavigationBarItem
-          :value="0"
+          icon="tabler:square-rounded"
+          :badge-value="0"
           :active="selected === 'third'"
           @click="selected = 'third'"
         >
-          <template #icon>
-            <IconSquare />
-          </template>
           Label
         </NavigationBarItem>
         <NavigationBarItem
-          :value="3"
+          icon="tabler:square-rounded"
+          :badge-value="3"
           :active="selected === 'fourth'"
           @click="selected = 'fourth'"
         >
-          <template #icon>
-            <IconSquare />
-          </template>
           Label
         </NavigationBarItem>
       </NavigationBar>
@@ -98,62 +77,32 @@ const code = `
   <StorybookCode :code name="NavigationBar" />
   <StorybookStory name="Mobile">
     <NavigationBar class="w-96">
-      <NavigationBarItem active>
-        <template #icon>
-          <IconSquare />
-        </template>
-        <template #selected-icon>
-          <IconCircle />
-        </template>
+      <NavigationBarItem icon="tabler:square-rounded" active>
         Label
       </NavigationBarItem>
-      <NavigationBarItem>
-        <template #icon>
-          <IconSquare />
-        </template>
+      <NavigationBarItem icon="tabler:square-rounded">
         Label
       </NavigationBarItem>
-      <NavigationBarItem :value="0">
-        <template #icon>
-          <IconSquare />
-        </template>
+      <NavigationBarItem icon="tabler:square-rounded" :badge-value="0">
         Label
       </NavigationBarItem>
-      <NavigationBarItem :value="3">
-        <template #icon>
-          <IconSquare />
-        </template>
+      <NavigationBarItem icon="tabler:square-rounded" :badge-value="3">
         Label
       </NavigationBarItem>
     </NavigationBar>
   </StorybookStory>
   <StorybookStory name="Tablet">
     <NavigationBar>
-      <NavigationBarItem active>
-        <template #icon>
-          <IconSquare />
-        </template>
-        <template #selected-icon>
-          <IconCircle />
-        </template>
+      <NavigationBarItem icon="tabler:square-rounded" active>
         Label
       </NavigationBarItem>
-      <NavigationBarItem>
-        <template #icon>
-          <IconSquare />
-        </template>
+      <NavigationBarItem icon="tabler:square-rounded">
         Label
       </NavigationBarItem>
-      <NavigationBarItem :value="0">
-        <template #icon>
-          <IconSquare />
-        </template>
+      <NavigationBarItem icon="tabler:square-rounded" :badge-value="0">
         Label
       </NavigationBarItem>
-      <NavigationBarItem :value="3">
-        <template #icon>
-          <IconSquare />
-        </template>
+      <NavigationBarItem icon="tabler:square-rounded" :badge-value="3">
         Label
       </NavigationBarItem>
     </NavigationBar>

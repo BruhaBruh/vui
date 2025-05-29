@@ -6,7 +6,6 @@ import {
   TooltipTrigger,
 } from '@/components';
 import { materialDuration, materialEasing } from '@/config';
-import { IconCopy } from '@tabler/icons-vue';
 import { computedAsync, useClipboard, useDark } from '@vueuse/core';
 import { motion } from 'motion-v';
 import { type BundledLanguage, type BundledTheme, codeToHtml } from 'shiki';
@@ -75,18 +74,17 @@ const highlightedCode = computedAsync(async () => {
     <Tooltip>
       <TooltipTrigger>
         <IconButton
+          icon="tabler:clipboard-copy"
+          color="secondary"
+          variant="tonal"
+          :aria-label="`Copy code of ${name} example`"
           :class="[
             'absolute! top-3xl right-xs in-focus-visible:opacity-100',
             isCopyButtonVisible ? 'opacity-100' : 'opacity-0',
           ]"
-          color="secondary"
-          variant="tonal"
-          :aria-label="`Copy code of ${name} example`"
           @mouseenter="isCopyButtonVisible = true"
           @click="copy(code)"
-        >
-          <IconCopy />
-        </IconButton>
+        />
       </TooltipTrigger>
       <TooltipContent> Copy code </TooltipContent>
     </Tooltip>

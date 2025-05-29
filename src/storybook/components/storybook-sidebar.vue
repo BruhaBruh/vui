@@ -6,7 +6,6 @@ import { motion } from 'motion-v';
 import { useColorMode, useCycleList } from '@vueuse/core';
 import { watchEffect } from 'vue';
 import { IconButton } from '@/components';
-import { IconMoon, IconSun } from '@tabler/icons-vue';
 
 const mode = useColorMode({
   emitAuto: true,
@@ -39,12 +38,9 @@ watchEffect(() => {
         @click="next()"
         color="secondary"
         variant="standard"
-        :icon-key="mode"
         :aria-label="`Toggle theme. Current is ${mode}`"
-      >
-        <IconMoon v-if="mode === 'dark'" />
-        <IconSun v-else-if="mode === 'light'" />
-      </IconButton>
+        :icon="mode === 'dark' ? 'tabler:moon' : 'tabler:sun'"
+      />
     </div>
     <nav class="p-md flex-1 overflow-y-auto">
       <SidebarNavigation :navigation="navigation" />

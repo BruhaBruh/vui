@@ -4,6 +4,7 @@ import {
   type BadgeProps,
   ExtendedFab,
   Fab,
+  Icon,
   IconButton,
 } from '@/components';
 import {
@@ -12,7 +13,6 @@ import {
   StorybookStory,
 } from '@/storybook/components';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
-import { IconMail, IconMessage, IconUsers, IconVideo } from '@tabler/icons-vue';
 import { ref } from 'vue';
 
 const colors = [
@@ -80,96 +80,48 @@ function onChange({ color, value, maxValue }: UnknownRecord) {
   <StorybookStory name="On Icon">
     <section class="flex items-center gap-xl">
       <Badge placement="icon">
-        <IconMail />
+        <Icon class="inline-flex size-6" icon="tabler:mail" />
       </Badge>
       <Badge placement="icon" :value="1">
-        <IconMessage />
+        <Icon class="inline-flex size-6" icon="tabler:message-circle" />
       </Badge>
       <Badge placement="icon" :value="500">
-        <IconUsers />
+        <Icon class="inline-flex size-6" icon="tabler:users" />
       </Badge>
       <Badge placement="icon" :value="1000">
-        <IconVideo />
+        <Icon class="inline-flex size-6" icon="tabler:video" />
       </Badge>
     </section>
   </StorybookStory>
   <StorybookStory name="On IconButton">
     <section class="flex items-center gap-xl">
-      <IconButton variant="tonal">
-        <Badge placement="icon">
-          <IconMail />
-        </Badge>
-      </IconButton>
-      <IconButton variant="tonal">
-        <Badge placement="icon" :value="1">
-          <IconMessage />
-        </Badge>
-      </IconButton>
-      <IconButton variant="tonal">
-        <Badge placement="icon" :value="500">
-          <IconUsers />
-        </Badge>
-      </IconButton>
-      <IconButton variant="tonal">
-        <Badge placement="icon" :value="1000">
-          <IconVideo />
-        </Badge>
-      </IconButton>
+      <IconButton icon="tabler:mail" :badge-value="0" variant="tonal" />
+      <IconButton
+        icon="tabler:message-circle"
+        :badge-value="1"
+        variant="tonal"
+      />
+      <IconButton icon="tabler:users" :badge-value="500" variant="tonal" />
+      <IconButton icon="tabler:video" :badge-value="1000" variant="tonal" />
     </section>
   </StorybookStory>
   <StorybookStory name="On Fab">
-    <Fab variant="tonal">
-      <Badge placement="icon">
-        <IconMail />
-      </Badge>
-    </Fab>
-    <Fab variant="tonal">
-      <Badge placement="icon" :value="1">
-        <IconMessage />
-      </Badge>
-    </Fab>
-    <Fab variant="tonal">
-      <Badge placement="icon" :value="500">
-        <IconUsers />
-      </Badge>
-    </Fab>
-    <Fab variant="tonal">
-      <Badge placement="icon" :value="1000">
-        <IconVideo />
-      </Badge>
-    </Fab>
+    <Fab icon="tabler:mail" :badge-value="0" variant="tonal" />
+    <Fab icon="tabler:message-circle" :badge-value="1" variant="tonal" />
+    <Fab icon="tabler:users" :badge-value="500" variant="tonal" />
+    <Fab icon="tabler:video" :badge-value="1000" variant="tonal" />
   </StorybookStory>
   <StorybookStory name="On ExtendedFab">
-    <ExtendedFab variant="tonal">
-      <template #icon>
-        <Badge placement="icon">
-          <IconMail />
-        </Badge>
-      </template>
+    <ExtendedFab icon="tabler:mail" :badge-value="0" variant="tonal">
       Extended Fab
     </ExtendedFab>
-    <ExtendedFab variant="tonal">
-      <template #icon>
-        <Badge placement="icon" :value="1">
-          <IconMessage />
-        </Badge>
-      </template>
+    <ExtendedFab icon="tabler:message-circle" :badge-value="1" variant="tonal">
       Extended Fab
     </ExtendedFab>
-    <ExtendedFab variant="tonal">
-      <template #icon>
-        <Badge placement="icon" :value="500">
-          <IconUsers />
-        </Badge>
-      </template>
+    <ExtendedFab icon="tabler:users" :badge-value="500" variant="tonal">
       Extended Fab
     </ExtendedFab>
-    <ExtendedFab variant="tonal">
-      <template #icon>
-        <Badge placement="icon" :value="1000">
-          <IconVideo />
-        </Badge>
-      </template>
+    <ExtendedFab icon="tabler:video" :badge-value="1000" variant="tonal">
       Extended Fab
     </ExtendedFab>
   </StorybookStory>

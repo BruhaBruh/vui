@@ -15,16 +15,6 @@ import {
   StorybookStory,
 } from '@/storybook/components';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
-import {
-  IconChevronDown,
-  IconChevronDownLeft,
-  IconChevronDownRight,
-  IconChevronLeft,
-  IconChevronRight,
-  IconChevronUp,
-  IconChevronUpLeft,
-  IconChevronUpRight,
-} from '@tabler/icons-vue';
 import { ref } from 'vue';
 
 const triggers = ['both', 'hover', 'focus'] satisfies TooltipProps['trigger'][];
@@ -41,6 +31,20 @@ const richPlacements = [
   'bottom-left',
   'bottom-right',
 ] satisfies TooltipContentProps['placement'][];
+
+const iconByPlacement: Record<
+  NonNullable<TooltipContentProps['placement']>,
+  string
+> = {
+  'top-left': 'tabler:chevron-up-left',
+  top: 'tabler:chevron-up',
+  'top-right': 'tabler:chevron-up-right',
+  right: 'tabler:chevron-right',
+  'bottom-right': 'tabler:chevron-down-right',
+  bottom: 'tabler:chevron-down',
+  'bottom-left': 'tabler:chevron-down-left',
+  left: 'tabler:chevron-left',
+};
 
 const code = ref('');
 
@@ -181,12 +185,7 @@ const onChange = ({
   <StorybookStory name="Plain placements">
     <Tooltip v-for="placement in plainPlacements" :key="placement">
       <TooltipTrigger>
-        <IconButton>
-          <IconChevronUp v-if="placement === 'top'" />
-          <IconChevronRight v-else-if="placement === 'right'" />
-          <IconChevronLeft v-else-if="placement === 'left'" />
-          <IconChevronDown v-else />
-        </IconButton>
+        <IconButton :icon="iconByPlacement[placement]" />
       </TooltipTrigger>
       <TooltipContent :placement="placement">Plain tooltip</TooltipContent>
     </Tooltip>
@@ -194,12 +193,7 @@ const onChange = ({
   <StorybookStory name="Rich placements">
     <Tooltip v-for="placement in richPlacements" :key="placement">
       <TooltipTrigger>
-        <IconButton>
-          <IconChevronUpLeft v-if="placement === 'top-left'" />
-          <IconChevronUpRight v-else-if="placement === 'top-right'" />
-          <IconChevronDownLeft v-else-if="placement === 'bottom-left'" />
-          <IconChevronDownRight v-else />
-        </IconButton>
+        <IconButton :icon="iconByPlacement[placement]" />
       </TooltipTrigger>
       <TooltipContent variant="rich" :placement="placement">
         <template #subhead> Rich tooltip </template>

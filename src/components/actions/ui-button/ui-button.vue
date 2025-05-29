@@ -10,23 +10,27 @@ import {
   buttonIconSize,
 } from './ui-button.options';
 import {
+  Icon,
+  type IconProps,
   MotionComponent,
   type MotionComponentProps,
 } from '@/components/utility';
 import { transitionConfig } from '@/config';
 
 export type ButtonProps = Omit<MotionComponentProps, 'asChild'> & {
+  leading?: IconProps['icon'];
+  trailing?: IconProps['icon'];
   size?: ButtonVariants['size'];
   shape?: ButtonVariants['shape'];
   variant?: ButtonVariants['variant'];
   color?: ButtonVariants['color'];
   toggleable?: boolean;
   selected?: boolean;
-  leadingKey?: string;
-  trailingKey?: string;
 };
 
 const {
+  leading,
+  trailing,
   size = 'sm',
   shape = 'rounded',
   variant = 'filled',
@@ -34,8 +38,6 @@ const {
   toggleable,
   selected,
   as = 'button',
-  leadingKey,
-  trailingKey,
   initial,
   animate,
   exit,
@@ -114,8 +116,8 @@ const {
     <AnimatePresence mode="wait">
       <MotionComponent
         as-child
-        v-if="$slots.leading"
-        :key="leadingKey"
+        v-if="leading"
+        :key="JSON.stringify(leading)"
         :initial="{
           width: 0,
           height: 0,
@@ -136,7 +138,7 @@ const {
         }"
         :class="buttonVariants.icon({ ...variants, position: 'leading' })"
       >
-        <slot name="leading" />
+        <Icon :icon="leading" />
       </MotionComponent>
     </AnimatePresence>
     <span :class="buttonVariants.label(variants)" v-tw-merge>
@@ -145,8 +147,8 @@ const {
     <AnimatePresence mode="wait">
       <MotionComponent
         as-child
-        v-if="$slots.trailing"
-        :key="trailingKey"
+        v-if="trailing"
+        :key="JSON.stringify(trailing)"
         :initial="{
           width: 0,
           height: 0,
@@ -167,7 +169,7 @@ const {
         }"
         :class="buttonVariants.icon({ ...variants, position: 'trailing' })"
       >
-        <slot name="trailing" />
+        <Icon :icon="trailing" />
       </MotionComponent>
     </AnimatePresence>
   </MotionComponent>

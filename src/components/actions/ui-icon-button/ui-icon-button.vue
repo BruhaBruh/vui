@@ -7,6 +7,8 @@ import {
   iconButtonVariants,
 } from './ui-icon-button.variants';
 import {
+  Icon,
+  type IconProps,
   MotionComponent,
   type MotionComponentProps,
 } from '@/components/utility';
@@ -19,6 +21,10 @@ import {
 import { transitionConfig } from '@/config';
 
 export type IconButtonProps = Omit<MotionComponentProps, 'asChild'> & {
+  icon?: IconProps['icon'];
+  badgeColor?: IconProps['color'];
+  badgeValue?: IconProps['value'];
+  badgeMaxValue?: IconProps['maxValue'];
   size?: IconButtonVariants['size'];
   shape?: IconButtonVariants['shape'];
   variant?: IconButtonVariants['variant'];
@@ -30,6 +36,10 @@ export type IconButtonProps = Omit<MotionComponentProps, 'asChild'> & {
 };
 
 const {
+  icon,
+  badgeColor,
+  badgeValue,
+  badgeMaxValue,
   size = 'sm',
   shape = 'rounded',
   variant = 'filled',
@@ -38,7 +48,6 @@ const {
   toggleable,
   selected,
   as = 'button',
-  iconKey,
   initial,
   animate,
   exit,
@@ -125,7 +134,7 @@ const {
     <AnimatePresence mode="wait">
       <MotionComponent
         as-child
-        :key="iconKey"
+        :key="JSON.stringify(icon)"
         :initial="{
           width: 0,
           height: 0,
@@ -143,7 +152,15 @@ const {
         }"
         :class="iconButtonVariants.icon(variants)"
       >
-        <slot />
+        <slot v-if="$slots.default || !icon" />
+        <Icon
+          v-else
+          :icon
+          :badge="badgeValue !== undefined"
+          :color="badgeColor"
+          :value="badgeValue"
+          :max-value="badgeMaxValue"
+        />
       </MotionComponent>
     </AnimatePresence>
   </MotionComponent>

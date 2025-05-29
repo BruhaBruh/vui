@@ -6,11 +6,10 @@ import {
   StorybookStory,
 } from '@/storybook/components';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
-import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
-const icons = ['square', 'circle', 'none'];
+const icons = ['tabler:square-rounded', 'tabler:circle', 'none'];
 
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] satisfies ButtonVariants['size'][];
 
@@ -46,20 +45,10 @@ function onChange({
   selected,
   disabled,
 }: UnknownRecord) {
-  let displayLeadingIcon = '';
-  if (leading === 'square') {
-    displayLeadingIcon = '<IconSquare />';
-  } else if (leading === 'circle') {
-    displayLeadingIcon = '<IconCircle />';
-  }
-  let displayTrailingIcon = '';
-  if (trailing === 'square') {
-    displayTrailingIcon = '<IconSquare />';
-  } else if (leading === 'circle') {
-    displayTrailingIcon = '<IconCircle />';
-  }
   code.value = `
 <Button
+  ${leading === 'none' ? '' : `leading="${leading}"`}
+  ${trailing === 'none' ? '' : `trailing="${trailing}"`}
   size="${size}"
   shape="${shape}"
   variant="${variant}"
@@ -69,9 +58,7 @@ function onChange({
   :disabled="${disabled}"
   @select="console.log('on select')"
 >
-  ${displayLeadingIcon}
   Button
-  ${displayTrailingIcon}
 </Button>
 `;
 }
@@ -146,32 +133,23 @@ function onChange({
     <template #default="{ values: { leading, trailing, ...values }, set }">
       <Button
         v-bind="values"
-        :leading-key="leading as string"
-        :trailing-key="trailing as string"
+        :leading="leading === 'none' ? undefined : (leading as string)"
+        :trailing="trailing === 'none' ? undefined : (trailing as string)"
         @select="set({ selected: !values.selected })"
       >
-        <template v-if="leading !== 'none'" #leading>
-          <IconSquare v-if="leading === 'square'" />
-          <IconCircle v-else />
-        </template>
         Button
-        <template v-if="trailing !== 'none'" #trailing>
-          <IconSquare v-if="trailing === 'square'" />
-          <IconCircle v-else />
-        </template>
       </Button>
     </template>
   </StorybookPlayground>
   <StorybookCode name="Button" :code />
   <StorybookStory name="As link">
-    <Button :as="RouterLink" to="#">
-      <template #leading>
-        <IconSquare />
-      </template>
+    <Button
+      :as="RouterLink"
+      to="#"
+      leading="tabler:square-rounded"
+      trailing="tabler:square-rounded"
+    >
       Link
-      <template #trailing>
-        <IconSquare />
-      </template>
     </Button>
   </StorybookStory>
   <StorybookStory name="Sizes">

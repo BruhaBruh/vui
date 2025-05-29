@@ -18,8 +18,8 @@ const {
   size,
   alwaysShowLabel,
   invalid,
-  leadingKey,
-  trailingKey,
+  leading,
+  trailing,
   as,
 } = defineProps<TextFieldProps>();
 
@@ -52,8 +52,8 @@ function attrsWithoutClass(attrs: UnknownRecord) {
     :size
     :always-show-label
     :invalid
-    :leading-key
-    :trailing-key
+    :leading
+    :trailing
     :aria-disabled="disabled"
     :class="$attrs.class"
   >

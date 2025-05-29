@@ -11,7 +11,6 @@ import {
   DialogTrigger,
 } from '@/components';
 import { StorybookCode, StorybookPlayground } from '@/storybook/components';
-import { IconArrowBackUp } from '@tabler/icons-vue';
 
 const code = `
 <Dialog focus-trap>
@@ -20,9 +19,7 @@ const code = `
   </DialogTrigger>
   <DialogContent>
     <template #icon>
-      <DialogIcon>
-        <IconArrowBackUp />
-      </DialogIcon>
+      <DialogIcon icon="tabler:arrow-back-up" />
     </template>
     <template #subhead>
       <DialogSubhead>Reset settings?</DialogSubhead>
@@ -59,9 +56,7 @@ const code = `
       </DialogTrigger>
       <DialogContent>
         <template #icon>
-          <DialogIcon>
-            <IconArrowBackUp />
-          </DialogIcon>
+          <DialogIcon icon="tabler:arrow-back-up" />
         </template>
         <template #subhead>
           <DialogSubhead>Reset settings?</DialogSubhead>

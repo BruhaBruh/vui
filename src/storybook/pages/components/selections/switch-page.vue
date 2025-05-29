@@ -6,8 +6,15 @@ import {
   StorybookStory,
 } from '@/storybook/components';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
-import { IconCheck, IconCircle, IconSquare, IconX } from '@tabler/icons-vue';
 import { ref } from 'vue';
+
+const icons = [
+  'tabler:square-rounded',
+  'tabler:circle',
+  'tabler:x',
+  'tabler:check',
+  'none',
+];
 
 const colors = [
   'primary',
@@ -18,8 +25,6 @@ const colors = [
   'critical',
 ] satisfies SwitchProps['color'][];
 
-const icons = ['check', 'x', 'square', 'circle', 'none'];
-
 const code = ref('');
 
 function onChange({
@@ -28,48 +33,13 @@ function onChange({
   checkedIcon,
   uncheckedIcon,
 }: UnknownRecord) {
-  let displayCheckedIcon = '';
-  if (checkedIcon === 'square') {
-    displayCheckedIcon = '<IconSquare />';
-  } else if (checkedIcon === 'circle') {
-    displayCheckedIcon = '<IconCircle />';
-  } else if (checkedIcon === 'x') {
-    displayCheckedIcon = '<IconX />';
-  } else if (checkedIcon === 'check') {
-    displayCheckedIcon = '<IconCheck />';
-  }
-  let displayUncheckedIcon = '';
-  if (uncheckedIcon === 'square') {
-    displayUncheckedIcon = '<IconSquare />';
-  } else if (uncheckedIcon === 'circle') {
-    displayUncheckedIcon = '<IconCircle />';
-  } else if (uncheckedIcon === 'x') {
-    displayUncheckedIcon = '<IconX />';
-  } else if (uncheckedIcon === 'check') {
-    displayUncheckedIcon = '<IconCheck />';
-  }
   code.value = `
 <Switch
+  ${checkedIcon === 'none' ? '' : `checked-icon="${checkedIcon}"`}
+  ${uncheckedIcon === 'none' ? '' : `unchecked-icon="${uncheckedIcon}"`}
   color="${color}"
   :disabled="${disabled}"
-${displayCheckedIcon || displayUncheckedIcon ? '' : '/'}>
-  ${
-    displayCheckedIcon
-      ? `
-  <template #checked>
-    ${displayCheckedIcon}
-  </template>`
-      : ''
-  }
-  ${
-    displayUncheckedIcon
-      ? `
-  <template #unchecked>
-    ${displayUncheckedIcon}
-  </template>`
-      : ''
-  }
-${displayCheckedIcon || displayUncheckedIcon ? '</Switch>' : ''}
+/>
 `;
 }
 </script>
@@ -113,21 +83,17 @@ ${displayCheckedIcon || displayUncheckedIcon ? '</Switch>' : ''}
       },
     }"
   >
-    <template #default="{ values }">
-      <Switch v-bind="values" @change="(v) => (values.checked = v)">
-        <template #unchecked v-if="values.uncheckedIcon !== 'none'">
-          <IconSquare v-if="values.uncheckedIcon === 'square'" />
-          <IconCircle v-else-if="values.uncheckedIcon === 'circle'" />
-          <IconCheck v-else-if="values.uncheckedIcon === 'check'" />
-          <IconX v-else-if="values.uncheckedIcon === 'x'" />
-        </template>
-        <template #checked v-if="values.checkedIcon !== 'none'">
-          <IconSquare v-if="values.checkedIcon === 'square'" />
-          <IconCircle v-else-if="values.checkedIcon === 'circle'" />
-          <IconCheck v-else-if="values.checkedIcon === 'check'" />
-          <IconX v-else-if="values.checkedIcon === 'x'" />
-        </template>
-      </Switch>
+    <template #default="{ values: { checkedIcon, uncheckedIcon, ...values } }">
+      <Switch
+        v-bind="values"
+        :checked-icon="
+          checkedIcon === 'none' ? undefined : (checkedIcon as string)
+        "
+        :unchecked-icon="
+          uncheckedIcon === 'none' ? undefined : (uncheckedIcon as string)
+        "
+        @change="(v) => (values.checked = v)"
+      />
     </template>
   </StorybookPlayground>
   <StorybookCode name="Switch" :code />
@@ -147,23 +113,8 @@ ${displayCheckedIcon || displayUncheckedIcon ? '</Switch>' : ''}
     />
   </StorybookStory>
   <StorybookStory name="Icons">
-    <Switch>
-      <template #unchecked>
-        <IconX />
-      </template>
-    </Switch>
-    <Switch>
-      <template #unchecked>
-        <IconX />
-      </template>
-      <template #checked>
-        <IconCheck />
-      </template>
-    </Switch>
-    <Switch>
-      <template #checked>
-        <IconCheck />
-      </template>
-    </Switch>
+    <Switch unchecked-icon="tabler:x" />
+    <Switch unchecked-icon="tabler:x" checked-icon="tabler:check" />
+    <Switch checked-icon="tabler:check" />
   </StorybookStory>
 </template>

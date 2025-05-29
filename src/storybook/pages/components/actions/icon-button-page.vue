@@ -6,11 +6,10 @@ import {
   StorybookStory,
 } from '@/storybook/components';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
-import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
-const icons = ['square', 'circle'];
+const icons = ['tabler:square-rounded', 'tabler:circle'];
 
 const sizes = [
   'xs',
@@ -47,8 +46,7 @@ const widths = [
 const code = ref('');
 
 function onChange({
-  leading,
-  trailing,
+  icon,
   size,
   shape,
   variant,
@@ -57,20 +55,9 @@ function onChange({
   selected,
   disabled,
 }: UnknownRecord) {
-  let displayLeadingIcon = '';
-  if (leading === 'square') {
-    displayLeadingIcon = '<IconSquare />';
-  } else if (leading === 'circle') {
-    displayLeadingIcon = '<IconCircle />';
-  }
-  let displayTrailingIcon = '';
-  if (trailing === 'square') {
-    displayTrailingIcon = '<IconSquare />';
-  } else if (leading === 'circle') {
-    displayTrailingIcon = '<IconCircle />';
-  }
   code.value = `
-<Button
+<IconButton
+  icon="${icon}"
   size="${size}"
   shape="${shape}"
   variant="${variant}"
@@ -79,11 +66,7 @@ function onChange({
   :selected="${selected}"
   :disabled="${disabled}"
   @select="console.log('on select')"
->
-  ${displayLeadingIcon}
-  Button
-  ${displayTrailingIcon}
-</Button>
+/>
 `;
 }
 </script>
@@ -96,7 +79,7 @@ function onChange({
         type: 'select',
         label: 'Icon',
         description: 'Icon of IconButton',
-        defaultValue: 'square',
+        defaultValue: 'tabler:square-rounded',
         options: icons,
       },
       size: {
@@ -157,29 +140,30 @@ function onChange({
     <template #default="{ values: { icon, ...values }, set }">
       <IconButton
         v-bind="values"
-        :icon-key="icon as string"
+        :icon="icon as string"
         @select="set({ selected: !values.selected })"
-      >
-        <IconSquare v-if="icon === 'square'" />
-        <IconCircle v-else />
-      </IconButton>
+      />
     </template>
   </StorybookPlayground>
   <StorybookCode name="IconButton" :code />
   <StorybookStory name="As link">
-    <IconButton :as="RouterLink" to="#">
-      <IconSquare />
-    </IconButton>
+    <IconButton :as="RouterLink" to="#" icon="tabler:square-rounded" />
   </StorybookStory>
   <StorybookStory name="Sizes">
-    <IconButton v-for="size in sizes" :key="size" :size>
-      <IconSquare />
-    </IconButton>
+    <IconButton
+      v-for="size in sizes"
+      :key="size"
+      :size
+      icon="tabler:square-rounded"
+    />
   </StorybookStory>
   <StorybookStory name="Widths">
-    <IconButton v-for="width in widths" :key="width" :width>
-      <IconSquare />
-    </IconButton>
+    <IconButton
+      v-for="width in widths"
+      :key="width"
+      :width
+      icon="tabler:square-rounded"
+    />
   </StorybookStory>
   <StorybookStory name="Sizes & Widths">
     <div class="flex flex-col items-center gap-md">
@@ -188,25 +172,38 @@ function onChange({
         v-for="width in widths"
         :key="width"
       >
-        <IconButton v-for="size in sizes" :key="size" :width :size>
-          <IconSquare />
-        </IconButton>
+        <IconButton
+          v-for="size in sizes"
+          :key="size"
+          :width
+          :size
+          icon="tabler:square-rounded"
+        />
       </div>
     </div>
   </StorybookStory>
   <StorybookStory name="Shapes">
-    <IconButton v-for="shape in shapes" :key="shape" :shape>
-      <IconSquare />
-    </IconButton>
+    <IconButton
+      v-for="shape in shapes"
+      :key="shape"
+      :shape
+      icon="tabler:square-rounded"
+    />
   </StorybookStory>
   <StorybookStory name="Variants">
-    <IconButton v-for="variant in variants" :key="variant" :variant>
-      <IconSquare />
-    </IconButton>
+    <IconButton
+      v-for="variant in variants"
+      :key="variant"
+      :variant
+      icon="tabler:square-rounded"
+    />
   </StorybookStory>
   <StorybookStory name="Colors">
-    <IconButton v-for="color in colors" :key="color" :color>
-      <IconSquare />
-    </IconButton>
+    <IconButton
+      v-for="color in colors"
+      :key="color"
+      :color
+      icon="tabler:square-rounded"
+    />
   </StorybookStory>
 </template>

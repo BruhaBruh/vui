@@ -6,7 +6,7 @@ export class RegistryCollector {
   #registry: Registry = {
     dependecyVersions: {
       '@floating-ui/vue': '^1.1.6',
-      '@tabler/icons-vue': '^3.31.0',
+      '@iconify/vue': '^5.0.0',
       '@vueuse/core': '^13.1.0',
       '@vueuse/integrations': '^13.1.0',
       'class-variance-authority': '^0.7.1',
@@ -137,11 +137,8 @@ export class RegistryCollector {
       'components/actions/index.ts',
       `export * from './ui-segmented-button';`,
     );
-    segmentedButtonCollector.addDependencies(
-      'motion-v',
-      '@vueuse/core',
-      '@tabler/icons-vue',
-    );
+    segmentedButtonCollector.addDependencies('motion-v', '@vueuse/core');
+    segmentedButtonCollector.addDevDependencies('@iconify/vue');
     segmentedButtonCollector.addModuleDependencies(
       'composables:use-toggle-button',
       'composables:use-ripple',

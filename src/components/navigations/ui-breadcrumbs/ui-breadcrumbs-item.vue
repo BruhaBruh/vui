@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { PropsPolymorphic } from '@/types';
 import { breadcrumbsVariants } from './ui-breadcrumbs.variants';
-import { IconChevronRight } from '@tabler/icons-vue';
 import { useBreadcrumbsState } from './ui-breadcrumbs.context';
 import { computed } from 'vue';
+import { Icon } from '@/components/utility';
 
 export type BreadcrumbsItemProps = PropsPolymorphic & {
   value: string;
@@ -33,6 +33,9 @@ const isActive = computed(() => active.value === value);
     </component>
   </li>
   <li aria-hidden class="last:hidden">
-    <IconChevronRight :class="breadcrumbsVariants.icon({ size })" />
+    <Icon
+      icon="tabler:chevron-right"
+      :class="breadcrumbsVariants.icon({ size })"
+    />
   </li>
 </template>

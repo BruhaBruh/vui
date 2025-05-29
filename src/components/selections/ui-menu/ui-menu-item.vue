@@ -5,8 +5,7 @@ import { menuVariants } from './ui-menu.variants';
 import { useInteractions, useRipple } from '@/composables';
 import { AnimatePresence } from 'motion-v';
 import { materialDuration, materialEasing } from '@/config';
-import { IconCheck } from '@tabler/icons-vue';
-import { MotionComponent } from '@/components/utility';
+import { Icon, MotionComponent } from '@/components/utility';
 
 export type MenuItemProps = {
   value: string;
@@ -81,7 +80,7 @@ useRipple(elementRef);
         }"
         :class="[menuVariants.icon({ position: 'left' }), 'menu--left-icon']"
       >
-        <IconCheck v-if="isSelected" />
+        <Icon v-if="isSelected" icon="tabler:check" />
         <slot name="left" v-else>
           <div aria-hidden />
         </slot>

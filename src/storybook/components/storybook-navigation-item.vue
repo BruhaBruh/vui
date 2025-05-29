@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { IconChevronDown, IconFile, IconFolder } from '@tabler/icons-vue';
 import { ref } from 'vue';
 import StorybookNavigation from './storybook-navigation.vue';
 import { AnimatePresence } from 'motion-v';
 import { RouterLink } from 'vue-router';
 import type { NavigationNode } from '../navigation';
+import { Icon } from '@/components';
 
 const { node } = defineProps<{ node: NavigationNode }>();
 
@@ -25,13 +25,14 @@ const isOpen = ref(true);
       ]"
       @click="isOpen = !isOpen"
     >
-      <component :is="node.icon" v-if="node.icon" />
-      <IconFolder v-else-if="node.type === 'folder'" />
-      <IconFile v-else />
+      <Icon v-if="node.icon" :icon="node.icon" />
+      <Icon v-else-if="node.type === 'folder'" icon="tabler:folder" />
+      <Icon v-else icon="tabler:file" />
 
       <span class="typography-title-large">{{ node.name }}</span>
-      <IconChevronDown
+      <Icon
         v-if="node.type === 'folder'"
+        icon="tabler:chevron-down"
         :class="[
           'ml-auto',
           'transition duration-medium-1 easing-standard',

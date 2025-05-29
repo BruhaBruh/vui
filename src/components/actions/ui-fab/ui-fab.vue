@@ -5,24 +5,32 @@ import { computed, useTemplateRef } from 'vue';
 import { type FabVariants, fabVariants } from './ui-fab.variants';
 import { fabIconSize } from './ui-fab.options';
 import {
+  Icon,
+  type IconProps,
   MotionComponent,
   type MotionComponentProps,
 } from '@/components/utility';
 import { transitionConfig } from '@/config';
 
 export type FabProps = Omit<MotionComponentProps, 'asChild'> & {
+  icon: IconProps['icon'];
+  badgeColor?: IconProps['color'];
+  badgeValue?: IconProps['value'];
+  badgeMaxValue?: IconProps['maxValue'];
   size?: FabVariants['size'];
   variant?: FabVariants['variant'];
   color?: FabVariants['color'];
-  iconKey?: string;
 };
 
 const {
+  icon,
+  badgeColor,
+  badgeValue,
+  badgeMaxValue,
   size = 'sm',
   variant = 'filled',
   color = 'primary',
   as = 'button',
-  iconKey,
   initial,
   animate,
   exit,
@@ -77,7 +85,7 @@ const {
     <AnimatePresence mode="wait">
       <MotionComponent
         as-child
-        :key="iconKey"
+        :key="JSON.stringify(icon)"
         :initial="{
           width: 0,
           height: 0,
@@ -95,7 +103,13 @@ const {
         }"
         :class="fabVariants.icon(variants)"
       >
-        <slot />
+        <Icon
+          :icon
+          :badge="badgeValue !== undefined"
+          :color="badgeColor"
+          :value="badgeValue"
+          :max-value="badgeMaxValue"
+        />
       </MotionComponent>
     </AnimatePresence>
   </MotionComponent>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   Button,
+  Icon,
   Menu,
   MenuContent,
   MenuSection,
@@ -13,7 +14,6 @@ import {
   StorybookStory,
 } from '@/storybook/components';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
-import { IconEye, IconPencil } from '@tabler/icons-vue';
 import { ref } from 'vue';
 
 const singleSelection = ref<string[]>([]);
@@ -34,7 +34,7 @@ function onChange({ selectionMode }: UnknownRecord) {
       <MenuSection label="first pair of items">
         <UiMenuItem value="item-1">
           <template #left>
-            <IconEye />
+            <Icon icon="tabler:eye" />
           </template>
           Item 1
         </UiMenuItem>
@@ -51,7 +51,7 @@ function onChange({ selectionMode }: UnknownRecord) {
         <UiMenuItem value="item-3">
           Item 3
           <template #right>
-            <IconPencil />
+            <Icon icon="tabler:pencil" />
           </template>
         </UiMenuItem>
         <UiMenuItem value="item-4"> Item 4 </UiMenuItem>
@@ -94,7 +94,7 @@ function onChange({ selectionMode }: UnknownRecord) {
           <MenuSection label="first pair of items">
             <UiMenuItem value="item-1">
               <template #left>
-                <IconEye />
+                <Icon icon="tabler:eye" />
               </template>
               Item 1
             </UiMenuItem>
@@ -111,7 +111,7 @@ function onChange({ selectionMode }: UnknownRecord) {
             <UiMenuItem value="item-3">
               Item 3
               <template #right>
-                <IconPencil />
+                <Icon icon="tabler:pencil" />
               </template>
             </UiMenuItem>
             <UiMenuItem value="item-4"> Item 4 </UiMenuItem>
@@ -135,7 +135,7 @@ function onChange({ selectionMode }: UnknownRecord) {
         <MenuSection label="first pair of items">
           <UiMenuItem value="item-1">
             <template #left>
-              <IconEye />
+              <Icon icon="tabler:eye" />
             </template>
             Item 1
           </UiMenuItem>
@@ -152,7 +152,7 @@ function onChange({ selectionMode }: UnknownRecord) {
           <UiMenuItem value="item-3">
             Item 3
             <template #right>
-              <IconPencil />
+              <Icon icon="tabler:pencil" />
             </template>
           </UiMenuItem>
           <UiMenuItem value="item-4"> Item 4 </UiMenuItem>
@@ -174,7 +174,7 @@ function onChange({ selectionMode }: UnknownRecord) {
         <MenuSection label="first pair of items">
           <UiMenuItem value="item-1">
             <template #left>
-              <IconEye />
+              <Icon icon="tabler:eye" />
             </template>
             Item 1
           </UiMenuItem>
@@ -191,7 +191,7 @@ function onChange({ selectionMode }: UnknownRecord) {
           <UiMenuItem value="item-3">
             Item 3
             <template #right>
-              <IconPencil />
+              <Icon icon="tabler:pencil" />
             </template>
           </UiMenuItem>
           <UiMenuItem value="item-4"> Item 4 </UiMenuItem>

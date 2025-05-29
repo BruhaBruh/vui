@@ -7,7 +7,6 @@ import {
   SearchBar,
 } from '@/components';
 import { StorybookCode, StorybookStory } from '@/storybook/components';
-import { IconMenu2, IconSearch } from '@tabler/icons-vue';
 
 const variants = [
   'search',
@@ -33,7 +32,7 @@ function generateCode(variant: AppBarProps['variant'], centered: boolean) {
   <template #leading>
     <AppBarSlot>
       <IconButton variant="standard">
-        <IconMenu2 />
+        <Icon icon="tabler:menu-2" />
       </IconButton>
     </AppBarSlot>
   </template>
@@ -51,7 +50,7 @@ function generateCode(variant: AppBarProps['variant'], centered: boolean) {
         ? ''
         : `<AppBarSlot>
       <IconButton variant="standard">
-        <IconSearch />
+        <Icon icon="tabler:search" />
       </IconButton>
     </AppBarSlot>`
     }
@@ -83,9 +82,7 @@ function generateCode(variant: AppBarProps['variant'], centered: boolean) {
           >
             <template #leading>
               <AppBarSlot>
-                <IconButton variant="standard">
-                  <IconMenu2 />
-                </IconButton>
+                <IconButton icon="tabler:menu-2" variant="standard" />
               </AppBarSlot>
             </template>
             <template #search-bar>
@@ -95,9 +92,7 @@ function generateCode(variant: AppBarProps['variant'], centered: boolean) {
             <template #subtitle> Subtitle </template>
             <template #trailing>
               <AppBarSlot v-if="variant !== 'search'">
-                <IconButton variant="standard">
-                  <IconSearch />
-                </IconButton>
+                <IconButton icon="tabler:search" variant="standard" />
               </AppBarSlot>
               <AppBarSlot>
                 <div

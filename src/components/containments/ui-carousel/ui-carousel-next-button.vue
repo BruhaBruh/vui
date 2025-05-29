@@ -2,12 +2,12 @@
 import { carouselVariants } from './ui-carousel.variants';
 import { useCarouselState } from './ui-carousel.context';
 import { ref, watchEffect } from 'vue';
-import { IconChevronRight } from '@tabler/icons-vue';
 import { IconButton, type IconButtonProps } from '@/components/actions';
 
 export type CarouselNextButtonProps = IconButtonProps;
 
 const {
+  icon = 'tabler:chevron-right',
   color = 'secondary',
   variant = 'standard',
   ...props
@@ -35,6 +35,7 @@ watchEffect(() => {
 
 <template>
   <IconButton
+    :icon
     :color
     :variant
     :disabled
@@ -43,9 +44,5 @@ watchEffect(() => {
     :class="carouselVariants.arrowButton()"
     :animate="{ height: 'auto' }"
     @click="onClick()"
-  >
-    <slot>
-      <IconChevronRight />
-    </slot>
-  </IconButton>
+  />
 </template>

@@ -1,19 +1,11 @@
 <script setup lang="ts">
-import { SearchBar } from '@/components';
+import { Icon, SearchBar } from '@/components';
 import {
   StorybookCode,
   StorybookPlayground,
   StorybookStory,
-  StorybookTest,
 } from '@/storybook/components';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
-import {
-  IconCircle,
-  IconMenu2,
-  IconScreenShare,
-  IconSearch,
-  IconSquare,
-} from '@tabler/icons-vue';
 import { ref } from 'vue';
 
 const code = ref('');
@@ -29,7 +21,7 @@ function onChange({
     leadingDisplay = `
   <template #leading v-if="leading !== 'none'">
     <button tabindex="0" type="button">
-      <IconMenu2 />
+      <Icon icon="tabler:menu-2" />
     </button>
   </template>
 `;
@@ -38,13 +30,13 @@ function onChange({
   if (trailing === 'search') {
     trailingDisplay = `
   <template #trailing>
-    <IconSearch />
+    <Icon icon="tabler:search" />
   </template>
 `;
   } else if (trailing === 'share') {
     trailingDisplay = `
   <template #trailing>
-    <IconScreenShare />
+    <Icon icon="tabler:screen-share" />
   </template>
 `;
   }
@@ -53,7 +45,7 @@ function onChange({
   if (trailingSecond === 'search') {
     trailingSecondDisplay = `
   <template #trailing-second>
-    <IconSearch />
+    <Icon icon="tabler:search" />
   </template>
 `;
   } else if (trailingSecond === 'avatar') {
@@ -126,15 +118,15 @@ ${
       >
         <template #leading v-if="leading !== 'none'">
           <button tabindex="0" type="button">
-            <IconMenu2 />
+            <Icon icon="tabler:menu-2" />
           </button>
         </template>
         <template #trailing v-if="trailing !== 'none'">
-          <IconSearch v-if="trailing === 'search'" />
-          <IconScreenShare v-else />
+          <Icon v-if="trailing === 'search'" icon="tabler:search" />
+          <Icon v-else icon="tabler:screen-share" />
         </template>
         <template #trailing-second v-if="trailingSecond === 'search'">
-          <IconSearch />
+          <Icon icon="tabler:search" />
         </template>
         <template #trailing-avatar v-if="trailingSecond === 'avatar'">
           <img src="https://placehold.co/32/6750A4/white?text=A" />
@@ -147,13 +139,13 @@ ${
     <div class="flex flex-col gap-md">
       <SearchBar placeholder="Hinted search text">
         <template #trailing>
-          <IconSearch />
+          <Icon icon="tabler:search" />
         </template>
       </SearchBar>
       <SearchBar placeholder="Hinted search text">
         <template #leading>
           <button tabindex="0" type="button">
-            <IconMenu2 />
+            <Icon icon="tabler:menu-2" />
           </button>
         </template>
         <template #trailing-avatar>
@@ -163,34 +155,34 @@ ${
       <SearchBar placeholder="Hinted search text">
         <template #leading>
           <button tabindex="0" type="button">
-            <IconMenu2 />
+            <Icon icon="tabler:menu-2" />
           </button>
         </template>
         <template #trailing>
-          <IconSearch />
+          <Icon icon="tabler:search" />
         </template>
       </SearchBar>
       <SearchBar placeholder="Hinted search text">
         <template #leading>
           <button tabindex="0" type="button">
-            <IconMenu2 />
+            <Icon icon="tabler:menu-2" />
           </button>
         </template>
         <template #trailing>
-          <IconScreenShare />
+          <Icon icon="tabler:screen-share" />
         </template>
         <template #trailing-second>
-          <IconSearch />
+          <Icon icon="tabler:search" />
         </template>
       </SearchBar>
       <SearchBar placeholder="Hinted search text">
         <template #leading>
           <button tabindex="0" type="button">
-            <IconMenu2 />
+            <Icon icon="tabler:menu-2" />
           </button>
         </template>
         <template #trailing>
-          <IconSearch />
+          <Icon icon="tabler:search" />
         </template>
         <template #trailing-avatar>
           <img src="https://placehold.co/32/6750A4/white?text=A" />

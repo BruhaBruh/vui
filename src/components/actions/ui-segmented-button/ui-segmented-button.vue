@@ -7,23 +7,24 @@ import {
   segmentedButtonVariants,
 } from './ui-segmented-button.variants';
 import { AnimatePresence } from 'motion-v';
-import { IconCheck } from '@tabler/icons-vue';
 import {
+  Icon,
+  type IconProps,
   MotionComponent,
   type MotionComponentProps,
 } from '@/components/utility';
 import { transitionConfig } from '@/config';
 
 export type SegmentedButtonProps = Omit<MotionComponentProps, 'asChild'> & {
+  icon?: IconProps['icon'];
   value: string | number;
   color?: SegmentedButtonVariants['color'];
-  iconKey?: string;
 };
 
 const {
+  icon = 'tabler:check',
   value,
   color: buttonColor,
-  iconKey,
   as = 'button',
   initial,
   animate,
@@ -105,7 +106,7 @@ const {
       <MotionComponent
         as-child
         v-if="isSelected"
-        :key="iconKey"
+        :key="JSON.stringify(icon)"
         :initial="{
           width: 0,
           height: 0,
@@ -129,9 +130,7 @@ const {
         }"
         :class="segmentedButtonVariants.icon()"
       >
-        <slot name="icon">
-          <IconCheck />
-        </slot>
+        <Icon :icon />
       </MotionComponent>
     </AnimatePresence>
     <MotionComponent

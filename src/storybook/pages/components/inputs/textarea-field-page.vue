@@ -6,11 +6,11 @@ import {
   StorybookStory,
 } from '@/storybook/components';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
-import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { ref } from 'vue';
 
+const icons = ['tabler:square-rounded', 'tabler:circle', 'none'];
+
 const sizes = ['sm', 'md', 'lg'] satisfies TextAreaFieldProps['size'][];
-const icons = ['none', 'circle', 'square'];
 
 const code = ref('');
 
@@ -27,22 +27,16 @@ function onChange({
 }: UnknownRecord) {
   code.value = `
 <TextAreaField
+  ${leading === 'none' ? '' : `leading="${leading}"`}
+  ${trailing === 'none' ? '' : `trailing="${trailing}"`}
   size="${size}"
   ${(placeholder as string).length > 0 ? `placeholder="${placeholder}"` : ''}
   :invalid="${invalid}"
   :disabled="${disabled}"
 >
-  ${leading === 'none' ? '' : '<template #leading>'}
-    ${leading === 'square' ? '<IconSquare />' : ''}
-    ${leading === 'circle' ? '<IconCircle />' : ''}
-  ${leading === 'none' ? '' : '</template>'}
   ${(label as string).length > 0 ? '<template #label>' : ''}
     ${label}
   ${(label as string).length > 0 ? '</template>' : ''}
-  ${trailing === 'none' ? '' : '<template trailing>'}
-    ${trailing === 'square' ? '<IconSquare />' : ''}
-    ${trailing === 'circle' ? '<IconCircle />' : ''}
-  ${trailing === 'none' ? '' : '</template>'}
   ${(description as string).length > 0 ? '<template #description>' : ''}
     ${description}
   ${(description as string).length > 0 ? '</template>' : ''}
@@ -61,57 +55,57 @@ function onChange({
       label: {
         type: 'text',
         label: 'Label',
-        description: 'Label of TextField',
+        description: 'Label of TextAreaField',
         defaultValue: 'Label',
       },
       description: {
         type: 'text',
         label: 'Description',
-        description: 'Description of TextField',
+        description: 'Description of TextAreaField',
         defaultValue: '',
       },
       error: {
         type: 'text',
         label: 'Error',
-        description: 'Error of TextField',
+        description: 'Error of TextAreaField',
         defaultValue: '',
       },
       placeholder: {
         type: 'text',
         label: 'Placeholder',
-        description: 'Placeholder of TextField',
+        description: 'Placeholder of TextAreaField',
         defaultValue: '',
       },
       size: {
         type: 'select',
         label: 'Size',
-        description: 'Size of TextField',
+        description: 'Size of TextAreaField',
         defaultValue: 'lg',
         options: sizes,
       },
       invalid: {
         type: 'switch',
         label: 'Invalid',
-        description: 'Invalid state of TextField',
+        description: 'Invalid state of TextAreaField',
         defaultValue: false,
       },
       disabled: {
         type: 'switch',
         label: 'Disabled',
-        description: 'Disabled state of TextField',
+        description: 'Disabled state of TextAreaField',
         defaultValue: false,
       },
       leading: {
         type: 'select',
         label: 'Leading',
-        description: 'Leading component of TextField',
+        description: 'Leading component of TextAreaField',
         defaultValue: 'none',
         options: icons,
       },
       trailing: {
         type: 'select',
         label: 'Trailing',
-        description: 'Trailing component of TextField',
+        description: 'Trailing component of TextAreaField',
         defaultValue: 'none',
         options: icons,
       },
@@ -123,21 +117,13 @@ function onChange({
       }"
     >
       <TextAreaField
-        :leading-key="leading as string"
-        :trailing-key="trailing as string"
+        :leading="leading === 'none' ? undefined : (leading as string)"
+        :trailing="trailing === 'none' ? undefined : (trailing as string)"
         class="[&_.field--input-field]:max-h-32"
         v-bind="values"
       >
-        <template #leading v-if="leading !== 'none'">
-          <IconSquare v-if="leading === 'square'" />
-          <IconCircle v-else-if="leading === 'circle'" />
-        </template>
         <template #label v-if="(label as string).length > 0">
           {{ label }}
-        </template>
-        <template #trailing v-if="trailing !== 'none'">
-          <IconSquare v-if="trailing === 'square'" />
-          <IconCircle v-else-if="trailing === 'circle'" />
         </template>
         <template #description v-if="(description as string).length > 0">
           {{ description }}

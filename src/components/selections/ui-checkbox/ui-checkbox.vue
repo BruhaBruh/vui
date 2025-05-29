@@ -9,8 +9,8 @@ import type {
   CheckboxMarkVariants,
   CheckboxVariants,
 } from './ui-checkbox.variants';
-import { IconCheck, IconMinus } from '@tabler/icons-vue';
 import {
+  Icon,
   MotionComponent,
   type MotionComponentProps,
 } from '@/components/utility';
@@ -157,8 +157,8 @@ const {
           }"
           :class="checkboxVariants.icon()"
         >
-          <IconCheck v-if="state === 'checked'" />
-          <IconMinus v-else-if="state === 'indeterminate'" />
+          <Icon v-if="state === 'checked'" icon="tabler:check" />
+          <Icon v-else-if="state === 'indeterminate'" icon="tabler:minus" />
         </MotionComponent>
       </AnimatePresence>
     </span>

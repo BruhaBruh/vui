@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Field, type FieldProps } from '../ui-field';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
-import { IconCaretDownFilled, IconCaretUpFilled } from '@tabler/icons-vue';
 import { numberFieldVariants } from './ui-number-field.variants';
+import { Icon } from '@/components/utility';
 
 export type NumberFieldProps = FieldProps & {
   min?: number;
@@ -23,8 +23,8 @@ const {
   size = 'lg',
   alwaysShowLabel,
   invalid,
-  leadingKey,
-  trailingKey,
+  leading,
+  trailing,
   as,
 } = defineProps<NumberFieldProps>();
 
@@ -87,8 +87,8 @@ function attrsWithoutClass(attrs: UnknownRecord) {
     :size
     :always-show-label
     :invalid
-    :leading-key
-    :trailing-key
+    :leading
+    :trailing
     :aria-disabled="disabled"
     :class="[numberFieldVariants(), $attrs.class]"
   >
@@ -111,7 +111,7 @@ function attrsWithoutClass(attrs: UnknownRecord) {
           :disabled
           @click="value = value + step"
         >
-          <IconCaretUpFilled class="size-4" />
+          <Icon icon="tabler:caret-up-filled" class="size-4" />
         </button>
         <button
           tabindex="-1"
@@ -120,7 +120,7 @@ function attrsWithoutClass(attrs: UnknownRecord) {
           :disabled
           @click="value = value - step"
         >
-          <IconCaretDownFilled />
+          <Icon icon="tabler:caret-down-filled" class="size-4" />
         </button>
       </span>
     </template>

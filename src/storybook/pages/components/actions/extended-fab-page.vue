@@ -6,11 +6,10 @@ import {
   StorybookStory,
 } from '@/storybook/components';
 import type { UnknownRecord } from '@bruhabruh/type-safe';
-import { IconCircle, IconSquare } from '@tabler/icons-vue';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
-const icons = ['square', 'circle', 'none'];
+const icons = ['tabler:square-rounded', 'tabler:circle', 'none'];
 
 const sizes = ['sm', 'md', 'lg'] satisfies ExtendedFabVariants['size'][];
 
@@ -28,19 +27,13 @@ const colors = [
 const code = ref('');
 
 function onChange({ icon, size, variant, color }: UnknownRecord) {
-  let displayIcon = '';
-  if (icon === 'square') {
-    displayIcon = '<IconSquare />';
-  } else if (icon === 'circle') {
-    displayIcon = '<IconCircle />';
-  }
   code.value = `
 <ExtendedFab
+  ${icon === 'none' ? '' : `icon="${icon}"`}
   size="${size}"
   variant="${variant}"
   color=${color}
 >
-  ${displayIcon}
   ExtendedFab
 </ExtendedFab>
 `;
@@ -82,48 +75,50 @@ function onChange({ icon, size, variant, color }: UnknownRecord) {
     }"
   >
     <template #default="{ values: { icon, ...values } }">
-      <ExtendedFab v-bind="values" :icon-key="icon as string">
-        <template v-if="icon !== 'none'" #icon>
-          <IconSquare v-if="icon === 'square'" />
-          <IconCircle v-else />
-        </template>
+      <ExtendedFab
+        v-bind="values"
+        :icon="icon === 'none' ? undefined : (icon as string)"
+      >
         ExtendedFab
       </ExtendedFab>
     </template>
   </StorybookPlayground>
   <StorybookCode name="ExtendedFab" :code />
   <StorybookStory name="As link">
-    <ExtendedFab :as="RouterLink" to="#">
-      <template #icon>
-        <IconSquare />
-      </template>
+    <ExtendedFab :as="RouterLink" to="#" icon="tabler:square-rounded">
       Link
     </ExtendedFab>
   </StorybookStory>
   <StorybookStory name="Sizes">
     <div class="flex flex-col items-center gap-md">
-      <ExtendedFab v-for="size in sizes" :key="size" :size>
-        <template #icon>
-          <IconSquare />
-        </template>
+      <ExtendedFab
+        v-for="size in sizes"
+        :key="size"
+        :size
+        icon="tabler:square-rounded"
+      >
         ExtendedFab
       </ExtendedFab>
     </div>
   </StorybookStory>
   <StorybookStory name="Variants">
-    <ExtendedFab v-for="variant in variants" :key="variant" :variant>
-      <template #icon>
-        <IconSquare />
-      </template>
+    <ExtendedFab
+      v-for="variant in variants"
+      :key="variant"
+      :variant
+      icon="tabler:square-rounded"
+    >
       ExtendedFab
     </ExtendedFab>
   </StorybookStory>
   <StorybookStory name="Colors">
     <div class="flex flex-col gap-md">
-      <ExtendedFab v-for="color in colors" :key="color" :color>
-        <template #icon>
-          <IconSquare />
-        </template>
+      <ExtendedFab
+        v-for="color in colors"
+        :key="color"
+        :color
+        icon="tabler:square-rounded"
+      >
         ExtendedFab
       </ExtendedFab>
     </div>

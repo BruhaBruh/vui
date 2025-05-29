@@ -3,7 +3,7 @@ import type { PropsPolymorphic } from '@/types';
 import { carouselVariants } from './ui-carousel.variants';
 import { useCarouselState } from './ui-carousel.context';
 import { ref, watchEffect } from 'vue';
-import { IconCircleFilled } from '@tabler/icons-vue';
+import { Icon } from '@/components/utility';
 
 export type CarouselDotsProps = PropsPolymorphic & {
   label?: string;
@@ -63,7 +63,7 @@ watchEffect(() => {
       v-tw-merge
     >
       <slot>
-        <IconCircleFilled />
+        <Icon icon="tabler:circle-filled" />
       </slot>
     </button>
   </component>
