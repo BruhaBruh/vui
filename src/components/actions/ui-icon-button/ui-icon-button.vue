@@ -32,7 +32,6 @@ export type IconButtonProps = Omit<MotionComponentProps, 'asChild'> & {
   width?: IconButtonVariants['width'];
   toggleable?: boolean;
   selected?: boolean;
-  iconKey?: string;
 };
 
 const {

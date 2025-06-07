@@ -5,4 +5,4 @@ export { default as DialogPage } from './dialog-page.vue';
 export { default as DividerPage } from './divider-page.vue';
 export { default as ModalPage } from './modal-page.vue';
 export { default as PopoverPage } from './popover-page.vue';
-
+export { default as GridPage } from './grid-page.vue';

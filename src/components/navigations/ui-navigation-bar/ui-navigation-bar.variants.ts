@@ -86,7 +86,7 @@ const iconContainerVariants = cva(
   },
 );
 
-const iconVariants = cva(['navigation-bar--icon', 'size-5']);
+const iconVariants = cva(['navigation-bar--icon', 'size-6']);
 
 const labelVariants = cva(
   [

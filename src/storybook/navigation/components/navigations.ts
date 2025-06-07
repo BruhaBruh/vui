@@ -2,6 +2,7 @@ import {
   AppBarPage,
   BreadcrumbsPage,
   NavigationBarPage,
+  NavigationRailPage,
   PaginationPage,
 } from '@/storybook/pages';
 import type { NavigationNode } from '../navigation.types';
@@ -29,6 +30,12 @@ export const navigations: NavigationNode = {
       name: 'NavigationBar',
       path: '/navigation-bar',
       page: NavigationBarPage,
+    },
+    {
+      type: 'link',
+      name: 'NavigationRail',
+      path: '/navigation-rail',
+      page: NavigationRailPage,
     },
     {
       type: 'link',

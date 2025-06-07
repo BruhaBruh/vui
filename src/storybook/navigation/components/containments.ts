@@ -4,6 +4,7 @@ import {
   ContainerPage,
   DialogPage,
   DividerPage,
+  GridPage,
   ModalPage,
   PopoverPage,
 } from '@/storybook/pages';
@@ -56,6 +57,12 @@ export const containments: NavigationNode = {
       name: 'Carousel',
       path: '/carousel',
       page: CarouselPage,
+    },
+    {
+      type: 'link',
+      name: 'Grid',
+      path: '/grid',
+      page: GridPage,
     },
   ],
 };

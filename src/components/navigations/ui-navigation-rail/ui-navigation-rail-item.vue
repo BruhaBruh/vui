@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { PropsPolymorphic } from '@/types';
-import { navigationBarVariants } from './ui-navigation-bar.variants';
-import { useTemplateRef } from 'vue';
-import { useInteractions } from '@/composables';
 import { Icon, type IconProps, MotionComponent } from '@/components/utility';
+import { navigationRailVariants } from './ui-navigation-rail.variants';
+import { computed, useTemplateRef } from 'vue';
 import { transitionConfig } from '@/config';
+import { useInteractions } from '@/composables';
 import { AnimatePresence } from 'motion-v';
 
-export type NavigationBarItemProps = PropsPolymorphic & {
+export type NavigationRailItemProps = PropsPolymorphic & {
+  expanded?: boolean;
   icon: IconProps['icon'];
   badgeColor?: IconProps['color'];
   badgeValue?: IconProps['value'];
@@ -16,27 +17,29 @@ export type NavigationBarItemProps = PropsPolymorphic & {
 };
 
 const {
+  expanded,
   icon,
   badgeColor,
   badgeValue,
   badgeMaxValue,
   active,
   as = 'button',
-} = defineProps<NavigationBarItemProps>();
+} = defineProps<NavigationRailItemProps>();
 
-const elementRef = useTemplateRef<HTMLElement>('navigation-bar-item');
+const variants = computed(() => ({ expanded, isSelected: active }));
+
+const elementRef = useTemplateRef<HTMLElement>('navigation-rail-item');
 
 useInteractions(elementRef);
 </script>
 
 <template>
-  <component
-    ref="navigation-bar-item"
-    :is="as"
-    :class="navigationBarVariants.itemContainer({})"
-    v-tw-merge
+  <MotionComponent
+    ref="navigation-rail-item"
+    :as
+    :class="navigationRailVariants.itemContainer()"
   >
-    <span :class="navigationBarVariants.item({ isSelected: active })">
+    <span :class="navigationRailVariants.item(variants)">
       <MotionComponent
         as="span"
         aria-hidden
@@ -46,12 +49,9 @@ useInteractions(elementRef);
             : { width: '0', left: '50%', opacity: 0.1 }
         "
         :transition="transitionConfig.preset.short.beginEnd.asMotion()"
-        :class="navigationBarVariants.itemBackground()"
+        :class="navigationRailVariants.itemBackground(variants)"
       />
-      <span
-        :class="navigationBarVariants.iconContainer({ isSelected: active })"
-        v-tw-merge
-      >
+      <span :class="navigationRailVariants.iconContainer(variants)" v-tw-merge>
         <MotionComponent
           as="span"
           aria-hidden
@@ -61,7 +61,7 @@ useInteractions(elementRef);
               : { width: '0', left: '50%', opacity: 0.1 }
           "
           :transition="transitionConfig.preset.short.beginEnd.asMotion()"
-          :class="navigationBarVariants.iconContainerBackground()"
+          :class="navigationRailVariants.iconContainerBackground(variants)"
         />
         <AnimatePresence mode="wait">
           <MotionComponent
@@ -83,7 +83,7 @@ useInteractions(elementRef);
               height: 0,
               transition: transitionConfig.preset.short.exit.asMotion(),
             }"
-            :class="navigationBarVariants.icon()"
+            :class="navigationRailVariants.icon()"
           >
             <Icon
               :icon
@@ -95,9 +95,9 @@ useInteractions(elementRef);
           </MotionComponent>
         </AnimatePresence>
       </span>
-      <span :class="navigationBarVariants.label()" v-tw-merge>
+      <span :class="navigationRailVariants.label(variants)" v-tw-merge>
         <slot />
       </span>
     </span>
-  </component>
+  </MotionComponent>
 </template>
