@@ -29,7 +29,9 @@ const { tooltip, unwrap, as = 'div' } = defineProps<GridCellProps>();
           </span>
         </TooltipTrigger>
         <TooltipContent placement="top">
-          <slot />
+          <slot name="tooltip-label">
+            <slot />
+          </slot>
         </TooltipContent>
       </Tooltip>
     </template>
