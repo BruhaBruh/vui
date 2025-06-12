@@ -18,6 +18,7 @@ import {
 import { transitionConfig } from '@/config';
 
 export type ButtonProps = Omit<MotionComponentProps, 'asChild'> & {
+  loading?: IconProps['icon'];
   leading?: IconProps['icon'];
   trailing?: IconProps['icon'];
   size?: ButtonVariants['size'];
@@ -29,6 +30,7 @@ export type ButtonProps = Omit<MotionComponentProps, 'asChild'> & {
 };
 
 const {
+  loading,
   leading,
   trailing,
   size = 'sm',
@@ -116,8 +118,8 @@ const {
     <AnimatePresence mode="wait">
       <MotionComponent
         as-child
-        v-if="leading"
-        :key="JSON.stringify(leading)"
+        v-if="loading ?? leading"
+        :key="JSON.stringify(loading ?? leading)"
         :initial="{
           width: 0,
           height: 0,
@@ -138,7 +140,10 @@ const {
         }"
         :class="buttonVariants.icon({ ...variants, position: 'leading' })"
       >
-        <Icon :icon="leading" />
+        <Icon
+          :icon="loading ?? leading!"
+          :class="[loading && 'animate-spin']"
+        />
       </MotionComponent>
     </AnimatePresence>
     <span :class="buttonVariants.label(variants)" v-tw-merge>

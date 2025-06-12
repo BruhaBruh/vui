@@ -21,6 +21,7 @@ import {
 import { transitionConfig } from '@/config';
 
 export type IconButtonProps = Omit<MotionComponentProps, 'asChild'> & {
+  loading?: IconProps['icon'];
   icon?: IconProps['icon'];
   badgeColor?: IconProps['color'];
   badgeValue?: IconProps['value'];
@@ -35,6 +36,7 @@ export type IconButtonProps = Omit<MotionComponentProps, 'asChild'> & {
 };
 
 const {
+  loading,
   icon,
   badgeColor,
   badgeValue,
@@ -151,14 +153,15 @@ const {
         }"
         :class="iconButtonVariants.icon(variants)"
       >
-        <slot v-if="$slots.default || !icon" />
+        <slot v-if="$slots.default || !(loading ?? icon)" />
         <Icon
           v-else
-          :icon
+          :icon="loading ?? icon!"
           :badge="badgeValue !== undefined"
           :color="badgeColor"
           :value="badgeValue"
           :max-value="badgeMaxValue"
+          :class="[loading && 'animate-spin']"
         />
       </MotionComponent>
     </AnimatePresence>

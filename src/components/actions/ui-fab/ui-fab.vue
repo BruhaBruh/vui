@@ -13,6 +13,7 @@ import {
 import { transitionConfig } from '@/config';
 
 export type FabProps = Omit<MotionComponentProps, 'asChild'> & {
+  loading?: IconProps['icon'];
   icon: IconProps['icon'];
   badgeColor?: IconProps['color'];
   badgeValue?: IconProps['value'];
@@ -23,6 +24,7 @@ export type FabProps = Omit<MotionComponentProps, 'asChild'> & {
 };
 
 const {
+  loading,
   icon,
   badgeColor,
   badgeValue,
@@ -85,7 +87,7 @@ const {
     <AnimatePresence mode="wait">
       <MotionComponent
         as-child
-        :key="JSON.stringify(icon)"
+        :key="JSON.stringify(loading ?? icon)"
         :initial="{
           width: 0,
           height: 0,
@@ -104,11 +106,12 @@ const {
         :class="fabVariants.icon(variants)"
       >
         <Icon
-          :icon
+          :icon="loading ?? icon"
           :badge="badgeValue !== undefined"
           :color="badgeColor"
           :value="badgeValue"
           :max-value="badgeMaxValue"
+          :class="[loading && 'animate-spin']"
         />
       </MotionComponent>
     </AnimatePresence>
