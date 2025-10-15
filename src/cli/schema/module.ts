@@ -9,14 +9,13 @@ export const moduleDependenciesSchema = z.object({
 const fileSchema = z.object({
   path: z.string().trim().nonempty(),
   content: z.string(),
-  hash: z.string().trim()
+  hash: z.string().trim(),
 });
 
-export const moduleSchema = z
-  .object({
-    name: z.string().trim().nonempty(),
-    files: z.array(fileSchema),
-  })
-  .extend(moduleDependenciesSchema);
+export const moduleSchema = z.object({
+  ...moduleDependenciesSchema.shape,
+  name: z.string().trim().nonempty(),
+  files: z.array(fileSchema),
+});
 
 export type Module = z.Infer<typeof moduleSchema>;

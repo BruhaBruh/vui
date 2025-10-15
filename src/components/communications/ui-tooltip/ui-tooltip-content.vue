@@ -9,8 +9,7 @@ import {
   shift,
   useFloating,
 } from '@floating-ui/vue';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Teleport, type TeleportProps, computed } from 'vue';
+import { type TeleportProps, computed } from 'vue';
 import { AnimatePresence, motion } from 'motion-v';
 import {
   floatingPlacementToVariantPlacement,

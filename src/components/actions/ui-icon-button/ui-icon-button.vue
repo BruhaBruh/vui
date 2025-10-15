@@ -132,7 +132,7 @@ const {
     }"
     :class="iconButtonVariants(variants)"
   >
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" :initial="false">
       <MotionComponent
         as-child
         :key="JSON.stringify(icon)"

@@ -20,7 +20,8 @@ export const Slot = defineComponent({
       );
       if (firstNonCommentChildrenIndex === -1) return childrens;
 
-      const firstNonCommentChildren = childrens[firstNonCommentChildrenIndex];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const firstNonCommentChildren = childrens[firstNonCommentChildrenIndex]!;
 
       // Remove props ref from being inferred
       delete firstNonCommentChildren.props?.ref;

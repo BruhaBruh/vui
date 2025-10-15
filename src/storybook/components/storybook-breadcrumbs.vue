@@ -7,7 +7,8 @@ const { breadcrumbs } = defineProps<{
   breadcrumbs: { name: string; to: string }[];
 }>();
 
-const latestItem = computed(() => breadcrumbs[breadcrumbs.length - 1]);
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const latestItem = computed(() => breadcrumbs[breadcrumbs.length - 1]!);
 </script>
 
 <template>

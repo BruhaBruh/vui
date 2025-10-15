@@ -6,7 +6,7 @@ const durations = ref(
   materialEasing.keys().map((key) => ({
     name: key
       .split('-')
-      .map((v) => v[0].toUpperCase() + v.slice(1))
+      .map((v) => v[0]?.toUpperCase() + v.slice(1))
       .join(' '),
     value: materialEasing.asString(key),
   })),

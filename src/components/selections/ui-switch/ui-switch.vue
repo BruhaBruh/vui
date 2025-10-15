@@ -148,7 +148,7 @@ const {
         "
         v-tw-merge
       >
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" :initial="false">
           <MotionComponent
             as-child
             v-if="checked && checkedIcon"

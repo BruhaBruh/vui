@@ -33,7 +33,8 @@ export function computeNavigationByPath(
     if (node.type === 'folder') {
       const childrenResult = computeNavigationByPath(node.children);
       for (const key of Object.keys(childrenResult)) {
-        result[key] = childrenResult[key];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        result[key] = childrenResult[key]!;
       }
     }
   });

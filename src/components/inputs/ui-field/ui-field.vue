@@ -72,7 +72,7 @@ const { isDisabled } = useInteractions(elementRef, {
     @click="focusInput()"
   >
     <div :class="fieldVariants.input({ size })" v-tw-merge>
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" :initial="false">
         <MotionComponent
           as-child
           v-if="leading || $slots.leading"
@@ -131,7 +131,7 @@ const { isDisabled } = useInteractions(elementRef, {
           :aria-errormessage="$slots.error ? errorId : undefined"
         />
       </div>
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" :initial="false">
         <MotionComponent
           as-child
           v-if="trailing || $slots.trailing"

@@ -26,7 +26,12 @@ export const generateRegistrySchema = new Command()
     await fs.mkdir(directoryOfFile, { recursive: true });
 
     logger.log(highlighter.info('INFO'), 'Generate json schema');
-    const jsonSchema = z.toJSONSchema(basicRegistrySchema);
+    const jsonSchema = z.toJSONSchema(basicRegistrySchema, {
+      io: 'input',
+      target: 'draft-7',
+      unrepresentable: 'throw',
+      reused: 'ref',
+    });
 
     logger.log(highlighter.info('INFO'), 'Write json schema to output');
     const fileContent = JSON.stringify(jsonSchema, null, 2);

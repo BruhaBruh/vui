@@ -8,16 +8,24 @@ const route = useRoute();
 
 const node = computed(() => navigationByPath[route.path]);
 
-const breadcrumbs = computed(() =>
-  route.path
-    .split('/')
-    .reduce((acc, p, index, arr) => {
-      const path = [...arr.slice(0, index), p].join('/');
-      return [...acc, navigationByPath[path]];
-    }, [] as NavigationNode[])
-    .filter(Boolean)
-    .map((v) => ({ name: v.name, to: v.path })),
-);
+const breadcrumbs = computed(() => {
+  const pathPieces = route.path.split('/');
+  const result: NavigationNode[] = [];
+
+  for (let i = 1; i < pathPieces.length; i++) {
+    const path = pathPieces.slice(0, i).join('/');
+    const n = navigationByPath[path];
+    if (n) {
+      result.push(n);
+    }
+  }
+
+  if (node.value) {
+    result.push(node.value);
+  }
+
+  return result.map((v) => ({ name: v.name, to: v.path }));
+});
 </script>
 
 <template>

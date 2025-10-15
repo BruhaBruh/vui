@@ -115,7 +115,7 @@ const {
     }"
     :class="buttonVariants(variants)"
   >
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" :initial="false">
       <MotionComponent
         as-child
         v-if="loading ?? leading"
@@ -149,7 +149,7 @@ const {
     <span :class="buttonVariants.label(variants)" v-tw-merge>
       <slot />
     </span>
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" :initial="false">
       <MotionComponent
         as-child
         v-if="trailing"

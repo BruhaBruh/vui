@@ -90,7 +90,7 @@ const {
     }"
     :class="extendedFabVariants(variants)"
   >
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" :initial="false">
       <MotionComponent
         as-child
         v-if="loading ?? icon"

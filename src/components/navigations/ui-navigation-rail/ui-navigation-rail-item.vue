@@ -63,7 +63,7 @@ useInteractions(elementRef);
           :transition="transitionConfig.preset.short.beginEnd.asMotion()"
           :class="navigationRailVariants.iconContainerBackground(variants)"
         />
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" :initial="false">
           <MotionComponent
             as-child
             tabindex="-1"

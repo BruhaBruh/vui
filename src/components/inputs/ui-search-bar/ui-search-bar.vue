@@ -79,7 +79,7 @@ const {
     :class="[searchBarVariants(), $attrs.class]"
     @click="inputElementRef?.focus()"
   >
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" :initial="false">
       <MotionComponent
         as-child
         v-if="$slots.leading"
@@ -115,7 +115,7 @@ const {
       v-bind="attrsWithoutClass($attrs)"
       :class="searchBarVariants.input()"
     />
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" :initial="false">
       <MotionComponent
         as-child
         v-if="$slots.trailing"
@@ -143,7 +143,7 @@ const {
         <slot name="trailing" />
       </MotionComponent>
     </AnimatePresence>
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" :initial="false">
       <MotionComponent
         as-child
         v-if="$slots['trailing-second'] && !$slots['trailing-avatar']"

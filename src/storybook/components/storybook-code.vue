@@ -5,9 +5,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components';
-import { materialDuration, materialEasing } from '@/config';
 import { computedAsync, useClipboard, useDark } from '@vueuse/core';
-import { motion } from 'motion-v';
 import { type BundledLanguage, type BundledTheme, codeToHtml } from 'shiki';
 import { computed, ref } from 'vue';
 
@@ -56,15 +54,10 @@ const highlightedCode = computedAsync(async () => {
 </script>
 
 <template>
+  <!-- eslint-disable vue/no-v-text-v-html-on-component -->
   <div v-if="code.trim()" class="flex flex-col gap-sm mb-md last:mb-0 relative">
     <h2 class="typography-title-large">{{ name }} Code Example</h2>
-    <motion.div
-      layout
-      :animate="{ height: 'max-content' }"
-      :transition="{
-        duration: materialDuration.asMotion('medium-1'),
-        ease: materialEasing.standard,
-      }"
+    <div
       v-html="highlightedCode"
       class="code-block relative overflow-hidden p-lg rounded-lg border border-outline-variant whitespace-pre-wrap typography-body-large"
       @mouseenter="isCopyButtonVisible = true"

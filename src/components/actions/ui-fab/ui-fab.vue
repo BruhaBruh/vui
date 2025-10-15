@@ -84,7 +84,7 @@ const {
     }"
     :class="fabVariants(variants)"
   >
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" :initial="false">
       <MotionComponent
         as-child
         :key="JSON.stringify(loading ?? icon)"

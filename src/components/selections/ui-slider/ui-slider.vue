@@ -224,7 +224,7 @@ function onStart(e: MouseEvent | TouchEvent) {
   if (e instanceof MouseEvent) {
     x = e.x;
   } else if (e instanceof TouchEvent) {
-    x = e.touches[0].clientX;
+    x = e.touches[0]?.clientX ?? 0;
   }
   if (x === null) return;
 

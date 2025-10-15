@@ -140,7 +140,7 @@ const {
       :class="checkboxVariants.mark({ color, state })"
       v-tw-merge
     >
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" :initial="false">
         <MotionComponent
           as-child
           v-if="state !== 'unchecked'"

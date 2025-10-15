@@ -52,7 +52,7 @@ type Transition<E extends TransitionEasing, D extends TransitionDuration> = {
 };
 
 type DefaultPresets = {
-  default: Transition<'standard', 'short-4'>,
+  default: Transition<'standard', 'short-4'>;
   long: {
     beginEnd: Transition<'emphasized', 'long-2'>;
     enter: Transition<'emphasized-decelerate', 'medium-4'>;
