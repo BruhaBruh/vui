@@ -6,17 +6,17 @@ import { fileHash } from '../utility/file-hash';
 export class BasicRegistryCollector {
   #registry: BasicRegistry = {
     dependecyVersions: {
-      '@floating-ui/vue': '^1.1.6',
-      '@vueuse/core': '^13.1.0',
-      '@vueuse/integrations': '^13.1.0',
+      '@floating-ui/vue': '^1.1.9',
+      '@vueuse/core': '^13.9.0',
+      '@vueuse/integrations': '^13.9.0',
       'class-variance-authority': '^0.7.1',
-      'embla-carousel-vue': '^8.3.0',
-      'focus-trap': '^7.6.4',
-      'motion-v': '^1.0.1',
-      'tailwind-merge': '^3.3.0',
-      '@bruhabruh/type-safe': '^1.2.3',
-      '@tailwindcss/vite': '^4.1.5',
-      tailwindcss: '^4.1.5',
+      'embla-carousel-vue': '^8.6.0',
+      'focus-trap': '^7.6.5',
+      'motion-v': '^1.7.2',
+      'tailwind-merge': '^3.3.1',
+      '@bruhabruh/type-safe': '^1.2.4',
+      '@tailwindcss/vite': '^4.1.14',
+      tailwindcss: '^4.1.14',
       '@iconify/vue': '^5.0.0',
     },
     dependencies: [
