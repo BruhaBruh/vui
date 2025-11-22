@@ -105,6 +105,16 @@ const {
   animate,
   exit,
 }));
+
+const finalIcon = computed(() => {
+  if (loading || loading === "") {
+    if (typeof loading === "boolean" || loading === "") {
+      return 'tabler:loader-2'
+    }
+    return loading;
+  }
+  return icon
+})
 </script>
 
 <template>
@@ -135,7 +145,7 @@ const {
     <AnimatePresence mode="wait" :initial="false">
       <MotionComponent
         as-child
-        :key="JSON.stringify(icon)"
+        :key="JSON.stringify(finalIcon)"
         :initial="{
           width: 0,
           height: 0,
@@ -153,15 +163,15 @@ const {
         }"
         :class="iconButtonVariants.icon(variants)"
       >
-        <slot v-if="$slots.default || !(loading ?? icon)" />
+        <slot v-if="$slots.default || !finalIcon" />
         <Icon
           v-else
-          :icon="loading ?? icon!"
+          :icon="finalIcon"
           :badge="badgeValue !== undefined"
           :color="badgeColor"
           :value="badgeValue"
           :max-value="badgeMaxValue"
-          :class="[loading && 'animate-spin']"
+          :class="[(loading || loading === '') && 'animate-spin']"
         />
       </MotionComponent>
     </AnimatePresence>

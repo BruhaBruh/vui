@@ -19,7 +19,7 @@ import {
 import { transitionConfig } from '@/config';
 
 export type ExtendedFabProps = Omit<MotionComponentProps, 'asChild'> & {
-  loading?: IconProps['icon'];
+  loading?: IconProps['icon'] | boolean;
   icon?: IconProps['icon'];
   badgeColor?: IconProps['color'];
   badgeValue?: IconProps['value'];
@@ -68,6 +68,16 @@ const {
   animate,
   exit,
 }));
+
+const finalIcon = computed(() => {
+  if (loading || loading === "") {
+    if (typeof loading === "boolean" || loading === "") {
+      return 'tabler:loader-2'
+    }
+    return loading;
+  }
+  return icon
+})
 </script>
 
 <template>
@@ -93,8 +103,8 @@ const {
     <AnimatePresence mode="wait" :initial="false">
       <MotionComponent
         as-child
-        v-if="loading ?? icon"
-        :key="JSON.stringify(loading ?? icon)"
+        v-if="finalIcon"
+        :key="JSON.stringify(finalIcon)"
         :initial="{
           width: 0,
           height: 0,
@@ -116,12 +126,12 @@ const {
         :class="extendedFabVariants.icon(variants)"
       >
         <Icon
-          :icon="loading ?? icon!"
+          :icon="finalIcon"
           :badge="badgeValue !== undefined"
           :color="badgeColor"
           :value="badgeValue"
           :max-value="badgeMaxValue"
-          :class="[loading && 'animate-spin']"
+          :class="[(loading || loading === '') && 'animate-spin']"
         />
       </MotionComponent>
     </AnimatePresence>

@@ -18,7 +18,7 @@ import {
 import { transitionConfig } from '@/config';
 
 export type ButtonProps = Omit<MotionComponentProps, 'asChild'> & {
-  loading?: IconProps['icon'];
+  loading?: IconProps['icon'] | boolean;
   leading?: IconProps['icon'];
   trailing?: IconProps['icon'];
   size?: ButtonVariants['size'];
@@ -91,6 +91,16 @@ const {
   animate,
   exit,
 }));
+
+const leadingIcon = computed(() => {
+  if (loading || loading === "") {
+    if (typeof loading === "boolean" || loading === "") {
+      return 'tabler:loader-2'
+    }
+    return loading;
+  }
+  return leading
+})
 </script>
 
 <template>
@@ -118,8 +128,8 @@ const {
     <AnimatePresence mode="wait" :initial="false">
       <MotionComponent
         as-child
-        v-if="loading ?? leading"
-        :key="JSON.stringify(loading ?? leading)"
+        v-if="leadingIcon"
+        :key="JSON.stringify(leadingIcon)"
         :initial="{
           width: 0,
           height: 0,
@@ -141,8 +151,8 @@ const {
         :class="buttonVariants.icon({ ...variants, position: 'leading' })"
       >
         <Icon
-          :icon="loading ?? leading!"
-          :class="[loading && 'animate-spin']"
+          :icon="leadingIcon"
+          :class="[(loading || loading === '') && 'animate-spin']"
         />
       </MotionComponent>
     </AnimatePresence>

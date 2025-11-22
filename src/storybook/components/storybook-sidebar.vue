@@ -32,7 +32,7 @@ watchEffect(() => {
     <div class="p-md border-b border-outline-variant flex items-center gap-sm">
       <RouterLink to="/" class="inline-flex flex-col flex-1">
         <span class="typography-title-medium">@bruhabruh/vui</span>
-        <span class="typography-label-small text-secondary">v0.1.0</span>
+        <span class="typography-label-small text-secondary">v0.1.1</span>
       </RouterLink>
       <IconButton
         @click="next()"
