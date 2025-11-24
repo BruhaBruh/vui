@@ -13,7 +13,7 @@ import {
 import { transitionConfig } from '@/config';
 
 export type FabProps = Omit<MotionComponentProps, 'asChild'> & {
-  loading?: IconProps['icon'];
+  loading?: IconProps['icon'] | boolean;
   icon: IconProps['icon'];
   badgeColor?: IconProps['color'];
   badgeValue?: IconProps['value'];

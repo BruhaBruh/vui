@@ -21,7 +21,7 @@ import {
 import { transitionConfig } from '@/config';
 
 export type IconButtonProps = Omit<MotionComponentProps, 'asChild'> & {
-  loading?: IconProps['icon'];
+  loading?: IconProps['icon'] | boolean;
   icon?: IconProps['icon'];
   badgeColor?: IconProps['color'];
   badgeValue?: IconProps['value'];
