@@ -32,7 +32,7 @@ const sortButtonVariants = cva([], {
   },
 });
 
-const labelVariants = cva(['truncate']);
+const labelVariants = cva(['truncate w-0 flex-1']);
 
 export const gridVariants = Object.assign(variants, {
   row: rowVariants,
