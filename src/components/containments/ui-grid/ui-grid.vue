@@ -6,14 +6,23 @@ import type { IconProps } from '@/components/utility';
 import { IconButton } from '@/components/actions';
 
 type Labels<T extends UnknownRecord> = (
-  | {
+  | ({
       actions?: false;
-      key: keyof T;
       label: string;
-      sortable?: boolean;
-      ascSortIcon?: IconProps['icon'];
-      descSortIcon?: IconProps['icon'];
-    }
+    } & (
+      | {
+          key: keyof T;
+          sortable?: boolean;
+          ascSortIcon?: IconProps['icon'];
+          descSortIcon?: IconProps['icon'];
+        }
+      | {
+          key: keyof T | (string & {});
+          sortable?: undefined;
+          ascSortIcon?: undefined;
+          descSortIcon?: undefined;
+        }
+    ))
   | {
       actions: true;
       label: string;
