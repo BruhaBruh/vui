@@ -1,48 +1,48 @@
 <script setup lang="ts">
-import type { PropsPolymorphic } from '@/types';
-import { gridVariants } from './ui-grid.variants';
+import type { PropsPolymorphic } from "@/types";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/communications';
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/communications";
+import { gridVariants } from "./ui-grid.variants";
 
 export type GridCellProps = PropsPolymorphic & {
-  tooltip?: boolean;
-  unwrap?: boolean;
+	tooltip?: boolean;
+	unwrap?: boolean;
 };
 
-const { tooltip, unwrap, as = 'div' } = defineProps<GridCellProps>();
+const { tooltip, unwrap, as = "div" } = defineProps<GridCellProps>();
 </script>
 
 <template>
-  <component :is="as" :class="gridVariants.cell()" v-tw-merge>
-    <slot name="before" />
-    <template v-if="tooltip">
-      <Tooltip trigger="hover">
-        <TooltipTrigger>
-          <template v-if="unwrap">
-            <slot />
-          </template>
-          <span v-else :class="gridVariants.label()" v-tw-merge>
-            <slot />
-          </span>
-        </TooltipTrigger>
-        <TooltipContent placement="top">
-          <slot name="tooltip-label">
-            <slot />
-          </slot>
-        </TooltipContent>
-      </Tooltip>
-    </template>
-    <template v-else>
-      <template v-if="unwrap">
-        <slot />
-      </template>
-      <span v-else :class="gridVariants.label()" v-tw-merge>
-        <slot />
-      </span>
-    </template>
-    <slot name="after" />
-  </component>
+	<component :is="as" v-tw-merge :class="gridVariants.cell()">
+		<slot name="before" />
+		<template v-if="tooltip">
+			<Tooltip trigger="hover">
+				<TooltipTrigger>
+					<template v-if="unwrap">
+						<slot />
+					</template>
+					<span v-else v-tw-merge :class="gridVariants.label()">
+						<slot />
+					</span>
+				</TooltipTrigger>
+				<TooltipContent placement="top">
+					<slot name="tooltip-label">
+						<slot />
+					</slot>
+				</TooltipContent>
+			</Tooltip>
+		</template>
+		<template v-else>
+			<template v-if="unwrap">
+				<slot />
+			</template>
+			<span v-else v-tw-merge :class="gridVariants.label()">
+				<slot />
+			</span>
+		</template>
+		<slot name="after" />
+	</component>
 </template>

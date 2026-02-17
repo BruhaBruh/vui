@@ -1,4 +1,4 @@
 export {
-  default as TextAreaField,
-  type TextAreaFieldProps,
-} from './ui-textarea-field.vue';
+	default as TextAreaField,
+	type TextAreaFieldProps,
+} from "./ui-textarea-field.vue";

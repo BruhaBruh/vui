@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { computed, onUnmounted, useId } from 'vue';
-import { useMenuState } from './ui-menu.context';
-import { menuVariants } from './ui-menu.variants';
-import { Divider } from '@/components/containments';
+import { computed, onUnmounted, useId } from "vue";
+import { Divider } from "@/components/containments";
+import { useMenuState } from "./ui-menu.context";
+import { menuVariants } from "./ui-menu.variants";
 
 export type MenuSectionProps = {
-  label?: string;
+	label?: string;
 };
 
-const { label } = defineProps<MenuSectionProps>();
-
 defineOptions({
-  inheritAttrs: false,
+	inheritAttrs: false,
 });
+
+const { label } = defineProps<MenuSectionProps>();
 
 const { collection, addToCollection, removeFromCollection } = useMenuState();
 
@@ -25,19 +25,19 @@ const showDivider = computed(() => collection.value[0] !== sectionId);
 addToCollection(sectionId);
 
 onUnmounted(() => {
-  removeFromCollection(sectionId);
+	removeFromCollection(sectionId);
 });
 </script>
 
 <template>
-  <Divider v-if="showDivider" :class="menuVariants.divider()" />
-  <li role="presentation" v-bind="$attrs">
-    <ul
-      :aria-label="label"
-      :class="menuVariants.list({ withScroll: true })"
-      v-tw-merge
-    >
-      <slot />
-    </ul>
-  </li>
+	<Divider v-if="showDivider" :class="menuVariants.divider()" />
+	<li role="presentation" v-bind="$attrs">
+		<ul
+			v-tw-merge
+			:aria-label="label"
+			:class="menuVariants.list({ withScroll: true })"
+		>
+			<slot />
+		</ul>
+	</li>
 </template>

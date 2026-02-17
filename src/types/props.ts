@@ -1,5 +1,5 @@
-import type { AsTag } from 'motion-v';
+import type { AsTag } from "motion-v";
 
 export type PropsPolymorphic = {
-  as?: AsTag;
+	as?: AsTag;
 };

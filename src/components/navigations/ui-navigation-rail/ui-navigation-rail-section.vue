@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import type { PropsPolymorphic } from '@/types';
-import { MotionComponent } from '@/components/utility';
-import { navigationRailVariants } from './ui-navigation-rail.variants';
-import { computed } from 'vue';
+import type { PropsPolymorphic } from "@/types";
+import { computed } from "vue";
+import { MotionComponent } from "@/components/utility";
+import { navigationRailVariants } from "./ui-navigation-rail.variants";
 
 export type NavigationRailSectionProps = PropsPolymorphic & {
-  expanded?: boolean;
+	expanded?: boolean;
 };
 
-const { expanded, as = 'div' } = defineProps<NavigationRailSectionProps>();
+const { expanded, as = "div" } = defineProps<NavigationRailSectionProps>();
 
 const variants = computed(() => ({ expanded }));
 </script>
 
 <template>
-  <MotionComponent :as :class="navigationRailVariants.section(variants)">
-    <p
-      v-if="expanded && $slots.header"
-      :class="navigationRailVariants.sectionHeader()"
-      v-tw-merge
-    >
-      <slot name="header" />
-    </p>
-    <slot />
-  </MotionComponent>
+	<MotionComponent :as :class="navigationRailVariants.section(variants)">
+		<p
+			v-if="expanded && $slots.header"
+			v-tw-merge
+			:class="navigationRailVariants.sectionHeader()"
+		>
+			<slot name="header" />
+		</p>
+		<slot />
+	</MotionComponent>
 </template>

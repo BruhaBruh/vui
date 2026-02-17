@@ -2,26 +2,26 @@
 @custom-variant ripple-wrapper (& > .ripple);
 
 @layer components {
-  .ripple {
-    z-index: 1;
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-    border-radius: inherit;
+	.ripple {
+		z-index: 1;
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+		pointer-events: none;
+		border-radius: inherit;
 
-    &::after {
-      content: '';
-      position: absolute;
-      translate: -50% -50%;
-      width: var(--ripple-diameter);
-      height: var(--ripple-diameter);
-      top: var(--ripple-y);
-      left: var(--ripple-x);
-      scale: var(--ripple-scale, 0);
-      filter: blur(4px);
-      opacity: 0.1;
-      border-radius: 9999px;
-    }
-  }
+		&::after {
+			content: "";
+			position: absolute;
+			translate: -50% -50%;
+			width: var(--ripple-diameter);
+			height: var(--ripple-diameter);
+			top: var(--ripple-y);
+			left: var(--ripple-x);
+			scale: var(--ripple-scale, 0);
+			filter: blur(4px);
+			opacity: 0.1;
+			border-radius: 9999px;
+		}
+	}
 }

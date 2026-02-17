@@ -1,69 +1,69 @@
+import type { InjectionKey, Ref } from "vue";
 import type {
-  EmblaCarouselApi,
-  EmblaOptions,
-  EmblaPlugin,
-} from '@/composables';
+	EmblaCarouselApi,
+	EmblaOptions,
+	EmblaPlugin,
+} from "@/composables";
+import type { Context } from "@/types";
+import { toRef } from "@vueuse/core";
+import { inject, provide, useId, watchEffect } from "vue";
 import {
-  useCarousel,
-} from '@/composables';
-import type { Context } from '@/types';
-import { toRef } from '@vueuse/core';
-import type { InjectionKey, Ref } from 'vue';
-import { inject, provide, useId, watchEffect } from 'vue';
+	useCarousel,
+} from "@/composables";
 
 type CarouselContext = Context<
-  {
-    id: string;
-    api: Ref<EmblaCarouselApi | undefined>;
-    carousel: Ref<HTMLElement | undefined>;
-  },
-  {
-    api: EmblaCarouselApi | undefined;
-    options: EmblaOptions;
-    plugins: EmblaPlugin[];
-  }
+	{
+		id: string;
+		api: Ref<EmblaCarouselApi | undefined>;
+		carousel: Ref<HTMLElement | undefined>;
+	},
+	{
+		api: EmblaCarouselApi | undefined;
+		options: EmblaOptions;
+		plugins: EmblaPlugin[];
+	}
 >;
 
-export type CarouselState = CarouselContext['state'];
+export type CarouselState = CarouselContext["state"];
 
-export type CarouselStateOptions = CarouselContext['options'];
+export type CarouselStateOptions = CarouselContext["options"];
 
-const carouselStateKey = Symbol() as InjectionKey<CarouselState>;
+const carouselStateKey = Symbol("carousel-state-key") as InjectionKey<CarouselState>;
 
 export function provideCarouselState(
-  options: CarouselContext['provideOptions'],
+	options: CarouselContext["provideOptions"],
 ) {
-  const id = useId()
-  const api = toRef(options.api);
+	const id = useId();
+	const api = toRef(options.api);
 
-  const { ref: carousel, api: carouselApi } = useCarousel({
-    options: options.options,
-    plugins: options.plugins,
-  });
+	const { ref: carousel, api: carouselApi } = useCarousel({
+		options: options.options,
+		plugins: options.plugins,
+	});
 
-  watchEffect(() => {
-    api.value = carouselApi.value;
-  });
+	watchEffect(() => {
+		api.value = carouselApi.value;
+	});
 
-  const state: CarouselState = {
-    id,
-    api,
-    carousel,
-  };
+	const state: CarouselState = {
+		id,
+		api,
+		carousel,
+	};
 
-  provide(carouselStateKey, state);
+	provide(carouselStateKey, state);
 
-  return state;
+	return state;
 }
 
 export function useCarouselState() {
-  const state = inject(carouselStateKey);
+	const state = inject(carouselStateKey);
 
-  if (!state) {
-    throw new Error(
-      'useCarouselState must be used within a Carousel component',
-    );
-  }
+	if (!state) {
+		throw new Error(
+			"useCarouselState must be used within a Carousel component",
+		);
+	}
 
-  return state;
+	return state;
 }

@@ -1,57 +1,59 @@
 <script setup lang="ts">
-import { computedVariants } from '@/composables';
+import type { ContainerVariants } from "./ui-container.variants";
+import type { MotionComponentProps } from "@/components/utility";
 import {
-  type ContainerVariants,
-  containerVariants,
-} from './ui-container.variants';
+	MotionComponent,
+
+} from "@/components/utility";
+import { computedVariants } from "@/composables";
+import { transitionConfig } from "@/config";
 import {
-  MotionComponent,
-  type MotionComponentProps,
-} from '@/components/utility';
-import { transitionConfig } from '@/config';
+
+	containerVariants,
+} from "./ui-container.variants";
 
 export type ContainerProps = MotionComponentProps & {
-  color?: ContainerVariants['color'];
+	color?: ContainerVariants["color"];
 };
 
 const {
-  color,
-  as = 'div',
-  initial,
-  animate,
-  exit,
-  ...motionProps
+	color,
+	as = "div",
+	initial,
+	animate,
+	exit,
+	...motionProps
 } = defineProps<ContainerProps>();
 
 const {
-  initial: initialObject,
-  animate: animateObject,
-  exit: exitObject,
+	initial: initialObject,
+	animate: animateObject,
+	exit: exitObject,
 } = computedVariants(() => ({
-  initial,
-  animate,
-  exit,
+	initial,
+	animate,
+	exit,
 }));
 </script>
 
 <template>
-  <MotionComponent
-    :as
-    v-bind="motionProps"
-    :initial="{
-      transition: transitionConfig.preset.short.enter.asMotion(),
-      ...initialObject,
-    }"
-    :animate="{
-      transition: transitionConfig.preset.short.beginEnd.asMotion(),
-      ...animateObject,
-    }"
-    :exit="{
-      transition: transitionConfig.preset.short.exit.asMotion(),
-      ...exitObject,
-    }"
-    :class="containerVariants({ color })"
-  >
-    <slot />
-  </MotionComponent>
+	<MotionComponent
+		:as
+		v-bind="motionProps"
+		:initial="{
+			transition: transitionConfig.preset.short.enter.asMotion(),
+			...initialObject,
+		}"
+		:animate="{
+			transition: transitionConfig.preset.short.beginEnd.asMotion(),
+			...animateObject,
+		}"
+		:exit="{
+			transition: transitionConfig.preset.short.exit.asMotion(),
+			...exitObject,
+		}"
+		:class="containerVariants({ color })"
+	>
+		<slot />
+	</MotionComponent>
 </template>

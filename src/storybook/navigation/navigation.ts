@@ -1,10 +1,10 @@
-import { base } from './base';
-import { components } from './components';
-import type { NavigationNode } from './navigation.types';
+import type { NavigationNode } from "./navigation.types";
+import { base } from "./base";
+import { components } from "./components";
 import {
-  computeNavigationByPath,
-  computeNavigationPaths,
-} from './navigation.utility';
+	computeNavigationByPath,
+	computeNavigationPaths,
+} from "./navigation.utility";
 
 const nodes: NavigationNode[] = [base, components];
 

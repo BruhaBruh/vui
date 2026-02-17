@@ -1,22 +1,22 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
-  --color-*: initial;
-  --radius-*: initial;
-  --spacing-*: initial;
-  --font-*: initial;
+	--color-*: initial;
+	--radius-*: initial;
+	--spacing-*: initial;
+	--font-*: initial;
 }
 
-@import './theme.generated.css';
-@import '../tailwind/index.css';
+@import "./theme.generated.css";
+@import "../tailwind/index.css";
 
 body {
-  @apply bg-surface text-on-surface overflow-x-hidden typography-body-large min-h-screen;
+	@apply bg-surface text-on-surface overflow-x-hidden typography-body-large min-h-screen;
 }
 
 @layer utilities {
-  * {
-    outline-color: var(--color-outline);
-    outline-style: none;
-  }
+	* {
+		outline-color: var(--color-outline);
+		outline-style: none;
+	}
 }

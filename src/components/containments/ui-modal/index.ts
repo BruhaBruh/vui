@@ -1,5 +1,4 @@
-export { default as ModalContent } from './ui-modal-content.vue';
-export { default as ModalTrigger } from './ui-modal-trigger.vue';
-export { default as ModalUnderlay, type ModalUnderlayProps } from './ui-modal-underlay.vue';
-export { default as Modal, type ModalProps } from './ui-modal.vue';
-
+export { default as ModalContent } from "./ui-modal-content.vue";
+export { default as ModalTrigger } from "./ui-modal-trigger.vue";
+export { default as ModalUnderlay, type ModalUnderlayProps } from "./ui-modal-underlay.vue";
+export { default as Modal, type ModalProps } from "./ui-modal.vue";

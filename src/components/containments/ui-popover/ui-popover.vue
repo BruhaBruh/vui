@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { providePopoverState } from './ui-popover.context';
+import { providePopoverState } from "./ui-popover.context";
 
-const open = defineModel<boolean>('open', { default: false });
+const open = defineModel<boolean>("open", { default: false });
 
 providePopoverState({
-  open,
+	open,
 });
 </script>
 
 <template>
-  <slot />
+	<slot />
 </template>

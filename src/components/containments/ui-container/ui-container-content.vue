@@ -1,31 +1,32 @@
 <script setup lang="ts">
-import type { PropsPolymorphic } from '@/types';
+import type { ContainerContentVariants } from "./ui-container.variants";
+import type { PropsPolymorphic } from "@/types";
+import { MotionComponent } from "@/components/utility";
 import {
-  type ContainerContentVariants,
-  containerVariants,
-} from './ui-container.variants';
-import { MotionComponent } from '@/components/utility';
+
+	containerVariants,
+} from "./ui-container.variants";
 
 export type ContainerContentProps = PropsPolymorphic & {
-  variant?: ContainerContentVariants['variant'];
-  padding?: ContainerContentVariants['padding'];
-  fluid?: ContainerContentVariants['fluid'];
+	variant?: ContainerContentVariants["variant"];
+	padding?: ContainerContentVariants["padding"];
+	fluid?: ContainerContentVariants["fluid"];
 };
 
 const {
-  variant,
-  padding,
-  fluid,
-  as = 'div',
+	variant,
+	padding,
+	fluid,
+	as = "div",
 } = defineProps<ContainerContentProps>();
 </script>
 
 <template>
-  <MotionComponent
-    :as
-    :class="containerVariants.content({ variant, padding, fluid })"
-    v-tw-merge
-  >
-    <slot />
-  </MotionComponent>
+	<MotionComponent
+		v-tw-merge
+		:as
+		:class="containerVariants.content({ variant, padding, fluid })"
+	>
+		<slot />
+	</MotionComponent>
 </template>

@@ -1,13 +1,13 @@
-export * from './ui-navigation-rail.variants';
 export {
-  default as NavigationRail,
-  type NavigationRailProps,
-} from './ui-navigation-rail.vue';
+	default as NavigationRailItem,
+	type NavigationRailItemProps,
+} from "./ui-navigation-rail-item.vue";
 export {
-  default as NavigationRailSection,
-  type NavigationRailSectionProps,
-} from './ui-navigation-rail-section.vue';
+	default as NavigationRailSection,
+	type NavigationRailSectionProps,
+} from "./ui-navigation-rail-section.vue";
+export * from "./ui-navigation-rail.variants";
 export {
-  default as NavigationRailItem,
-  type NavigationRailItemProps,
-} from './ui-navigation-rail-item.vue';
+	default as NavigationRail,
+	type NavigationRailProps,
+} from "./ui-navigation-rail.vue";

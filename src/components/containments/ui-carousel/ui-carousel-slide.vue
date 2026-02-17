@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import type { PropsPolymorphic } from '@/types';
-import { carouselVariants } from './ui-carousel.variants';
-import { useCarouselState } from './ui-carousel.context';
+import type { PropsPolymorphic } from "@/types";
+import { useCarouselState } from "./ui-carousel.context";
+import { carouselVariants } from "./ui-carousel.variants";
 
 export type CarouselSlideProps = PropsPolymorphic & {
-  index: number;
+	index: number;
 };
 
-const { index, as = 'div' } = defineProps<CarouselSlideProps>();
+const { index, as = "div" } = defineProps<CarouselSlideProps>();
 
 const { id } = useCarouselState();
 </script>
 
 <template>
-  <component
-    :is="as"
-    :class="carouselVariants.slide()"
-    :id="`${id}-slide-${index}`"
-    role="group"
-    aria-roledescription="slide"
-    v-tw-merge
-  >
-    <slot />
-  </component>
+	<component
+		:is="as"
+		:id="`${id}-slide-${index}`"
+		v-tw-merge
+		:class="carouselVariants.slide()"
+		role="group"
+		aria-roledescription="slide"
+	>
+		<slot />
+	</component>
 </template>

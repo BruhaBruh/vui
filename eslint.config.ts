@@ -1,46 +1,28 @@
-import eslint from '@bruhabruh/eslint-config';
-import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
-import {
-  defineConfigWithVueTs,
-  vueTsConfigs,
-} from '@vue/eslint-config-typescript';
-import pluginVue from 'eslint-plugin-vue';
+import antfu from "@antfu/eslint-config";
 
-// To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
-// import { configureVueProject } from '@vue/eslint-config-typescript'
-// configureVueProject({ scriptLangs: ['ts', 'tsx'] })
-// More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
-
-export default defineConfigWithVueTs(
-  {
-    name: 'app/files-to-lint',
-    files: ['**/*.{ts,mts,tsx,vue}'],
-  },
-
-  {
-    name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'],
-  },
-
-  ...eslint.configs.base.recommended,
-  eslint.configs.importOrder.recommended,
-  eslint.configs.prettier.recommended,
-
-  pluginVue.configs['flat/essential'],
-  vueTsConfigs.recommended,
-  skipFormatting,
-
-  {
-    name: 'app/overrides',
-    rules: {
-      'no-param-reassign': 'off',
-      'vue/no-v-text-v-html-on-component': [
-        'error',
-        {
-          allow: ['motion.section'],
-          ignoreElementNamespaces: false,
-        },
-      ],
-    },
-  },
+export default antfu(
+	{
+		type: "app",
+		formatters: true,
+		stylistic: {
+			indent: "tab",
+			quotes: "double",
+			semi: true,
+			overrides: {},
+		},
+		vue: {
+			overrides: {
+				"import/no-named-default": "off",
+				"vue/custom-event-name-casing": ["error", "kebab-case"],
+			},
+		},
+		typescript: {
+			overrides: {
+				"ts/consistent-type-definitions": ["error", "type"],
+				"node/prefer-global/process": "off",
+				"node/prefer-global/buffer": "off",
+				"style/indent-binary-ops": "off",
+			},
+		},
+	},
 );
