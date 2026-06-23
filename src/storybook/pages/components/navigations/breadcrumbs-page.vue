@@ -2,21 +2,22 @@
 import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type { BreadcrumbsProps } from "@/components";
 import { ref } from "vue";
-import {
-	Breadcrumbs,
-	BreadcrumbsItem,
-
-} from "@/components";
+import { Breadcrumbs, BreadcrumbsItem } from "@/components";
 import {
 	StorybookCode,
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
+import { select } from "@/storybook/shared/controls";
 
 const items = ["Home", "Components", "Navigations", "Breadcrumbs"];
 const activeItem = items[items.length - 1];
 
 const sizes = ["lg", "md", "sm"] satisfies BreadcrumbsProps["size"][];
+
+const controls = {
+	size: select(sizes, "md", { label: "Size" }),
+};
 
 const code = ref("");
 
@@ -61,18 +62,7 @@ function onChange({ size }: UnknownRecord) {
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			size: {
-				type: 'select',
-				label: 'Size',
-				description: 'Size of Breadcrumbs',
-				defaultValue: 'md',
-				options: sizes,
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template #default="{ values }">
 			<Breadcrumbs
 				v-bind="values"

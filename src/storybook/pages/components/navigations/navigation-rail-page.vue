@@ -10,10 +10,16 @@ import {
 	NavigationRailSection,
 } from "@/components";
 import { StorybookCode, StorybookPlayground } from "@/storybook/components";
+import { bool } from "@/storybook/shared/controls";
 
 const selected = ref<"first" | "second" | "third" | "fourth" | "fifth">(
 	"first",
 );
+
+const controls = {
+	expanded: bool(false, { label: "Expanded" }),
+	modal: bool(false, { label: "Modal" }),
+};
 
 const code = ref("");
 
@@ -98,23 +104,7 @@ ${expanded || modal ? ">" : ""}
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			expanded: {
-				type: 'switch',
-				label: 'Expanded',
-				description: 'Expanded state of NavigationRail',
-				defaultValue: false,
-			},
-			modal: {
-				type: 'switch',
-				label: 'Modal',
-				description: 'Modal state of NavigationRail',
-				defaultValue: false,
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template #default="{ values }">
 			<NavigationRail v-bind="values" class="elevation-2 min-h-96">
 				<template #menu>

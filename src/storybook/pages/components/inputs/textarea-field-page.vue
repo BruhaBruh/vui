@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { UnknownRecord } from "@bruhabruh/type-safe";
-import type { TextAreaFieldProps } from "@/components";
 import { ref } from "vue";
 import { TextAreaField } from "@/components";
 import {
@@ -8,10 +7,20 @@ import {
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
+import { bool, icon, select, text } from "@/storybook/shared/controls";
+import { fieldSizes } from "@/storybook/shared/options";
 
-const icons = ["tabler:square-rounded", "tabler:circle", "none"];
-
-const sizes = ["sm", "md", "lg"] satisfies TextAreaFieldProps["size"][];
+const controls = {
+	label: text("Label", { label: "Label" }),
+	description: text("", { label: "Description" }),
+	error: text("", { label: "Error" }),
+	placeholder: text("", { label: "Placeholder" }),
+	size: select(fieldSizes, "lg", { label: "Size" }),
+	invalid: bool(false, { label: "Invalid" }),
+	disabled: bool(false, { label: "Disabled" }),
+	leading: icon(undefined, { label: "Leading" }),
+	trailing: icon(undefined, { label: "Trailing" }),
+};
 
 const code = ref("");
 
@@ -50,68 +59,7 @@ function onChange({
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			label: {
-				type: 'text',
-				label: 'Label',
-				description: 'Label of TextAreaField',
-				defaultValue: 'Label',
-			},
-			description: {
-				type: 'text',
-				label: 'Description',
-				description: 'Description of TextAreaField',
-				defaultValue: '',
-			},
-			error: {
-				type: 'text',
-				label: 'Error',
-				description: 'Error of TextAreaField',
-				defaultValue: '',
-			},
-			placeholder: {
-				type: 'text',
-				label: 'Placeholder',
-				description: 'Placeholder of TextAreaField',
-				defaultValue: '',
-			},
-			size: {
-				type: 'select',
-				label: 'Size',
-				description: 'Size of TextAreaField',
-				defaultValue: 'lg',
-				options: sizes,
-			},
-			invalid: {
-				type: 'switch',
-				label: 'Invalid',
-				description: 'Invalid state of TextAreaField',
-				defaultValue: false,
-			},
-			disabled: {
-				type: 'switch',
-				label: 'Disabled',
-				description: 'Disabled state of TextAreaField',
-				defaultValue: false,
-			},
-			leading: {
-				type: 'select',
-				label: 'Leading',
-				description: 'Leading component of TextAreaField',
-				defaultValue: 'none',
-				options: icons,
-			},
-			trailing: {
-				type: 'select',
-				label: 'Trailing',
-				description: 'Trailing component of TextAreaField',
-				defaultValue: 'none',
-				options: icons,
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template
 			#default="{
 				values: { label, description, error, leading, trailing, ...values },
@@ -138,11 +86,7 @@ function onChange({
 	<StorybookCode name="TextAreaField" :code />
 	<StorybookStory name="Sizes">
 		<section class="grid grid-cols-3 items-center gap-md w-full">
-			<TextAreaField
-				v-for="size in ['sm', 'md', 'lg'] as const"
-				:key="size"
-				:size="size"
-			>
+			<TextAreaField v-for="size in fieldSizes" :key="size" :size="size">
 				<template #label>
 					Label
 				</template>

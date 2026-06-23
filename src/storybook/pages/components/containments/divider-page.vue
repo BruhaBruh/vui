@@ -8,11 +8,17 @@ import {
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
+import { bool, select } from "@/storybook/shared/controls";
 
 const orientations = [
 	"horizontal",
 	"vertical",
 ] satisfies DividerProps["orientation"][];
+
+const controls = {
+	orientation: select(orientations, "horizontal", { label: "Orientation" }),
+	inset: bool(false, { label: "Inset" }),
+};
 
 const code = ref("");
 
@@ -34,24 +40,7 @@ function onChange({ orientation, inset }: UnknownRecord) {
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			orientation: {
-				type: 'select',
-				label: 'Orientation',
-				description: 'Orientation of Divider',
-				defaultValue: 'horizontal',
-				options: orientations,
-			},
-			inset: {
-				type: 'switch',
-				label: 'Inset',
-				description: 'Inset state of Divider',
-				defaultValue: false,
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template #default="{ values: { orientation, ...values } }">
 			<section
 				class="inline-flex items-center justify-center gap-md"

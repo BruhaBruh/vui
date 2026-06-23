@@ -6,8 +6,13 @@ import {
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
+import { select } from "@/storybook/shared/controls";
 
 const selected = ref<"first" | "second" | "third" | "fourth">("first");
+
+const controls = {
+	type: select(["mobile", "tablet"], "mobile", { label: "Type" }),
+};
 
 const code = `
 <NavigationBar>
@@ -28,17 +33,7 @@ const code = `
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			type: {
-				type: 'select',
-				label: 'Type',
-				description: 'Type NavigationBar',
-				defaultValue: 'mobile',
-				options: ['mobile', 'tablet'],
-			},
-		}"
-	>
+	<StorybookPlayground :controls>
 		<template #default="{ values: { type } }">
 			<NavigationBar :class="[type === 'mobile' && 'w-96']">
 				<NavigationBarItem

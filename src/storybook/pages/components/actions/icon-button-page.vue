@@ -1,158 +1,53 @@
 <script setup lang="ts">
-import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type { IconButtonVariants } from "@/components";
-import { ref } from "vue";
 import { RouterLink } from "vue-router";
 import { IconButton } from "@/components";
-import {
-	StorybookCode,
-	StorybookPlayground,
-	StorybookStory,
-} from "@/storybook/components";
+import { StorybookPlayground, StorybookStory } from "@/storybook/components";
+import { bool, select } from "@/storybook/shared/controls";
+import { buttonSizes, colors, shapes } from "@/storybook/shared/options";
 
-const icons = ["tabler:square-rounded", "tabler:circle"];
-
-const sizes = [
-	"xs",
-	"sm",
-	"md",
-	"lg",
-	"xl",
-] satisfies IconButtonVariants["size"][];
-
-const shapes = ["rounded", "square"] satisfies IconButtonVariants["shape"][];
-
+const icons = ["tabler:square-rounded", "tabler:circle"] as const;
 const variants = [
 	"filled",
 	"tonal",
 	"outlined",
 	"standard",
-] satisfies IconButtonVariants["variant"][];
-
-const colors = [
-	"primary",
-	"secondary",
-	"info",
-	"success",
-	"caution",
-	"critical",
-] satisfies IconButtonVariants["color"][];
-
+] as const satisfies readonly NonNullable<IconButtonVariants["variant"]>[];
 const widths = [
 	"default",
 	"narrow",
 	"wide",
-] satisfies IconButtonVariants["width"][];
+] as const satisfies readonly NonNullable<IconButtonVariants["width"]>[];
 
-const code = ref("");
-
-function onChange({
-	icon,
-	size,
-	shape,
-	variant,
-	color,
-	toggleable,
-	selected,
-	disabled,
-}: UnknownRecord) {
-	code.value = `
-<IconButton
-  icon="${icon}"
-  size="${size}"
-  shape="${shape}"
-  variant="${variant}"
-  color="${color}"
-  :toggleable="${toggleable}"
-  :selected="${selected}"
-  :disabled="${disabled}"
-  @select="console.log('on select')"
-/>
-`;
-}
+const controls = {
+	icon: select(icons, "tabler:square-rounded", { label: "Icon" }),
+	size: select(buttonSizes, "sm", { label: "Size" }),
+	shape: select(shapes, "rounded", { label: "Shape" }),
+	variant: select(variants, "filled", { label: "Variant" }),
+	color: select(colors, "primary", { label: "Color" }),
+	width: select(widths, "default", { label: "Width" }),
+	toggleable: bool(false, { label: "Toggleable" }),
+	selected: bool(false, { label: "Selected" }),
+	disabled: bool(false, { label: "Disabled" }),
+};
 </script>
 
 <template>
 	<StorybookPlayground
-		:arguments="{
-			icon: {
-				type: 'select',
-				label: 'Icon',
-				description: 'Icon of IconButton',
-				defaultValue: 'tabler:square-rounded',
-				options: icons,
-			},
-			size: {
-				type: 'select',
-				label: 'Size',
-				description: 'Size of IconButton',
-				defaultValue: 'sm',
-				options: sizes,
-			},
-			shape: {
-				type: 'select',
-				label: 'Shape',
-				description: 'Shapes of IconButton',
-				defaultValue: 'rounded',
-				options: shapes,
-			},
-			variant: {
-				type: 'select',
-				label: 'Variant',
-				description: 'Variant of IconButton',
-				defaultValue: 'filled',
-				options: variants,
-			},
-			color: {
-				type: 'select',
-				label: 'Color',
-				description: 'Color of IconButton',
-				defaultValue: 'primary',
-				options: colors,
-			},
-			width: {
-				type: 'select',
-				label: 'Width',
-				description: 'Width of IconButton',
-				defaultValue: 'default',
-				options: widths,
-			},
-			toggleable: {
-				type: 'switch',
-				label: 'Toggleable',
-				description: 'Toggleable state of IconButton',
-				defaultValue: false,
-			},
-			selected: {
-				type: 'switch',
-				label: 'Selected',
-				description: 'Selected state of IconButton',
-				defaultValue: false,
-			},
-			disabled: {
-				type: 'switch',
-				label: 'Disabled',
-				description: 'Disabled state of IconButton',
-				defaultValue: false,
-			},
-		}"
-		@change="onChange"
+		component="IconButton"
+		:controls
+		:events="{ select: `console.log('on select')` }"
 	>
-		<template #default="{ values: { icon, ...values }, set }">
-			<IconButton
-				v-bind="values"
-				:icon="icon as string"
-				@select="set({ selected: !values.selected })"
-			/>
+		<template #default="{ props, set }">
+			<IconButton v-bind="props" @select="set({ selected: !props.selected })" />
 		</template>
 	</StorybookPlayground>
-	<StorybookCode name="IconButton" :code />
 	<StorybookStory name="As link">
 		<IconButton :as="RouterLink" to="#" icon="tabler:square-rounded" />
 	</StorybookStory>
 	<StorybookStory name="Sizes">
 		<IconButton
-			v-for="size in sizes"
+			v-for="size in buttonSizes"
 			:key="size"
 			:size
 			icon="tabler:square-rounded"
@@ -174,7 +69,7 @@ function onChange({
 				class="flex items-center gap-md"
 			>
 				<IconButton
-					v-for="size in sizes"
+					v-for="size in buttonSizes"
 					:key="size"
 					:width
 					:size
@@ -206,5 +101,12 @@ function onChange({
 			:color
 			icon="tabler:square-rounded"
 		/>
+	</StorybookStory>
+	<StorybookStory name="States">
+		<IconButton icon="tabler:square-rounded" />
+		<IconButton loading icon="tabler:square-rounded" />
+		<IconButton loading="tabler:loader-2" icon="tabler:square-rounded" />
+		<IconButton disabled icon="tabler:square-rounded" />
+		<IconButton loading disabled icon="tabler:square-rounded" />
 	</StorybookStory>
 </template>

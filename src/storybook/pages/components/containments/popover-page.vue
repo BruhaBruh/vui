@@ -3,19 +3,14 @@ import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type { PopoverContentProps } from "@/components";
 import { motion } from "motion-v";
 import { ref } from "vue";
-import {
-	Button,
-	Popover,
-	PopoverContent,
-
-	PopoverTrigger,
-} from "@/components";
+import { Button, Popover, PopoverContent, PopoverTrigger } from "@/components";
 import { materialDuration, materialEasing } from "@/config";
 import {
 	StorybookCode,
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
+import { select } from "@/storybook/shared/controls";
 
 const placements = [
 	"top",
@@ -31,6 +26,10 @@ const placements = [
 	"right-start",
 	"right-end",
 ] satisfies PopoverContentProps["placement"][];
+
+const controls = {
+	placement: select(placements, "top", { label: "Placement" }),
+};
 
 const code = ref("");
 
@@ -51,18 +50,7 @@ function onChange({ placement }: UnknownRecord) {
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			placement: {
-				type: 'select',
-				label: 'Placement',
-				description: 'Placement of Popover',
-				defaultValue: 'top',
-				options: placements,
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template #default="{ values }">
 			<Popover>
 				<PopoverTrigger>

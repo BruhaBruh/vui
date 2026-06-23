@@ -1,43 +1,14 @@
 <script setup lang="ts">
-import type { UnknownRecord } from "@bruhabruh/type-safe";
-import { ref } from "vue";
 import { Pagination } from "@/components";
-import { StorybookCode, StorybookPlayground } from "@/storybook/components";
+import { StorybookPlayground } from "@/storybook/components";
+import { num } from "@/storybook/shared/controls";
 
-const code = ref("");
-
-function onChange({ pageAmount, pagesToView }: UnknownRecord) {
-	code.value = `
-<Pagination
-  v-model:page="page"
-  :page-amount="${pageAmount}"
-  :pages-to-view="${pagesToView}"
-/>
-`;
-}
+const controls = {
+	pageAmount: num(15, { label: "Page amount", prop: "page-amount" }),
+	pagesToView: num(5, { label: "Pages to view", prop: "pages-to-view" }),
+};
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			pageAmount: {
-				type: 'number',
-				label: 'Page amount',
-				description: 'Page amount of Pagination',
-				defaultValue: 15,
-			},
-			pagesToView: {
-				type: 'number',
-				label: 'Pages to view',
-				description: 'Page to view of Pagination',
-				defaultValue: 5,
-			},
-		}"
-		@change="onChange"
-	>
-		<template #default="{ values }">
-			<Pagination v-bind="values" />
-		</template>
-	</StorybookPlayground>
-	<StorybookCode name="Pagination" :code />
+	<StorybookPlayground :is="Pagination" component="Pagination" :controls />
 </template>
