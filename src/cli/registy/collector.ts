@@ -1,23 +1,27 @@
 import type { Module } from "../schema/module";
 import type { Registry } from "../schema/registry";
 import { ModuleCollector } from "../module/collector";
+import { resolveDependencyVersions } from "../utility/dependency-versions";
+
+/** Зависимости, на которые ссылаются модули (версии — из package.json). */
+const dependencyVersionNames = [
+	"@floating-ui/vue",
+	"@iconify/vue",
+	"@vueuse/core",
+	"@vueuse/integrations",
+	"class-variance-authority",
+	"embla-carousel-vue",
+	"focus-trap",
+	"motion-v",
+	"tailwind-merge-vue-directive",
+	"@tailwindcss/vite",
+	"tailwindcss",
+	"@bruhabruh/type-safe",
+];
 
 export class RegistryCollector {
 	#registry: Registry = {
-		dependecyVersions: {
-			"@floating-ui/vue": "^1.1.6",
-			"@iconify/vue": "^5.0.0",
-			"@vueuse/core": "^13.1.0",
-			"@vueuse/integrations": "^13.1.0",
-			"class-variance-authority": "^0.7.1",
-			"embla-carousel-vue": "^8.3.0",
-			"focus-trap": "^7.6.4",
-			"motion-v": "^1.0.1",
-			"tailwind-merge-vue-directive": "^2.0.5",
-			"@tailwindcss/vite": "^4.1.5",
-			"tailwindcss": "^4.1.5",
-			"@bruhabruh/type-safe": "^1.2.3",
-		},
+		dependecyVersions: resolveDependencyVersions(dependencyVersionNames),
 		modules: [],
 		moduleDependencies: ["config", "tailwind"],
 	};

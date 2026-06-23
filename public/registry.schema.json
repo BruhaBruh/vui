@@ -1,58 +1,58 @@
 {
-	"$schema": "http://json-schema.org/draft-07/schema#",
-	"type": "object",
-	"properties": {
-		"dependencies": {
-			"type": "array",
-			"items": {
-				"type": "string",
-				"minLength": 1
-			}
-		},
-		"devDependencies": {
-			"type": "array",
-			"items": {
-				"type": "string",
-				"minLength": 1
-			}
-		},
-		"files": {
-			"type": "array",
-			"items": {
-				"type": "object",
-				"properties": {
-					"path": {
-						"type": "string",
-						"minLength": 1
-					},
-					"content": {
-						"type": "string"
-					},
-					"hash": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"path",
-					"content",
-					"hash"
-				]
-			}
-		},
-		"dependecyVersions": {
-			"type": "object",
-			"propertyNames": {
-				"type": "string"
-			},
-			"additionalProperties": {
-				"type": "string"
-			}
-		}
-	},
-	"required": [
-		"dependencies",
-		"devDependencies",
-		"files",
-		"dependecyVersions"
-	]
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "devDependencies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "content": {
+            "type": "string"
+          },
+          "hash": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "content",
+          "hash"
+        ]
+      }
+    },
+    "dependecyVersions": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "dependencies",
+    "devDependencies",
+    "files",
+    "dependecyVersions"
+  ]
 }

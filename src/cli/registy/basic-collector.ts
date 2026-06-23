@@ -1,40 +1,36 @@
 import type { BasicRegistry } from "../schema/registry";
 import fs from "node:fs";
 import path from "node:path";
+import { resolveDependencyVersions } from "../utility/dependency-versions";
 import { fileHash } from "../utility/file-hash";
+
+/** Зависимости библиотеки компонентов (версии резолвятся из package.json). */
+const dependencies = [
+	"@floating-ui/vue",
+	"@vueuse/core",
+	"@vueuse/integrations",
+	"class-variance-authority",
+	"embla-carousel-vue",
+	"focus-trap",
+	"motion-v",
+	"tailwind-merge",
+];
+
+const devDependencies = [
+	"@bruhabruh/type-safe",
+	"@tailwindcss/vite",
+	"tailwindcss",
+	"@iconify/vue",
+];
 
 export class BasicRegistryCollector {
 	#registry: BasicRegistry = {
-		dependecyVersions: {
-			"@floating-ui/vue": "^1.1.9",
-			"@vueuse/core": "^13.9.0",
-			"@vueuse/integrations": "^13.9.0",
-			"class-variance-authority": "^0.7.1",
-			"embla-carousel-vue": "^8.6.0",
-			"focus-trap": "^7.6.5",
-			"motion-v": "^1.7.2",
-			"tailwind-merge": "^3.3.1",
-			"@bruhabruh/type-safe": "^1.2.4",
-			"@tailwindcss/vite": "^4.1.14",
-			"tailwindcss": "^4.1.14",
-			"@iconify/vue": "^5.0.0",
-		},
-		dependencies: [
-			"@floating-ui/vue",
-			"@vueuse/core",
-			"@vueuse/integrations",
-			"class-variance-authority",
-			"embla-carousel-vue",
-			"focus-trap",
-			"motion-v",
-			"tailwind-merge",
-		],
-		devDependencies: [
-			"@bruhabruh/type-safe",
-			"@tailwindcss/vite",
-			"tailwindcss",
-			"@iconify/vue",
-		],
+		dependecyVersions: resolveDependencyVersions([
+			...dependencies,
+			...devDependencies,
+		]),
+		dependencies,
+		devDependencies,
 		files: [],
 	};
 
