@@ -1,148 +1,41 @@
 <script setup lang="ts">
-import type { UnknownRecord } from "@bruhabruh/type-safe";
-import type { ButtonVariants } from "@/components";
-import { ref } from "vue";
 import { RouterLink } from "vue-router";
 import { Button } from "@/components";
+import { StorybookPlayground, StorybookStory } from "@/storybook/components";
+import { bool, icon, select } from "@/storybook/shared/controls";
 import {
-	StorybookCode,
-	StorybookPlayground,
-	StorybookStory,
-} from "@/storybook/components";
+	buttonSizes,
+	buttonVariants,
+	colors,
+	shapes,
+} from "@/storybook/shared/options";
 
-const icons = ["tabler:square-rounded", "tabler:circle", "none"];
-
-const sizes = ["xs", "sm", "md", "lg", "xl"] satisfies ButtonVariants["size"][];
-
-const shapes = ["rounded", "square"] satisfies ButtonVariants["shape"][];
-
-const variants = [
-	"elevated",
-	"filled",
-	"tonal",
-	"outlined",
-	"text",
-] satisfies ButtonVariants["variant"][];
-
-const colors = [
-	"primary",
-	"secondary",
-	"info",
-	"success",
-	"caution",
-	"critical",
-] satisfies ButtonVariants["color"][];
-
-const code = ref("");
-
-function onChange({
-	leading,
-	trailing,
-	size,
-	shape,
-	variant,
-	color,
-	toggleable,
-	selected,
-	disabled,
-}: UnknownRecord) {
-	code.value = `
-<Button
-  ${leading === "none" ? "" : `leading="${leading}"`}
-  ${trailing === "none" ? "" : `trailing="${trailing}"`}
-  size="${size}"
-  shape="${shape}"
-  variant="${variant}"
-  color="${color}"
-  :toggleable="${toggleable}"
-  :selected="${selected}"
-  :disabled="${disabled}"
-  @select="console.log('on select')"
->
-  Button
-</Button>
-`;
-}
+const controls = {
+	leading: icon(undefined, { label: "Leading Icon" }),
+	trailing: icon(undefined, { label: "Trailing Icon" }),
+	size: select(buttonSizes, "sm", { label: "Size" }),
+	shape: select(shapes, "rounded", { label: "Shape" }),
+	variant: select(buttonVariants, "filled", { label: "Variant" }),
+	color: select(colors, "primary", { label: "Color" }),
+	toggleable: bool(false, { label: "Toggleable" }),
+	selected: bool(false, { label: "Selected" }),
+	disabled: bool(false, { label: "Disabled" }),
+};
 </script>
 
 <template>
 	<StorybookPlayground
-		:arguments="{
-			leading: {
-				type: 'select',
-				label: 'Leading Icon',
-				description: 'Leading Icon of Button',
-				defaultValue: 'none',
-				options: icons,
-			},
-			trailing: {
-				type: 'select',
-				label: 'Trailing Icon',
-				description: 'Trailing Icon of Button',
-				defaultValue: 'none',
-				options: icons,
-			},
-			size: {
-				type: 'select',
-				label: 'Size',
-				description: 'Size of Button',
-				defaultValue: 'sm',
-				options: sizes,
-			},
-			shape: {
-				type: 'select',
-				label: 'Shape',
-				description: 'Shapes of Button',
-				defaultValue: 'rounded',
-				options: shapes,
-			},
-			variant: {
-				type: 'select',
-				label: 'Variant',
-				description: 'Variant of Button',
-				defaultValue: 'filled',
-				options: variants,
-			},
-			color: {
-				type: 'select',
-				label: 'Color',
-				description: 'Color of Button',
-				defaultValue: 'primary',
-				options: colors,
-			},
-			toggleable: {
-				type: 'switch',
-				label: 'Toggleable',
-				description: 'Toggleable state of Button',
-				defaultValue: false,
-			},
-			selected: {
-				type: 'switch',
-				label: 'Selected',
-				description: 'Selected state of IconButton',
-				defaultValue: false,
-			},
-			disabled: {
-				type: 'switch',
-				label: 'Disabled',
-				description: 'Disabled state of Button',
-				defaultValue: false,
-			},
-		}"
-		@change="onChange"
+		component="Button"
+		:controls
+		slot-text="Button"
+		:events="{ select: `console.log('on select')` }"
 	>
-		<template #default="{ values: { leading, trailing, ...values }, set }">
-			<Button
-				v-bind="values"
-				:leading="leading === 'none' ? undefined : (leading as string)"
-				:trailing="trailing === 'none' ? undefined : (trailing as string)"
-				@select="set({ selected: !values.selected })"
-			>
+		<template #default="{ props, set }">
+			<Button v-bind="props" @select="set({ selected: !props.selected })">
 				Button
 			</Button>
 		</template>
 	</StorybookPlayground>
-	<StorybookCode name="Button" :code />
 	<StorybookStory name="As link">
 		<Button
 			:as="RouterLink"
@@ -155,7 +48,7 @@ function onChange({
 	</StorybookStory>
 	<StorybookStory name="Sizes">
 		<div class="flex flex-col items-center gap-md">
-			<Button v-for="size in sizes" :key="size" :size>
+			<Button v-for="size in buttonSizes" :key="size" :size>
 				Button
 			</Button>
 		</div>
@@ -166,7 +59,7 @@ function onChange({
 		</Button>
 	</StorybookStory>
 	<StorybookStory name="Variants">
-		<Button v-for="variant in variants" :key="variant" :variant>
+		<Button v-for="variant in buttonVariants" :key="variant" :variant>
 			Button
 		</Button>
 	</StorybookStory>
@@ -174,5 +67,26 @@ function onChange({
 		<Button v-for="color in colors" :key="color" :color>
 			Button
 		</Button>
+	</StorybookStory>
+	<StorybookStory name="States">
+		<div class="flex flex-col items-center gap-md">
+			<div class="flex items-center gap-md">
+				<Button>Default</Button>
+				<Button loading>
+					Loading
+				</Button>
+				<Button loading="tabler:loader-2">
+					Custom spinner
+				</Button>
+			</div>
+			<div class="flex items-center gap-md">
+				<Button disabled>
+					Disabled
+				</Button>
+				<Button loading disabled>
+					Loading + disabled
+				</Button>
+			</div>
+		</div>
 	</StorybookStory>
 </template>

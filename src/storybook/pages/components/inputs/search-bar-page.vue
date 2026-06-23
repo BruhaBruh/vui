@@ -7,6 +7,16 @@ import {
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
+import { select, text } from "@/storybook/shared/controls";
+
+const controls = {
+	placeholder: text("Hinted search text", { label: "Placeholder" }),
+	leading: select(["none", "menu"], "none", { label: "Leading" }),
+	trailing: select(["none", "share", "search"], "none", { label: "Trailing" }),
+	trailingSecond: select(["none", "search", "avatar"], "none", {
+		label: "Trailing second",
+	}),
+};
 
 const code = ref("");
 
@@ -76,38 +86,7 @@ ${
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			placeholder: {
-				type: 'text',
-				label: 'Placeholder',
-				description: 'Placeholder of SearchBar',
-				defaultValue: 'Hinted search text',
-			},
-			leading: {
-				type: 'select',
-				label: 'Leading',
-				description: 'Leading component of SearchBar',
-				defaultValue: 'none',
-				options: ['none', 'menu'],
-			},
-			trailing: {
-				type: 'select',
-				label: 'Trailing',
-				description: 'Trailing component of SearchBar',
-				defaultValue: 'none',
-				options: ['none', 'share', 'search'],
-			},
-			trailingSecond: {
-				type: 'select',
-				label: 'Trailing second',
-				description: 'Trailing second component of SearchBar',
-				defaultValue: 'none',
-				options: ['none', 'search', 'avatar'],
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template
 			#default="{ values: { leading, trailing, trailingSecond, ...values } }"
 		>

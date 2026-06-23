@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { UnknownRecord } from "@bruhabruh/type-safe";
-import type { SwitchProps } from "@/components";
 import { ref } from "vue";
 import { Switch } from "@/components";
 import {
@@ -8,32 +7,28 @@ import {
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
+import { bool, select } from "@/storybook/shared/controls";
+import { colors } from "@/storybook/shared/options";
 
 const icons = [
+	"none",
 	"tabler:square-rounded",
 	"tabler:circle",
 	"tabler:x",
 	"tabler:check",
-	"none",
 ];
 
-const colors = [
-	"primary",
-	"secondary",
-	"info",
-	"success",
-	"caution",
-	"critical",
-] satisfies SwitchProps["color"][];
+const controls = {
+	color: select(colors, "primary", { label: "Color" }),
+	checked: bool(false, { label: "Checked" }),
+	disabled: bool(false, { label: "Disabled" }),
+	checkedIcon: select(icons, "none", { label: "Checked icon" }),
+	uncheckedIcon: select(icons, "none", { label: "Unchecked icon" }),
+};
 
 const code = ref("");
 
-function onChange({
-	color,
-	disabled,
-	checkedIcon,
-	uncheckedIcon,
-}: UnknownRecord) {
+function onChange({ color, disabled, checkedIcon, uncheckedIcon }: UnknownRecord) {
 	code.value = `
 <Switch
   ${checkedIcon === "none" ? "" : `checked-icon="${checkedIcon}"`}
@@ -46,50 +41,11 @@ function onChange({
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			color: {
-				type: 'select',
-				label: 'Color',
-				description: 'Color of Switch',
-				defaultValue: 'primary',
-				options: colors,
-			},
-			checked: {
-				type: 'switch',
-				label: 'Checked',
-				description: 'Checked state of Switch',
-				defaultValue: false,
-			},
-			disabled: {
-				type: 'switch',
-				label: 'Disabled',
-				description: 'Disabled state of Switch',
-				defaultValue: false,
-			},
-			checkedIcon: {
-				type: 'select',
-				label: 'Checked icon',
-				description: 'Checked icon component of Switch',
-				defaultValue: 'none',
-				options: icons,
-			},
-			uncheckedIcon: {
-				type: 'select',
-				label: 'Unchecked icon',
-				description: 'Unchecked icon component of Switch',
-				defaultValue: 'none',
-				options: icons,
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template #default="{ values: { checkedIcon, uncheckedIcon, ...values } }">
 			<Switch
 				v-bind="values"
-				:checked-icon="
-					checkedIcon === 'none' ? undefined : (checkedIcon as string)
-				"
+				:checked-icon="checkedIcon === 'none' ? undefined : (checkedIcon as string)"
 				:unchecked-icon="
 					uncheckedIcon === 'none' ? undefined : (uncheckedIcon as string)
 				"

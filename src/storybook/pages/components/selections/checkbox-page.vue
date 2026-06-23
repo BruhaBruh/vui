@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { UnknownRecord } from "@bruhabruh/type-safe";
-import type { CheckboxProps } from "@/components";
 import { ref } from "vue";
 import { Checkbox } from "@/components";
 import {
@@ -8,17 +7,17 @@ import {
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
-
-const colors = [
-	"primary",
-	"secondary",
-	"info",
-	"success",
-	"caution",
-	"critical",
-] satisfies CheckboxProps["color"][];
+import { bool, select } from "@/storybook/shared/controls";
+import { colors } from "@/storybook/shared/options";
 
 const group = ref<string[]>([...colors]);
+
+const controls = {
+	color: select(colors, "primary", { label: "Color" }),
+	checked: bool(false, { label: "Checked" }),
+	indeterminate: bool(false, { label: "Indeterminate" }),
+	disabled: bool(false, { label: "Disabled" }),
+};
 
 const code = ref("");
 
@@ -35,36 +34,7 @@ function onChange({ color, indeterminate, disabled }: UnknownRecord) {
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			color: {
-				type: 'select',
-				label: 'Color',
-				description: 'Color of Checkbox',
-				defaultValue: 'primary',
-				options: colors,
-			},
-			checked: {
-				type: 'switch',
-				label: 'Checked',
-				description: 'Checked state of Checkbox',
-				defaultValue: false,
-			},
-			indeterminate: {
-				type: 'switch',
-				label: 'Indeterminate',
-				description: 'Indeterminate state of Checkbox',
-				defaultValue: false,
-			},
-			disabled: {
-				type: 'switch',
-				label: 'Disabled',
-				description: 'Disabled state of Checkbox',
-				defaultValue: false,
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template #default="{ values }">
 			<Checkbox
 				value="playground"

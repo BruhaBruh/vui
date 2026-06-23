@@ -8,18 +8,24 @@ import {
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
-
-const colors = [
-	"standard",
-	"primary",
-	"secondary",
-	"info",
-	"success",
-	"caution",
-	"critical",
-] satisfies SliderProps["color"][];
+import { arr, bool, num, select } from "@/storybook/shared/controls";
+import { surfaceColors } from "@/storybook/shared/options";
 
 const variants = ["continuous", "centered"] satisfies SliderProps["variant"][];
+
+const controls = {
+	value: arr([50], { label: "Value" }),
+	color: select(surfaceColors, "standard", { label: "Color" }),
+	variant: select(variants, "continuous", { label: "Variant" }),
+	disabled: bool(false, { label: "Disabled" }),
+	min: num(0, { label: "Minimum value" }),
+	max: num(100, { label: "Maximum value" }),
+	step: num(1, { label: "Step value" }),
+	stepMultiplier: num(10, {
+		label: "Step multiplier for large step",
+		prop: "step-multiplier",
+	}),
+};
 
 const code = ref("");
 
@@ -49,61 +55,7 @@ function onChange({
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			value: {
-				type: 'array',
-				label: 'Value',
-				description: 'Value of Slider',
-				defaultValue: [50],
-			},
-			color: {
-				type: 'select',
-				label: 'Color',
-				description: 'Color of Slider',
-				defaultValue: 'standard',
-				options: colors,
-			},
-			variant: {
-				type: 'select',
-				label: 'Variant',
-				description: 'Variant of Slider',
-				defaultValue: 'continuous',
-				options: variants,
-			},
-			disabled: {
-				type: 'switch',
-				label: 'Disabled',
-				description: 'Disabled state of Slider',
-				defaultValue: false,
-			},
-			min: {
-				type: 'number',
-				label: 'Minimum value',
-				description: 'Minimum value of Slider',
-				defaultValue: 0,
-			},
-			max: {
-				type: 'number',
-				label: 'Maximum value',
-				description: 'Maximum value of Slider',
-				defaultValue: 100,
-			},
-			step: {
-				type: 'number',
-				label: 'Step value',
-				description: 'Step value of Slider',
-				defaultValue: 1,
-			},
-			stepMultiplier: {
-				type: 'number',
-				label: 'Step multiplier for large step',
-				description: 'Step multiplier for large step of Slider',
-				defaultValue: 10,
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template #default="{ values }">
 			<Slider class="w-64" v-bind="values" />
 		</template>
@@ -112,7 +64,7 @@ function onChange({
 	<StorybookStory name="Colors">
 		<section class="flex flex-col gap-md">
 			<Slider
-				v-for="color in colors"
+				v-for="color in surfaceColors"
 				:key="color"
 				:color
 				class="w-64"

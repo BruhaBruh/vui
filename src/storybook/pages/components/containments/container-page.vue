@@ -2,16 +2,13 @@
 import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type { ContainerContentProps, ContainerProps } from "@/components";
 import { ref } from "vue";
-import {
-	Container,
-	ContainerContent,
-
-} from "@/components";
+import { Container, ContainerContent } from "@/components";
 import {
 	StorybookCode,
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
+import { select } from "@/storybook/shared/controls";
 
 const paddings = [
 	"none",
@@ -43,6 +40,12 @@ const colors = [
 	"critical-container",
 ] satisfies ContainerProps["color"][];
 
+const controls = {
+	color: select(colors, "none", { label: "Color" }),
+	variant: select(variants, "none", { label: "Variant" }),
+	padding: select(paddings, "none", { label: "Padding" }),
+};
+
 const code = ref("");
 
 function onChange({ color, variant, padding }: UnknownRecord) {
@@ -57,32 +60,7 @@ function onChange({ color, variant, padding }: UnknownRecord) {
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			color: {
-				type: 'select',
-				label: 'Color',
-				description: 'Color of Container',
-				defaultValue: 'none',
-				options: colors,
-			},
-			variant: {
-				type: 'select',
-				label: 'Variant',
-				description: 'Variant of Container',
-				defaultValue: 'none',
-				options: variants,
-			},
-			padding: {
-				type: 'select',
-				label: 'Padding',
-				description: 'Padding of Container',
-				defaultValue: 'none',
-				options: paddings,
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template #default="{ values: { color, ...values } }">
 			<section class="grid gap-md w-full">
 				<Container :color="color as ContainerProps['color']">

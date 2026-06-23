@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { UnknownRecord } from "@bruhabruh/type-safe";
-import type { RadioProps } from "@/components";
 import { ref } from "vue";
 import { Radio } from "@/components";
 import {
@@ -8,17 +7,16 @@ import {
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
-
-const colors = [
-	"primary",
-	"secondary",
-	"info",
-	"success",
-	"caution",
-	"critical",
-] satisfies RadioProps["color"][];
+import { bool, select } from "@/storybook/shared/controls";
+import { colors } from "@/storybook/shared/options";
 
 const group = ref<string>("primary");
+
+const controls = {
+	color: select(colors, "primary", { label: "Color" }),
+	checked: bool(false, { label: "Checked" }),
+	disabled: bool(false, { label: "Disabled" }),
+};
 
 const code = ref("");
 
@@ -34,36 +32,9 @@ function onChange({ color, disabled }: UnknownRecord) {
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			color: {
-				type: 'select',
-				label: 'Color',
-				description: 'Color of Radio',
-				defaultValue: 'primary',
-				options: colors,
-			},
-			checked: {
-				type: 'switch',
-				label: 'Checked',
-				description: 'Checked state of Radio',
-				defaultValue: false,
-			},
-			disabled: {
-				type: 'switch',
-				label: 'Disabled',
-				description: 'Disabled state of Radio',
-				defaultValue: false,
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template #default="{ values }">
-			<Radio
-				value="playground"
-				v-bind="values"
-				@change="values.checked = true"
-			/>
+			<Radio value="playground" v-bind="values" @change="values.checked = true" />
 		</template>
 	</StorybookPlayground>
 	<StorybookCode name="Radio" :code />

@@ -1,75 +1,20 @@
 <script setup lang="ts">
-import type { UnknownRecord } from "@bruhabruh/type-safe";
-import type { BadgeProps } from "@/components";
-import { ref } from "vue";
-import {
-	Badge,
-	ExtendedFab,
-	Fab,
-	Icon,
-	IconButton,
-} from "@/components";
-import {
-	StorybookCode,
-	StorybookPlayground,
-	StorybookStory,
-} from "@/storybook/components";
+import { Badge, ExtendedFab, Fab, Icon, IconButton } from "@/components";
+import { StorybookPlayground, StorybookStory } from "@/storybook/components";
+import { num, select } from "@/storybook/shared/controls";
+import { colors } from "@/storybook/shared/options";
 
-const colors = [
-	"primary",
-	"secondary",
-	"info",
-	"success",
-	"caution",
-	"critical",
-] satisfies BadgeProps["color"][];
 const badgeValues = [0, 1, 500, 1000];
 
-const code = ref("");
-
-function onChange({ color, value, maxValue }: UnknownRecord) {
-	code.value = `
-<Badge
-  color="${color}"
-  :value="${value}"
-  :max-value="${maxValue}"
-  placement="icon"
->
-  <IconMail />
-</Badge>
-`;
-}
+const controls = {
+	color: select(colors, "primary", { label: "Color" }),
+	value: num(0, { label: "Value" }),
+	maxValue: num(999, { label: "Max Value", prop: "max-value" }),
+};
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			color: {
-				type: 'select',
-				label: 'Color',
-				description: 'Color of Badge',
-				defaultValue: 'primary',
-				options: colors,
-			},
-			value: {
-				type: 'number',
-				label: 'Value',
-				description: 'Value of Badge',
-				defaultValue: 0,
-			},
-			maxValue: {
-				type: 'number',
-				label: 'Max Value',
-				description: 'Max value of Badge',
-				defaultValue: 999,
-			},
-		}" @change="onChange"
-	>
-		<template #default="{ values }">
-			<Badge v-bind="values" />
-		</template>
-	</StorybookPlayground>
-	<StorybookCode name="Badge" :code />
+	<StorybookPlayground :is="Badge" component="Badge" :controls />
 	<StorybookStory name="Colors">
 		<Badge v-for="color in colors" :key="color" :color="color" />
 	</StorybookStory>

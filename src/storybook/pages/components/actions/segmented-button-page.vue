@@ -2,45 +2,30 @@
 import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type { SegmentedButtonGroupProps } from "@/components";
 import { ref } from "vue";
-import {
-	Icon,
-	SegmentedButton,
-	SegmentedButtonGroup,
-
-} from "@/components";
+import { Icon, SegmentedButton, SegmentedButtonGroup } from "@/components";
 import {
 	StorybookCode,
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
+import { select } from "@/storybook/shared/controls";
+import { colors } from "@/storybook/shared/options";
 
 const selectionModes = [
 	"single",
 	"multiple",
 ] satisfies SegmentedButtonGroupProps["selectionMode"][];
-const colors = [
-	"primary",
-	"secondary",
-	"info",
-	"success",
-	"caution",
-	"critical",
-] satisfies SegmentedButtonGroupProps["color"][];
-const densities = [
-	0,
-	-1,
-	-2,
-	-3,
-] satisfies SegmentedButtonGroupProps["density"][];
+const densities = [0, -1, -2, -3] satisfies SegmentedButtonGroupProps["density"][];
+
+const controls = {
+	color: select(colors, "primary", { label: "Color" }),
+	density: select(densities.map(String), "0", { label: "Density" }),
+	selectionMode: select(selectionModes, "single", { label: "Selection Mode" }),
+};
 
 const code = ref("");
 
-function onChange({
-	density,
-	color,
-	selectionMode,
-	disabled,
-}: UnknownRecord) {
+function onChange({ density, color, selectionMode, disabled }: UnknownRecord) {
 	code.value = `
 <SegmentedButtonGroup
   selection-mode="${selectionMode}"
@@ -58,47 +43,17 @@ function onChange({
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			color: {
-				type: 'select',
-				label: 'Color',
-				description: 'Color of SegmentedButton',
-				defaultValue: 'primary',
-				options: colors,
-			},
-			density: {
-				type: 'select',
-				label: 'Density',
-				description: 'Density of SegmentedButton',
-				defaultValue: '0',
-				options: densities.map((v) => v.toString()),
-			},
-			selectionMode: {
-				type: 'select',
-				label: 'Selection Mode',
-				description: 'Selection Mode of SegmentedButton',
-				defaultValue: 'single',
-				options: selectionModes,
-			},
-			disabled: {
-				type: 'switch',
-				label: 'Disabled',
-				description: 'Disabled state of SegmentedButton',
-				defaultValue: false,
-			},
-		}"
-		@change="onChange"
-	>
-		<template #default="{ values: { density, ...values } }">
+	<StorybookPlayground :controls @change="onChange">
+		<template #default="{ values }">
 			<SegmentedButtonGroup
+				:selection-mode="values.selectionMode as SegmentedButtonGroupProps['selectionMode']"
+				:color="values.color as SegmentedButtonGroupProps['color']"
 				:density="
 					Number.parseInt(
-						density as string,
+						values.density as string,
 						10,
 					) as SegmentedButtonGroupProps['density']
 				"
-				v-bind="values"
 			>
 				<SegmentedButton value="a">
 					A

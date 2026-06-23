@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { UnknownRecord } from "@bruhabruh/type-safe";
-import type { MaskFieldProps } from "@/components";
 import { ref } from "vue";
 import { MaskField } from "@/components";
 import {
@@ -8,10 +7,21 @@ import {
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
+import { bool, icon, select, text } from "@/storybook/shared/controls";
+import { fieldSizes } from "@/storybook/shared/options";
 
-const icons = ["tabler:square-rounded", "tabler:circle", "none"];
-
-const sizes = ["sm", "md", "lg"] satisfies MaskFieldProps["size"][];
+const controls = {
+	label: text("Label", { label: "Label" }),
+	description: text("", { label: "Description" }),
+	error: text("", { label: "Error" }),
+	placeholder: text("", { label: "Placeholder" }),
+	mask: text("+7 (___) ___-__-__", { label: "Mask" }),
+	size: select(fieldSizes, "lg", { label: "Size" }),
+	invalid: bool(false, { label: "Invalid" }),
+	disabled: bool(false, { label: "Disabled" }),
+	leading: icon(undefined, { label: "Leading" }),
+	trailing: icon(undefined, { label: "Trailing" }),
+};
 
 const code = ref("");
 
@@ -52,74 +62,7 @@ function onChange({
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			label: {
-				type: 'text',
-				label: 'Label',
-				description: 'Label of MaskField',
-				defaultValue: 'Label',
-			},
-			description: {
-				type: 'text',
-				label: 'Description',
-				description: 'Description of MaskField',
-				defaultValue: '',
-			},
-			error: {
-				type: 'text',
-				label: 'Error',
-				description: 'Error of MaskField',
-				defaultValue: '',
-			},
-			placeholder: {
-				type: 'text',
-				label: 'Placeholder',
-				description: 'Placeholder of MaskField',
-				defaultValue: '',
-			},
-			mask: {
-				type: 'text',
-				label: 'Mask',
-				description: 'Mask of MaskField',
-				defaultValue: '+7 (___) ___-__-__',
-			},
-			size: {
-				type: 'select',
-				label: 'Size',
-				description: 'Size of MaskField',
-				defaultValue: 'lg',
-				options: sizes,
-			},
-			invalid: {
-				type: 'switch',
-				label: 'Invalid',
-				description: 'Invalid state of MaskField',
-				defaultValue: false,
-			},
-			disabled: {
-				type: 'switch',
-				label: 'Disabled',
-				description: 'Disabled state of MaskField',
-				defaultValue: false,
-			},
-			leading: {
-				type: 'select',
-				label: 'Leading',
-				description: 'Leading component of MaskField',
-				defaultValue: 'none',
-				options: icons,
-			},
-			trailing: {
-				type: 'select',
-				label: 'Trailing',
-				description: 'Trailing component of MaskField',
-				defaultValue: 'none',
-				options: icons,
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template
 			#default="{
 				values: {
@@ -183,7 +126,7 @@ function onChange({
 	<StorybookStory name="Sizes">
 		<section class="grid grid-cols-3 items-center gap-md w-full">
 			<MaskField
-				v-for="size in ['sm', 'md', 'lg'] as const"
+				v-for="size in fieldSizes"
 				:key="size"
 				mask="+7 (___) ___-__-__"
 				:size="size"

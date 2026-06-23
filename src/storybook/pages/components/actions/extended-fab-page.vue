@@ -1,90 +1,25 @@
 <script setup lang="ts">
-import type { UnknownRecord } from "@bruhabruh/type-safe";
-import type { ExtendedFabVariants } from "@/components";
-import { ref } from "vue";
 import { RouterLink } from "vue-router";
 import { ExtendedFab } from "@/components";
-import {
-	StorybookCode,
-	StorybookPlayground,
-	StorybookStory,
-} from "@/storybook/components";
+import { StorybookPlayground, StorybookStory } from "@/storybook/components";
+import { icon, select } from "@/storybook/shared/controls";
+import { colors, fabSizes, fabVariants } from "@/storybook/shared/options";
 
-const icons = ["tabler:square-rounded", "tabler:circle", "none"];
-
-const sizes = ["sm", "md", "lg"] satisfies ExtendedFabVariants["size"][];
-
-const variants = ["filled", "tonal"] satisfies ExtendedFabVariants["variant"][];
-
-const colors = [
-	"primary",
-	"secondary",
-	"info",
-	"success",
-	"caution",
-	"critical",
-] satisfies ExtendedFabVariants["color"][];
-
-const code = ref("");
-
-function onChange({ icon, size, variant, color }: UnknownRecord) {
-	code.value = `
-<ExtendedFab
-  ${icon === "none" ? "" : `icon="${icon}"`}
-  size="${size}"
-  variant="${variant}"
-  color=${color}
->
-  ExtendedFab
-</ExtendedFab>
-`;
-}
+const controls = {
+	icon: icon(undefined, { label: "Icon" }),
+	size: select(fabSizes, "sm", { label: "Size" }),
+	variant: select(fabVariants, "filled", { label: "Variant" }),
+	color: select(colors, "primary", { label: "Color" }),
+};
 </script>
 
 <template>
 	<StorybookPlayground
-		:arguments="{
-			icon: {
-				type: 'select',
-				label: 'Icon',
-				description: 'Icon of ExtendedFab',
-				defaultValue: 'none',
-				options: icons,
-			},
-			size: {
-				type: 'select',
-				label: 'Size',
-				description: 'Size of ExtendedFab',
-				defaultValue: 'sm',
-				options: sizes,
-			},
-			variant: {
-				type: 'select',
-				label: 'Variant',
-				description: 'Variant of ExtendedFab',
-				defaultValue: 'filled',
-				options: variants,
-			},
-			color: {
-				type: 'select',
-				label: 'Color',
-				description: 'Color of ExtendedFab',
-				defaultValue: 'primary',
-				options: colors,
-			},
-		}"
-		@change="onChange"
-	>
-		<template #default="{ values: { icon, ...values } }">
-			<ExtendedFab
-				v-bind="values"
-				:icon="icon === 'none' ? undefined : (icon as string)"
-			>
-				ExtendedFab
-			</ExtendedFab>
-		</template>
-	</StorybookPlayground>
-	<StorybookCode name="ExtendedFab" :code />
+		:is="ExtendedFab"
+		component="ExtendedFab"
+		:controls
+		slot-text="ExtendedFab"
+	/>
 	<StorybookStory name="As link">
 		<ExtendedFab :as="RouterLink" to="#" icon="tabler:square-rounded">
 			Link
@@ -93,7 +28,7 @@ function onChange({ icon, size, variant, color }: UnknownRecord) {
 	<StorybookStory name="Sizes">
 		<div class="flex flex-col items-center gap-md">
 			<ExtendedFab
-				v-for="size in sizes"
+				v-for="size in fabSizes"
 				:key="size"
 				:size
 				icon="tabler:square-rounded"
@@ -104,7 +39,7 @@ function onChange({ icon, size, variant, color }: UnknownRecord) {
 	</StorybookStory>
 	<StorybookStory name="Variants">
 		<ExtendedFab
-			v-for="variant in variants"
+			v-for="variant in fabVariants"
 			:key="variant"
 			:variant
 			icon="tabler:square-rounded"
@@ -121,6 +56,19 @@ function onChange({ icon, size, variant, color }: UnknownRecord) {
 				icon="tabler:square-rounded"
 			>
 				ExtendedFab
+			</ExtendedFab>
+		</div>
+	</StorybookStory>
+	<StorybookStory name="States">
+		<div class="flex flex-col items-center gap-md">
+			<ExtendedFab icon="tabler:square-rounded">
+				Default
+			</ExtendedFab>
+			<ExtendedFab loading icon="tabler:square-rounded">
+				Loading
+			</ExtendedFab>
+			<ExtendedFab loading="tabler:loader-2" icon="tabler:square-rounded">
+				Custom spinner
 			</ExtendedFab>
 		</div>
 	</StorybookStory>

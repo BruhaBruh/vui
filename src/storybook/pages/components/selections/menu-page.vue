@@ -15,9 +15,17 @@ import {
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
+import { arr, select } from "@/storybook/shared/controls";
 
 const singleSelection = ref<string[]>([]);
 const multipleSelection = ref<string[]>([]);
+
+const controls = {
+	selectionMode: select(["none", "single", "multiple"], "none", {
+		label: "Selection mode",
+	}),
+	selectedValues: arr([], { label: "Selected value" }),
+};
 
 const code = ref("");
 
@@ -63,24 +71,7 @@ function onChange({ selectionMode }: UnknownRecord) {
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			selectionMode: {
-				type: 'select',
-				label: 'Selection mode',
-				description: 'Selection mode of Menu',
-				defaultValue: 'none',
-				options: ['none', 'single', 'multiple'],
-			},
-			selectedValues: {
-				type: 'array',
-				label: 'Selected value',
-				description: 'Selected value of Menu',
-				defaultValue: [],
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template #default="{ values }">
 			<Menu>
 				<MenuTrigger>

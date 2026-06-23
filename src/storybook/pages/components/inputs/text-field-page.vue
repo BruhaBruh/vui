@@ -1,17 +1,26 @@
 <script setup lang="ts">
 import type { UnknownRecord } from "@bruhabruh/type-safe";
-import type { TextFieldProps } from "@/components";
 import { ref } from "vue";
-import { TextField } from "@/components";
+import { Button, TextField } from "@/components";
 import {
 	StorybookCode,
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
+import { bool, icon, select, text } from "@/storybook/shared/controls";
+import { fieldSizes } from "@/storybook/shared/options";
 
-const icons = ["tabler:square-rounded", "tabler:circle", "none"];
-
-const sizes = ["sm", "md", "lg"] satisfies TextFieldProps["size"][];
+const controls = {
+	label: text("Label", { label: "Label" }),
+	description: text("", { label: "Description" }),
+	error: text("", { label: "Error" }),
+	placeholder: text("", { label: "Placeholder" }),
+	size: select(fieldSizes, "lg", { label: "Size" }),
+	invalid: bool(false, { label: "Invalid" }),
+	disabled: bool(false, { label: "Disabled" }),
+	leading: icon(undefined, { label: "Leading" }),
+	trailing: icon(undefined, { label: "Trailing" }),
+};
 
 const code = ref("");
 
@@ -50,68 +59,7 @@ function onChange({
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			label: {
-				type: 'text',
-				label: 'Label',
-				description: 'Label of TextField',
-				defaultValue: 'Label',
-			},
-			description: {
-				type: 'text',
-				label: 'Description',
-				description: 'Description of TextField',
-				defaultValue: '',
-			},
-			error: {
-				type: 'text',
-				label: 'Error',
-				description: 'Error of TextField',
-				defaultValue: '',
-			},
-			placeholder: {
-				type: 'text',
-				label: 'Placeholder',
-				description: 'Placeholder of TextField',
-				defaultValue: '',
-			},
-			size: {
-				type: 'select',
-				label: 'Size',
-				description: 'Size of TextField',
-				defaultValue: 'lg',
-				options: sizes,
-			},
-			invalid: {
-				type: 'switch',
-				label: 'Invalid',
-				description: 'Invalid state of TextField',
-				defaultValue: false,
-			},
-			disabled: {
-				type: 'switch',
-				label: 'Disabled',
-				description: 'Disabled state of TextField',
-				defaultValue: false,
-			},
-			leading: {
-				type: 'select',
-				label: 'Leading',
-				description: 'Leading component of TextField',
-				defaultValue: 'none',
-				options: icons,
-			},
-			trailing: {
-				type: 'select',
-				label: 'Trailing',
-				description: 'Trailing component of TextField',
-				defaultValue: 'none',
-				options: icons,
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template
 			#default="{
 				values: { label, description, error, leading, trailing, ...values },
@@ -137,15 +85,66 @@ function onChange({
 	<StorybookCode name="TextField" :code />
 	<StorybookStory name="Sizes">
 		<section class="grid grid-cols-3 items-center gap-md w-full">
-			<TextField
-				v-for="size in ['sm', 'md', 'lg'] as const"
-				:key="size"
-				:size="size"
-			>
+			<TextField v-for="size in fieldSizes" :key="size" :size="size">
 				<template #label>
 					Label
 				</template>
 			</TextField>
 		</section>
+	</StorybookStory>
+	<StorybookStory name="States">
+		<section class="grid grid-cols-2 items-start gap-md w-full">
+			<TextField placeholder="Enabled">
+				<template #label>
+					Default
+				</template>
+			</TextField>
+			<TextField invalid placeholder="Invalid">
+				<template #label>
+					Invalid
+				</template>
+				<template #error>
+					This field is required
+				</template>
+			</TextField>
+			<TextField disabled placeholder="Disabled">
+				<template #label>
+					Disabled
+				</template>
+			</TextField>
+			<TextField invalid disabled placeholder="Invalid + disabled">
+				<template #label>
+					Invalid + disabled
+				</template>
+				<template #error>
+					This field is required
+				</template>
+			</TextField>
+		</section>
+	</StorybookStory>
+	<StorybookStory name="Real-world: sign in form">
+		<form class="flex w-full max-w-80 flex-col gap-md" @submit.prevent>
+			<TextField type="email" placeholder="you@example.com" leading="tabler:mail">
+				<template #label>
+					Email
+				</template>
+			</TextField>
+			<TextField type="password" placeholder="••••••••" leading="tabler:lock">
+				<template #label>
+					Password
+				</template>
+				<template #description>
+					At least 8 characters
+				</template>
+			</TextField>
+			<div class="mt-sm flex justify-end gap-sm">
+				<Button variant="text" type="button">
+					Cancel
+				</Button>
+				<Button type="submit">
+					Sign in
+				</Button>
+			</div>
+		</form>
 	</StorybookStory>
 </template>

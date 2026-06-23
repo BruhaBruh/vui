@@ -1,110 +1,44 @@
 <script setup lang="ts">
-import type { UnknownRecord } from "@bruhabruh/type-safe";
-import type { FabVariants } from "@/components";
-import { ref } from "vue";
 import { RouterLink } from "vue-router";
 import { Fab } from "@/components";
-import {
-	StorybookCode,
-	StorybookPlayground,
-	StorybookStory,
-} from "@/storybook/components";
+import { StorybookPlayground, StorybookStory } from "@/storybook/components";
+import { select } from "@/storybook/shared/controls";
+import { colors, fabSizes, fabVariants } from "@/storybook/shared/options";
 
-const icons = ["tabler:square-rounded", "tabler:circle"];
+const icons = ["tabler:square-rounded", "tabler:circle"] as const;
 
-const sizes = ["sm", "md", "lg"] satisfies FabVariants["size"][];
-
-const variants = ["filled", "tonal"] satisfies FabVariants["variant"][];
-
-const colors = [
-	"primary",
-	"secondary",
-	"info",
-	"success",
-	"caution",
-	"critical",
-] satisfies FabVariants["color"][];
-
-const code = ref("");
-
-function onChange({ icon, size, variant, color }: UnknownRecord) {
-	code.value = `
-<Fab
-  icon="${icon}"
-  size="${size}"
-  variant="${variant}"
-  color=${color}
-/>
-`;
-}
+const controls = {
+	icon: select(icons, "tabler:square-rounded", { label: "Icon" }),
+	size: select(fabSizes, "sm", { label: "Size" }),
+	variant: select(fabVariants, "filled", { label: "Variant" }),
+	color: select(colors, "primary", { label: "Color" }),
+};
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			icon: {
-				type: 'select',
-				label: 'Icon',
-				description: 'Icon of Fab',
-				defaultValue: 'tabler:square-rounded',
-				options: icons,
-			},
-			size: {
-				type: 'select',
-				label: 'Size',
-				description: 'Size of Fab',
-				defaultValue: 'sm',
-				options: sizes,
-			},
-			variant: {
-				type: 'select',
-				label: 'Variant',
-				description: 'Variant of Fab',
-				defaultValue: 'filled',
-				options: variants,
-			},
-			color: {
-				type: 'select',
-				label: 'Color',
-				description: 'Color of Fab',
-				defaultValue: 'primary',
-				options: colors,
-			},
-		}"
-		@change="onChange"
-	>
-		<template #default="{ values: { icon, ...values } }">
-			<Fab v-bind="values" :icon="icon as string" />
-		</template>
-	</StorybookPlayground>
-	<StorybookCode name="Fab" :code />
+	<StorybookPlayground :is="Fab" component="Fab" :controls />
 	<StorybookStory name="As link">
 		<Fab :as="RouterLink" to="#" icon="tabler:square-rounded" />
 	</StorybookStory>
 	<StorybookStory name="Sizes">
 		<div class="flex flex-col items-center gap-md">
-			<Fab
-				v-for="size in sizes"
-				:key="size"
-				:size
-				icon="tabler:square-rounded"
-			/>
+			<Fab v-for="size in fabSizes" :key="size" :size icon="tabler:square-rounded" />
 		</div>
 	</StorybookStory>
 	<StorybookStory name="Variants">
 		<Fab
-			v-for="variant in variants"
+			v-for="variant in fabVariants"
 			:key="variant"
 			:variant
 			icon="tabler:square-rounded"
 		/>
 	</StorybookStory>
 	<StorybookStory name="Colors">
-		<Fab
-			v-for="color in colors"
-			:key="color"
-			:color
-			icon="tabler:square-rounded"
-		/>
+		<Fab v-for="color in colors" :key="color" :color icon="tabler:square-rounded" />
+	</StorybookStory>
+	<StorybookStory name="States">
+		<Fab icon="tabler:square-rounded" />
+		<Fab loading icon="tabler:square-rounded" />
+		<Fab loading="tabler:loader-2" icon="tabler:square-rounded" />
 	</StorybookStory>
 </template>

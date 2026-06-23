@@ -2,20 +2,14 @@
 import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type { TooltipContentProps, TooltipProps } from "@/components";
 import { ref } from "vue";
-import {
-	Button,
-	IconButton,
-	Tooltip,
-	TooltipContent,
-
-	TooltipTrigger,
-} from "@/components";
+import { Button, IconButton, Tooltip, TooltipContent, TooltipTrigger } from "@/components";
 import { materialDuration } from "@/config";
 import {
 	StorybookCode,
 	StorybookPlayground,
 	StorybookStory,
 } from "@/storybook/components";
+import { bool, num, select, text } from "@/storybook/shared/controls";
 
 const triggers = ["both", "hover", "focus"] satisfies TooltipProps["trigger"][];
 const variants = ["plain", "rich"] satisfies TooltipContentProps["variant"][];
@@ -46,6 +40,19 @@ const iconByPlacement: Record<
 	"left": "tabler:chevron-left",
 };
 
+const controls = {
+	variant: select(variants, "plain", { label: "Variant" }),
+	placement: select([...plainPlacements, ...richPlacements], "top", {
+		label: "Placement",
+	}),
+	showDelay: num(materialDuration["short-2"], { label: "Show delay" }),
+	hideDelay: num(materialDuration["long-2"], { label: "Hide delay" }),
+	trigger: select(triggers, "both", { label: "Trigger" }),
+	subhead: text("Subhead in Rich Tooltip", { label: "Subhead" }),
+	text: text("Tooltip", { label: "Text" }),
+	showActions: bool(false, { label: "Show actions" }),
+};
+
 const code = ref("");
 
 function onChange({
@@ -55,7 +62,7 @@ function onChange({
 	hideDelay,
 	trigger,
 	subhead,
-	text,
+	text: textValue,
 	showActions,
 }: UnknownRecord) {
 	code.value = `
@@ -76,7 +83,7 @@ function onChange({
     </template>`
 			: ""
 	}
-    ${text}
+    ${textValue}
     ${
 		showActions && variant === "rich"
 			? `
@@ -92,62 +99,7 @@ function onChange({
 </script>
 
 <template>
-	<StorybookPlayground
-		:arguments="{
-			variant: {
-				type: 'select',
-				label: 'Variant',
-				description: 'Variant of Tooltip',
-				defaultValue: 'plain',
-				options: variants,
-			},
-			placement: {
-				type: 'select',
-				label: 'Placement',
-				description: 'Placement of Tooltip',
-				defaultValue: 'top',
-				options: [...plainPlacements, ...richPlacements],
-			},
-			showDelay: {
-				type: 'number',
-				label: 'Show delay',
-				description: 'Show delay of Tooltip',
-				defaultValue: materialDuration['short-2'],
-			},
-			hideDelay: {
-				type: 'number',
-				label: 'Hide delay',
-				description: 'Hide delay of Tooltip',
-				defaultValue: materialDuration['long-2'],
-			},
-			trigger: {
-				type: 'select',
-				label: 'Trigger',
-				description: 'Trigger of Tooltip',
-				defaultValue: 'both',
-				options: triggers,
-			},
-			subhead: {
-				type: 'text',
-				label: 'Subbead',
-				description: 'Subbead of Tooltip',
-				defaultValue: 'Subhead in Rich Tooltip',
-			},
-			text: {
-				type: 'text',
-				label: 'Text',
-				description: 'Text of Tooltip',
-				defaultValue: 'Tooltip',
-			},
-			showActions: {
-				type: 'switch',
-				label: 'Show actions',
-				description: 'Show actions in Tooltip',
-				defaultValue: false,
-			},
-		}"
-		@change="onChange"
-	>
+	<StorybookPlayground :controls @change="onChange">
 		<template
 			#default="{
 				values: {
@@ -155,7 +107,7 @@ function onChange({
 					showDelay,
 					hideDelay,
 					subhead,
-					text,
+					text: textValue,
 					showActions,
 					...values
 				},
@@ -174,7 +126,7 @@ function onChange({
 						{{ subhead }}
 					</template>
 					<template #default>
-						{{ text }}
+						{{ textValue }}
 					</template>
 					<template v-if="showActions" #actions>
 						<Button variant="text">
