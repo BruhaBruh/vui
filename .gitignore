@@ -32,3 +32,5 @@ coverage
 # Testing CLI
 vui.config.json
 fake-src/
+
+tmp/
