@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type { FieldProps } from "../ui-field";
 import { Icon } from "@/components/utility";
 import { Field } from "../ui-field";
@@ -84,7 +83,7 @@ function onBlur(e: FocusEvent) {
 	(e.target as HTMLInputElement).value = value.value.toString();
 }
 
-function attrsWithoutClass(attrs: UnknownRecord) {
+function attrsWithoutClass(attrs: Record<string, unknown>) {
 	const newAttrs = { ...attrs };
 	if ("class" in newAttrs)
 		delete newAttrs.class;

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type { RadioVariants } from "./ui-radio.variants";
 import type { MotionComponentProps } from "@/components/utility";
 import { AnimatePresence, motion } from "motion-v";
@@ -45,7 +44,7 @@ const group = defineModel<string | number | undefined>("group", {
 	default: undefined,
 });
 
-function attrsWithoutClass(attrs: UnknownRecord) {
+function attrsWithoutClass(attrs: Record<string, unknown>) {
 	const newAttrs = { ...attrs };
 	if ("class" in newAttrs)
 		delete newAttrs.class;

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type { FieldProps } from "../ui-field";
 import { useFocus } from "@vueuse/core";
 import { AnimatePresence } from "motion-v";
@@ -54,7 +53,7 @@ watch(value, () => {
 	target.style.height = currentHeight;
 });
 
-function attrsWithoutClass(attrs: UnknownRecord) {
+function attrsWithoutClass(attrs: Record<string, unknown>) {
 	const newAttrs = { ...attrs };
 	if ("class" in newAttrs)
 		delete newAttrs.class;

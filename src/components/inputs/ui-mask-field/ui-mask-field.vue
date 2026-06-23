@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type { FieldProps } from "../ui-field";
 import { useFocus } from "@vueuse/core";
 import { AnimatePresence } from "motion-v";
@@ -139,7 +138,7 @@ function onKeyDown(e: KeyboardEvent) {
 	setCursor(newValue);
 }
 
-function attrsWithoutClass(attrs: UnknownRecord) {
+function attrsWithoutClass(attrs: Record<string, unknown>) {
 	const newAttrs = { ...attrs };
 	if ("class" in newAttrs)
 		delete newAttrs.class;

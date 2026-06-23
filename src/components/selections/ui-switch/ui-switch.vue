@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type { SwitchVariants } from "./ui-switch.variants";
 import type { IconProps, MotionComponentProps } from "@/components/utility";
 import { AnimatePresence, motion } from "motion-v";
@@ -45,7 +44,7 @@ const emit = defineEmits<{
 const elementRef = useTemplateRef<HTMLElement>("switch");
 const inputRef = useTemplateRef<HTMLInputElement>("input");
 
-function attrsWithoutClass(attrs: UnknownRecord) {
+function attrsWithoutClass(attrs: Record<string, unknown>) {
 	const newAttrs = { ...attrs };
 	if ("class" in newAttrs)
 		delete newAttrs.class;

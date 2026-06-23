@@ -1,0 +1,23 @@
+{
+	"extends": "@vue/tsconfig/tsconfig.dom.json",
+	"compilerOptions": {
+		"plugins": [{ "name": "@vue/typescript-plugin" }],
+		"rootDir": "./src",
+		"paths": {
+			"@/*": ["./src/*"]
+		},
+		"declaration": true,
+		"declarationDir": "./dist/lib",
+		"emitDeclarationOnly": true,
+		"noEmit": false,
+		"skipLibCheck": true
+	},
+	"include": [
+		"src/components/**/*",
+		"src/composables/**/*",
+		"src/config/**/*",
+		"src/tailwind/**/*",
+		"src/types/**/*",
+		"src/index.ts"
+	]
+}

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type { MotionComponentProps } from "@/components/utility";
 import { AnimatePresence } from "motion-v";
 import { useTemplateRef } from "vue";
@@ -43,7 +42,7 @@ const inputElementRef = useTemplateRef<HTMLInputElement | null>("input");
 
 useInteractions(elementRef);
 
-function attrsWithoutClass(attrs: UnknownRecord) {
+function attrsWithoutClass(attrs: Record<string, unknown>) {
 	const newAttrs = { ...attrs };
 	if ("class" in newAttrs)
 		delete newAttrs.class;

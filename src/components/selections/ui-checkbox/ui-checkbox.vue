@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type {
 	CheckboxMarkVariants,
 	CheckboxVariants,
@@ -59,7 +58,7 @@ const state = computed<NonNullable<CheckboxMarkVariants["state"]>>(() => {
 	return "unchecked";
 });
 
-function attrsWithoutClass(attrs: UnknownRecord) {
+function attrsWithoutClass(attrs: Record<string, unknown>) {
 	const newAttrs = { ...attrs };
 	if ("class" in newAttrs)
 		delete newAttrs.class;

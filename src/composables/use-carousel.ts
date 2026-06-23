@@ -1,3 +1,4 @@
+import type { EmblaCarouselType } from "embla-carousel";
 import type { MaybeRefOrGetter, Ref } from "vue";
 import useEmblaCarouselVue from "embla-carousel-vue";
 import { toRef } from "vue";
@@ -10,12 +11,10 @@ type EmblaParameter<T extends number> = UnwrapRef<
 	NonNullable<EmblaParameters[T]>
 >;
 
-type EmblaReturn = ReturnType<typeof useEmblaCarouselVue>;
-
 export type EmblaOptions = EmblaParameter<0>;
 export type EmblaPlugin = EmblaParameter<1>[number];
 
-export type EmblaCarouselApi = NonNullable<UnwrapRef<EmblaReturn[1]>>;
+export type EmblaCarouselApi = EmblaCarouselType;
 
 export type UseCarouselOptions = {
 	options?: MaybeRefOrGetter<EmblaOptions>;
