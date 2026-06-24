@@ -12,7 +12,7 @@ import {
 } from "@floating-ui/vue";
 import { AnimatePresence, motion } from "motion-v";
 import {
-
+	onBeforeUnmount,
 	useAttrs,
 	watchEffect,
 } from "vue";
@@ -65,6 +65,15 @@ watchEffect(() => {
 function close() {
 	open.value = false;
 }
+
+// При размонтировании владельца (напр. смена роута) Teleport + AnimatePresence
+// оставляет осиротевший контент в `body`: к этому моменту `popover` ref уже
+// отвязан, поэтому убираем телепортированный узел по его id напрямую из DOM.
+onBeforeUnmount(() => {
+	open.value = false;
+	if (id.value)
+		document.getElementById(id.value)?.remove();
+});
 </script>
 
 <template>
