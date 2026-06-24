@@ -3,7 +3,17 @@ import type { UnknownRecord } from "@bruhabruh/type-safe";
 import type { Component } from "vue";
 import type { Control, Controls } from "@/storybook/shared/controls";
 import { computed, reactive, watchEffect } from "vue";
-import { NumberField, Switch, TextAreaField, TextField } from "@/components";
+import {
+	Button,
+	Menu,
+	MenuContent,
+	MenuItem,
+	MenuTrigger,
+	NumberField,
+	Switch,
+	TextAreaField,
+	TextField,
+} from "@/components";
 import StorybookCode from "./storybook-code.vue";
 
 const {
@@ -167,16 +177,34 @@ const hasControls = computed(() => Object.keys(controls).length > 0);
 						size="sm"
 						:aria-labelledby="`pl-label-${name}`"
 					/>
-					<select
-						v-if="control.type === 'select'"
-						v-model="values[name]"
-						class="h-10 bg-surface-container px-sm rounded-sm w-max max-w-full"
-						:aria-labelledby="`pl-label-${name}`"
-					>
-						<option v-for="value in control.options" :key="value">
-							{{ value }}
-						</option>
-					</select>
+					<Menu v-if="control.type === 'select'">
+						<MenuTrigger>
+							<Button
+								size="sm"
+								variant="outlined"
+								:aria-labelledby="`pl-label-${name}`"
+							>
+								{{ values[name] }}
+							</Button>
+						</MenuTrigger>
+						<MenuContent
+							selection-mode="single"
+							:selected-values="[values[name] as string]"
+							@change="
+								(v) => {
+									if (v[0] !== undefined) values[name] = v[0];
+								}
+							"
+						>
+							<MenuItem
+								v-for="value in control.options"
+								:key="value"
+								:value="value"
+							>
+								{{ value }}
+							</MenuItem>
+						</MenuContent>
+					</Menu>
 					<Switch
 						v-if="control.type === 'switch'"
 						:checked="values[name] as boolean"
