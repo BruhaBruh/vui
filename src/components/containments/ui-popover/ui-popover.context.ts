@@ -1,6 +1,6 @@
 import type { ComputedRef, InjectionKey, Ref } from "vue";
 import type { Context } from "@/types";
-import { toRef, useEventListener } from "@vueuse/core";
+import { onClickOutside, toRef, useEventListener } from "@vueuse/core";
 import {
 	computed,
 	inject,
@@ -51,17 +51,15 @@ export function providePopoverState(options: PopoverContext["provideOptions"]) {
 		open.value = !open.value;
 	});
 
-	useEventListener("click", (e) => {
-		if (!open.value)
-			return;
-		const target = e.target as HTMLElement;
-		const shouldIgnore
-			= triggerElement.value?.contains(target)
-				|| popoverElement.value?.contains(target);
-		if (shouldIgnore)
-			return;
-		open.value = false;
-	});
+	onClickOutside(
+		popoverElement,
+		() => {
+			if (!open.value)
+				return;
+			open.value = false;
+		},
+		{ ignore: [triggerElement] },
+	);
 
 	useEventListener("keydown", (e) => {
 		if (!open.value)
