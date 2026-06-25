@@ -6,7 +6,6 @@ import { transitionConfig } from "@/config";
 import {
 	ModalContent,
 	ModalUnderlay,
-
 } from "../ui-modal";
 import { dialogVariants } from "./ui-dialog.variants";
 
@@ -31,25 +30,19 @@ const {
 		<ModalContent>
 			<template #default="{ close }">
 				<MotionComponent
-					:as
-					:initial="{
+					:as :initial="{
 						opacity: 0,
 						y: '25vh',
 						transition: transitionConfig.preset.long.enter.asMotion(),
-					}"
-					:animate="{
+					}" :animate="{
 						opacity: 1,
 						y: 0,
 						transition: transitionConfig.preset.long.beginEnd.asMotion(),
-					}"
-					:exit="{
+					}" :exit="{
 						opacity: 0,
 						y: '25vh',
 						transition: transitionConfig.preset.long.exit.asMotion(),
-					}"
-					role="dialog"
-					:class="dialogVariants()"
-					v-bind="$attrs"
+					}" role="dialog" :class="dialogVariants()" v-bind="$attrs"
 				>
 					<slot name="icon" :close />
 					<slot name="subhead" :close />
