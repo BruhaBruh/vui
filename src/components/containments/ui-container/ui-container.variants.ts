@@ -1,7 +1,7 @@
 import type { Variants } from "@/types";
 import { cva } from "class-variance-authority";
 
-const variants = cva(["group/container", "flex items-stretch justify-center"], {
+const variants = cva(["group/container", "flex items-stretch justify-center overflow-x-hidden"], {
 	variants: {
 		color: {
 			"surface": ["bg-surface", "text-on-surface"],

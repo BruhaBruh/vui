@@ -3,7 +3,7 @@ import { cva } from "class-variance-authority";
 
 const variants = cva([
 	"dialog group/dialog",
-	"min-w-72 max-w-[calc(100vw-var(--spacing-md)-var(--spacing-md))] sm:max-w-[calc(var(--spacing-96)+var(--spacing-44))]",
+	"min-w-96 max-w-[calc(100vw-var(--spacing-md)-var(--spacing-md))] sm:max-w-[calc(var(--spacing-96)+var(--spacing-44))]",
 	"inline-flex flex-col",
 	"p-lg",
 	"rounded-xl",
