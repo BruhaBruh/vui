@@ -38,12 +38,10 @@ export function provideModalState(options: ModalContext["provideOptions"]) {
 	const modal = ref<HTMLElement | null>(null);
 	const focusTrap = toRef(options.focusTrap);
 
-	const { activate, deactivate } = useFocusTrap(modal, { immediate: true });
+	const { activate, deactivate } = useFocusTrap(modal, { immediate: focusTrap.value });
 
 	watchEffect(async () => {
-		if (!focusTrap.value)
-			return;
-		if (open.value) {
+		if (focusTrap.value && open.value) {
 			await nextTick();
 			activate();
 		}
