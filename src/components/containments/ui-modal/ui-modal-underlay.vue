@@ -2,6 +2,8 @@
 import type { TeleportProps } from "vue";
 import type { PropsPolymorphic } from "@/types";
 import { AnimatePresence } from "motion-v";
+import { MotionComponent } from "@/components/utility";
+import { transitionConfig } from "@/config";
 import { useModalState } from "./ui-modal.context";
 import { modalVariants } from "./ui-modal.variants";
 
@@ -27,13 +29,21 @@ const { open, modal } = useModalState();
 
 <template>
 	<Teleport :to="teleportTo" :disabled="teleportDisabled" :defer="teleportDefer">
-		<AnimatePresence mode="wait">
-			<component
-				:is="as" v-if="open" ref="modal" v-tw-merge :class="modalVariants.underlay()" v-bind="$attrs"
+		<AnimatePresence>
+			<MotionComponent
+				v-if="open"
+				:as
+				ref="modal"
+				v-tw-merge
+				:class="modalVariants.underlay()"
+				:initial="{ opacity: 0 }"
+				:animate="{ opacity: 1, transition: transitionConfig.preset.short.enter.asMotion() }"
+				:exit="{ opacity: 0, transition: transitionConfig.preset.short.exit.asMotion() }"
+				v-bind="$attrs"
 				@click="open = false"
 			>
 				<slot />
-			</component>
+			</MotionComponent>
 		</AnimatePresence>
 	</Teleport>
 </template>
