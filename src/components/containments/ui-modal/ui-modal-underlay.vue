@@ -40,7 +40,7 @@ const { open, modal } = useModalState();
 				:animate="{ opacity: 1, transition: transitionConfig.preset.short.enter.asMotion() }"
 				:exit="{ opacity: 0, transition: transitionConfig.preset.short.exit.asMotion() }"
 				v-bind="$attrs"
-				@click="open = false"
+				@pointerup="open = false"
 			>
 				<slot />
 			</MotionComponent>

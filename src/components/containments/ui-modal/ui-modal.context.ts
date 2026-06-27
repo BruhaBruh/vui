@@ -60,7 +60,7 @@ export function provideModalState(options: ModalContext["provideOptions"]) {
 		open.value = false;
 	});
 
-	useEventListener(trigger, "click", () => {
+	useEventListener(trigger, "pointerup", () => {
 		open.value = true;
 	});
 
