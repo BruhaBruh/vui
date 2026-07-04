@@ -24,6 +24,7 @@ const controls = {
 };
 
 const code = ref("");
+const filledValue = ref("+79991234567");
 
 function onChange({
 	label,
@@ -121,6 +122,21 @@ function onChange({
 					Card number
 				</template>
 			</MaskField>
+		</section>
+	</StorybookStory>
+	<StorybookStory name="Filled value">
+		<section class="grid grid-cols-2 items-center gap-md w-full">
+			<MaskField
+				v-model:value="filledValue"
+				mask="+7 (___) ___-__-__"
+				:mask-aliases="['+8 (___) ___-__-__']"
+				inputmode="tel"
+			>
+				<template #label>
+					Phone
+				</template>
+			</MaskField>
+			<p>value: {{ filledValue }}</p>
 		</section>
 	</StorybookStory>
 	<StorybookStory name="Sizes">

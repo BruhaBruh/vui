@@ -2,7 +2,7 @@
 import type { FieldProps } from "../ui-field";
 import { useFocus } from "@vueuse/core";
 import { AnimatePresence } from "motion-v";
-import { computed, nextTick, ref, useTemplateRef, watchEffect } from "vue";
+import { computed, nextTick, ref, useTemplateRef, watch, watchEffect } from "vue";
 import { MotionComponent } from "@/components/utility";
 import { transitionConfig } from "@/config";
 import { Field } from "../ui-field";
@@ -51,6 +51,13 @@ const isExpanded = computed(() => {
 		return true;
 	return value.value.length > 0;
 });
+
+watch(value, (newVal) => {
+	if (newVal === formatToPlain(formattedValue.value)) {
+		return;
+	}
+	formattedValue.value = format(newVal);
+}, { immediate: true });
 
 watchEffect(() => {
 	if (formattedValue.value === "") {
